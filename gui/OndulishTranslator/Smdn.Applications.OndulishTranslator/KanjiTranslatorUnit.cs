@@ -21,40 +21,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 using System.Text;
-
-using Microsoft.VisualBasic;
+using System.Text.RegularExpressions;
 
 namespace Smdn.Applications.OndulishTranslator {
-  class MainClass
-  {
-    public static void Main(string[] args)
+  public class KanjiTranslatorUnit : TranslatorUnitBase {
+    public override StringBuilder Translate(StringBuilder input)
     {
-#if false
-      if (Runtime.IsRunningOnWindows) {
-        Console.WriteLine(Strings.StrConv("おんどぅる語", VbStrConv.Katakana));
-        Console.WriteLine(Strings.StrConv("オンドゥル語", VbStrConv.Hiragana));
+      var ret = input.ToString();
+
+      foreach (var map in kanjiMaps) {
+        ret = map.Item1.Replace(ret, map.Item2);
       }
 
-      Console.WriteLine(KanaUtils.ConvertWideHiraganaToKatakana("おんどぅる語"));
-      Console.WriteLine(KanaUtils.ConvertWideKatakanaToHiragana("オンドゥル語"));
-#endif
-
-      var translators = new TranslatorUnitBase[] {
-        new DictionaryBaseTranslatorUnit("PhraseDictionary.csv"),
-        new DictionaryBaseTranslatorUnit("WordDictionary.csv"),
-        new PhonemeTranslatorUnit(),
-        new KanjiTranslatorUnit(),
-      };
-
-      var input = new StringBuilder("日本語サンプル　貴様か、俺は貴様をぶっ殺す");
-
-      foreach (var t in translators) {
-        input = t.Translate(input);
-      }
-
-      Console.WriteLine(input);
+      return new StringBuilder(ret);
     }
+
+    private static readonly Tuple<Regex, string>[] kanjiMaps = new[] {
+      Tuple.Create(new Regex(@"\p{IsCJKUnifiedIdeographs}{6,}"), "ウェェェェェェェェェェェェェェェイ!!"),
+      Tuple.Create(new Regex(@"\p{IsCJKUnifiedIdeographs}{5}"), "ダディャーナザァーン!!"),
+      Tuple.Create(new Regex(@"\p{IsCJKUnifiedIdeographs}{4}"), "ドンドコドーン!!"),
+      Tuple.Create(new Regex(@"\p{IsCJKUnifiedIdeographs}{3}"), "ウェイ!"),
+      Tuple.Create(new Regex(@"\p{IsCJKUnifiedIdeographs}{2}"), "ウェッ!"),
+      Tuple.Create(new Regex(@"\p{IsCJKUnifiedIdeographs}{1}"), "ヘァ!"),
+    };
   }
 }

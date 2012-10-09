@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{10087F8D-566A-454E-BA24-90592138093B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>OndulishTranslator</RootNamespace>
+    <RootNamespace>Smdn.Applications.OndulishTranslator</RootNamespace>
     <AssemblyName>OndulishTranslator</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -35,11 +35,13 @@
     <Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Smdn.Applications.OndulishTranslator\KanaUtils.cs" />
-    <Compile Include="Smdn.Applications.OndulishTranslator\OndulishCharacterTranslatorUnit.cs" />
     <Compile Include="Smdn.Applications.OndulishTranslator\TranslatorUnitBase.cs" />
     <Compile Include="Smdn.Applications.OndulishTranslator\Main.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Smdn.Applications.OndulishTranslator\PhonemeTranslatorUnit.cs" />
+    <Compile Include="Smdn.Applications.OndulishTranslator\DictionaryBaseTranslatorUnit.cs" />
+    <Compile Include="Smdn.Applications.OndulishTranslator\KanjiTranslatorUnit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -51,5 +53,13 @@
       <Project>{3FDF8CFA-B168-466F-B303-AEDDBED87BB9}</Project>
       <Name>Smdn-netfx4.0</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PhraseDictionary.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WordDictionary.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

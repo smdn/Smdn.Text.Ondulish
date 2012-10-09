@@ -26,6 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Microsoft.VisualBasic;
+
 namespace Smdn.Applications.OndulishTranslator {
   public static class KanaUtils {
     /*
@@ -66,32 +68,42 @@ namespace Smdn.Applications.OndulishTranslator {
     };
     public static string ConvertWideHiraganaToKatakana(string input)
     {
-      var inputChars = input.ToCharArray();
-      var outputChars = new char[inputChars.Length];
-
-      for (var index = 0; index < inputChars.Length; index++) {
-        if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
-          outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
-        else
-          outputChars[index] = inputChars[index];
+      if (Runtime.IsRunningOnNetFx) {
+        return Strings.StrConv(input, VbStrConv.Katakana);
       }
+      else {
+        var inputChars = input.ToCharArray();
+        var outputChars = new char[inputChars.Length];
 
-      return new string(outputChars);
+        for (var index = 0; index < inputChars.Length; index++) {
+          if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
+            outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
+          else
+            outputChars[index] = inputChars[index];
+        }
+
+        return new string(outputChars);
+      }
     }
 
     public static string ConvertWideKatakanaToHiragana(string input)
     {
-      var inputChars = input.ToCharArray();
-      var outputChars = new char[inputChars.Length];
-      
-      for (var index = 0; index < inputChars.Length; index++) {
-        if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
-          outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
-        else
-          outputChars[index] = inputChars[index];
+      if (Runtime.IsRunningOnNetFx) {
+        return Strings.StrConv(input, VbStrConv.Hiragana);
       }
-      
-      return new string(outputChars);
+      else {
+        var inputChars = input.ToCharArray();
+        var outputChars = new char[inputChars.Length];
+
+        for (var index = 0; index < inputChars.Length; index++) {
+          if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
+            outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
+          else
+            outputChars[index] = inputChars[index];
+        }
+
+        return new string(outputChars);
+      }
     }
   }
 }

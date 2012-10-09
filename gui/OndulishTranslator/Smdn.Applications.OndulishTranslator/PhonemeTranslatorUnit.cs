@@ -28,13 +28,11 @@ using System.Text;
 using Microsoft.VisualBasic;
 
 namespace Smdn.Applications.OndulishTranslator {
-  public class OndulishCharacterTranslatorUnit : TranslatorUnitBase {
+  public class PhonemeTranslatorUnit : TranslatorUnitBase {
     public override StringBuilder Translate(StringBuilder input)
     {
-      // 一度カタカナをひらがなに変換
-      var hiragana = input.ToString(); // TODO
-
-      var ret = new StringBuilder(hiragana);
+      //var ret = new StringBuilder(KanaUtils.ConvertWideKatakanaToHiragana(input.ToString()));
+      var ret = new StringBuilder(input.ToString());
 
       // 最優先
       ret.Replace("る", "どぅ");

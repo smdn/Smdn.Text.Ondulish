@@ -21,40 +21,50 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
-using Microsoft.VisualBasic;
+using Smdn.Formats;
 
 namespace Smdn.Applications.OndulishTranslator {
-  class MainClass
-  {
-    public static void Main(string[] args)
+  public class DictionaryBaseTranslatorUnit : TranslatorUnitBase {
+    public DictionaryBaseTranslatorUnit(string dictionaryPath)
     {
-#if false
-      if (Runtime.IsRunningOnWindows) {
-        Console.WriteLine(Strings.StrConv("おんどぅる語", VbStrConv.Katakana));
-        Console.WriteLine(Strings.StrConv("オンドゥル語", VbStrConv.Hiragana));
+      try {
+        dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        using (var reader = new CsvReader(dictionaryPath)) {
+          for (;;) {
+            var entries = reader.ReadLine();
+
+            if (entries == null)
+              break;
+            else if (2 <= entries.Length)
+              dictionary[entries[0].Trim()] = entries[1].Trim();
+          }
+        }
       }
-
-      Console.WriteLine(KanaUtils.ConvertWideHiraganaToKatakana("おんどぅる語"));
-      Console.WriteLine(KanaUtils.ConvertWideKatakanaToHiragana("オンドゥル語"));
-#endif
-
-      var translators = new TranslatorUnitBase[] {
-        new DictionaryBaseTranslatorUnit("PhraseDictionary.csv"),
-        new DictionaryBaseTranslatorUnit("WordDictionary.csv"),
-        new PhonemeTranslatorUnit(),
-        new KanjiTranslatorUnit(),
-      };
-
-      var input = new StringBuilder("日本語サンプル　貴様か、俺は貴様をぶっ殺す");
-
-      foreach (var t in translators) {
-        input = t.Translate(input);
+      catch (IOException ex) {
+        dictionary = null;
       }
-
-      Console.WriteLine(input);
     }
+
+    public override StringBuilder Translate(StringBuilder input)
+    {
+      if (dictionary == null)
+        return input;
+
+      foreach (var pair in dictionary) {
+        input.Replace(pair.Key, pair.Value);
+      }
+
+      return input;
+    }
+
+    private readonly Dictionary<string, string> dictionary;
   }
 }
+
