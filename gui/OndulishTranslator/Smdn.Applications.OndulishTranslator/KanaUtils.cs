@@ -30,42 +30,25 @@ using Microsoft.VisualBasic;
 
 namespace Smdn.Applications.OndulishTranslator {
   public static class KanaUtils {
-    /*
-     * http://pgcafe.moo.jp/new/JAVA/index.php?dno=10&fno=2
-     */
     private const char wideHiraganaStart = '\u3041';
-    private const char wideHiraganaEnd = '\u3093';
+    private const char wideHiraganaEnd = '\u3096';
 
     private const char wideKatakanaStart = '\u30a1';
-    private const char wideKatakanaEnd = '\u30f3';
+    private const char wideKatakanaEnd = '\u30f6';
 
     private const int offsetFromHiraganaToKatakana = ((int)wideKatakanaStart - (int)wideHiraganaStart);
 
-    private static readonly Dictionary<string, string> hoge = new Dictionary<string, string>() {
-      // 2文字構成の濁点付き半角カナ
-      // 必ずテーブルに先頭に置いてサーチ順を優先すること
-      { "ｶﾞ", "ガ" }, { "ｷﾞ", "ギ" }, { "ｸﾞ", "グ" }, { "ｹﾞ", "ゲ" }, { "ｺﾞ", "ゴ" },
-      { "ｻﾞ", "ザ" }, { "ｼﾞ", "ジ" }, { "ｽﾞ", "ズ" }, { "ｾﾞ", "ゼ" }, { "ｿﾞ", "ゾ" },
-      { "ﾀﾞ", "ダ" }, { "ﾁﾞ", "ヂ" }, { "ﾂﾞ", "ヅ" }, { "ﾃﾞ", "デ" }, { "ﾄﾞ", "ド" },
-      { "ﾊﾞ", "バ" }, { "ﾋﾞ", "ビ" }, { "ﾌﾞ", "ブ" }, { "ﾍﾞ", "ベ" }, { "ﾎﾞ", "ボ" },
-      { "ﾊﾟ", "パ" }, { "ﾋﾟ", "ピ" }, { "ﾌﾟ", "プ" }, { "ﾍﾟ", "ペ" }, { "ﾎﾟ", "ポ" },
-      { "ｳﾞ", "ヴ" },
-      // 1文字構成の半角カナ
-      { "ｱ", "ア" }, { "ｲ", "イ" }, { "ｳ", "ウ" }, { "ｴ", "エ" }, { "ｵ", "オ" },
-      { "ｶ", "カ" }, { "ｷ", "キ" }, { "ｸ", "ク" }, { "ｹ", "ケ" }, { "ｺ", "コ" },
-      { "ｻ", "サ" }, { "ｼ", "シ" }, { "ｽ", "ス" }, { "ｾ", "セ" }, { "ｿ", "ソ" },
-      { "ﾀ", "タ" }, { "ﾁ", "チ" }, { "ﾂ", "ツ" }, { "ﾃ", "テ" }, { "ﾄ", "ト" },
-      { "ﾅ", "ナ" }, { "ﾆ", "ニ" }, { "ﾇ", "ヌ" }, { "ﾈ", "ネ" }, { "ﾉ", "ノ" },
-      { "ﾊ", "ハ" }, { "ﾋ", "ヒ" }, { "ﾌ", "フ" }, { "ﾍ", "ヘ" }, { "ﾎ", "ホ" },
-      { "ﾏ", "マ" }, { "ﾐ", "ミ" }, { "ﾑ", "ム" }, { "ﾒ", "メ" }, { "ﾓ", "モ" },
-      { "ﾔ", "ヤ" }, { "ﾕ", "ユ" }, { "ﾖ", "ヨ" },
-      { "ﾗ", "ラ" }, { "ﾘ", "リ" }, { "ﾙ", "ル" }, { "ﾚ", "レ" }, { "ﾛ", "ロ" },
-      { "ﾜ", "ワ" }, { "ｦ", "ヲ" }, { "ﾝ", "ン" },
-      { "ｧ", "ァ" }, { "ｨ", "ィ" }, { "ｩ", "ゥ" }, { "ｪ", "ェ" }, { "ｫ", "ォ" },
-      { "ｬ", "ャ" }, { "ｭ", "ュ" }, { "ｮ", "ョ" },
-      { "ｯ", "ッ" },
-      { "｡", "。" }, { "｢", "「" }, { "｣", "」" }, { "､", "、" }, { "･", "・" }, { "ｰ", "ー" },
+    private const char wideKatakanaExEnd = '\u30fa';
+
+    private static readonly string[] wideToNarrowKatakanaMap = new[] {
+      "ｧ", "ｱ", "ｨ", "ｲ", "ｩ", "ｳ", "ｪ", "ｴ", "ｫ", "ｵ", "ｶ", "ｶﾞ", "ｷ", "ｷﾞ", "ｸ",               // 30A1 - 30AF
+      "ｸﾞ", "ｹ", "ｹﾞ", "ｺ", "ｺﾞ", "ｻ", "ｻﾞ", "ｼ", "ｼﾞ", "ｽ", "ｽﾞ", "ｾ", "ｾﾞ", "ｿ", "ｿﾞ", "ﾀ",    // 30B0 - 30BF
+      "ﾀﾞ", "ﾁ", "ﾁﾞ", "ｯ", "ﾂ", "ﾂﾞ", "ﾃ", "ﾃﾞ", "ﾄ", "ﾄﾞ", "ﾅ", "ﾆ", "ﾇ", "ﾈ", "ﾉ", "ﾊ",       // 30C0 - 30CF
+      "ﾊﾞ", "ﾊﾟ", "ﾋ", "ﾋﾞ", "ﾋﾟ", "ﾌ", "ﾌﾞ", "ﾌﾟ", "ﾍ", "ﾍﾞ", "ﾍﾟ", "ﾎ", "ﾎﾞ", "ﾎﾟ", "ﾏ", "ﾐ",  // 30D0 - 30DF
+      "ﾑ", "ﾒ", "ﾓ", "ｬ", "ﾔ", "ｭ", "ﾕ", "ｮ", "ﾖ", "ﾗ", "ﾘ", "ﾙ", "ﾚ", "ﾛ", "ヮ", "ﾜ",           // 30E0 - 30EF
+      "ヰ", "ヱ", "ｦ", "ﾝ", "ｳﾞ", "ヵ", "ヶ", "ﾜﾞ", "ヸ", "ヹ", "ｦﾞ", // 30F0 - 30FA
     };
+
     public static string ConvertWideHiraganaToKatakana(string input)
     {
       if (Runtime.IsRunningOnNetFx) {
@@ -104,6 +87,27 @@ namespace Smdn.Applications.OndulishTranslator {
 
         return new string(outputChars);
       }
+    }
+
+    public static string ConvertWideKatakanaToNarrowKatakana(string input)
+    {
+      var inputChars = input.ToCharArray();
+      var output = new StringBuilder();
+
+      for (var index = 0; index < inputChars.Length; index++) {
+        if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaExEnd)
+          output.Append(wideToNarrowKatakanaMap[inputChars[index] - wideKatakanaStart]);
+        else if (inputChars[index] == 'ー')
+          output.Append('ｰ');
+        else if (inputChars[index] == '、')
+          output.Append('､');
+        else if (inputChars[index] == '。')
+          output.Append('｡');
+        else
+          output.Append(inputChars[index]);
+      }
+
+      return output.ToString();
     }
   }
 }
