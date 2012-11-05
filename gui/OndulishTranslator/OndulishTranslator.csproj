@@ -33,15 +33,15 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="MeCab">
+      <HintPath>..\..\core\MeCab\MeCab.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Smdn.Applications.OndulishTranslator\KanaUtils.cs" />
-    <Compile Include="Smdn.Applications.OndulishTranslator\TranslatorUnitBase.cs" />
     <Compile Include="Smdn.Applications.OndulishTranslator\Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Smdn.Applications.OndulishTranslator\PhonemeTranslatorUnit.cs" />
-    <Compile Include="Smdn.Applications.OndulishTranslator\DictionaryBaseTranslatorUnit.cs" />
-    <Compile Include="Smdn.Applications.OndulishTranslator\KanjiTranslatorUnit.cs" />
+    <Compile Include="Smdn.Applications.OndulishTranslator\Translator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -55,11 +55,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PhraseDictionary.csv">
+    <None Include="..\..\core\MeCab\libmecab.so">
+      <Link>libmecab.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WordDictionary.csv">
+    </None>
+    <None Include="dictionary.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 </Project>
