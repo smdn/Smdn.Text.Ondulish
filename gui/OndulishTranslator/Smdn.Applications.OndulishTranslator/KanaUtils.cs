@@ -103,6 +103,10 @@ namespace Smdn.Applications.OndulishTranslator {
           output.Append('､');
         else if (inputChars[index] == '。')
           output.Append('｡');
+        else if (inputChars[index] == '，')
+          output.Append(',');
+        else if (inputChars[index] == '．')
+          output.Append('.');
         else
           output.Append(inputChars[index]);
       }
