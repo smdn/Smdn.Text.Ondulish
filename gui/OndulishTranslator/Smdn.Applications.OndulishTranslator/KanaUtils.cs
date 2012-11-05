@@ -99,6 +99,14 @@ namespace Smdn.Applications.OndulishTranslator {
           output.Append(wideToNarrowKatakanaMap[inputChars[index] - wideKatakanaStart]);
         else if (inputChars[index] == 'ー')
           output.Append('ｰ');
+        else if (inputChars[index] == '゛')
+          output.Append('ﾞ');
+        else if (inputChars[index] == '゜')
+          output.Append('ﾟ');
+        else if (inputChars[index] == '？')
+          output.Append('?');
+        else if (inputChars[index] == '！')
+          output.Append('!');
         else if (inputChars[index] == '、')
           output.Append('､');
         else if (inputChars[index] == '。')
