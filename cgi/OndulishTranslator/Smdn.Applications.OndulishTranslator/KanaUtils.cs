@@ -22,11 +22,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#define MSVB
+#undef MSVB
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
+#if MSVB
 using Microsoft.VisualBasic;
+#endif
 
 namespace Smdn.Applications.OndulishTranslator {
   public static class KanaUtils {
@@ -51,10 +56,12 @@ namespace Smdn.Applications.OndulishTranslator {
 
     public static string ConvertWideHiraganaToKatakana(string input)
     {
+#if MSVB
       if (Runtime.IsRunningOnNetFx) {
         return Strings.StrConv(input, VbStrConv.Katakana);
       }
       else {
+#endif
         var inputChars = input.ToCharArray();
         var outputChars = new char[inputChars.Length];
 
@@ -66,15 +73,19 @@ namespace Smdn.Applications.OndulishTranslator {
         }
 
         return new string(outputChars);
+#if MSVB
       }
+#endif
     }
 
     public static string ConvertWideKatakanaToHiragana(string input)
     {
+#if MSVB
       if (Runtime.IsRunningOnNetFx) {
         return Strings.StrConv(input, VbStrConv.Hiragana);
       }
       else {
+#endif
         var inputChars = input.ToCharArray();
         var outputChars = new char[inputChars.Length];
 
@@ -86,7 +97,9 @@ namespace Smdn.Applications.OndulishTranslator {
         }
 
         return new string(outputChars);
+#if MSVB
       }
+#endif
     }
 
     public static string ConvertWideKatakanaToNarrowKatakana(string input)
