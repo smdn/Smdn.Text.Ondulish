@@ -31,7 +31,7 @@ using Smdn.Formats;
 using MeCab;
 
 namespace Smdn.Applications.OndulishTranslator {
-  public class Translator {
+  public class Translator : IDisposable {
     public Translator(string taggerArgs, string dictionaryPath)
     {
       tagger = Tagger.create(taggerArgs);
@@ -64,7 +64,7 @@ namespace Smdn.Applications.OndulishTranslator {
         }
       }
 
-#if true
+#if false
       foreach (var e in dictionary) {
         Console.WriteLine("{0} => {1}", e.Key, e.Value);
       }
@@ -83,10 +83,27 @@ namespace Smdn.Applications.OndulishTranslator {
       }
     }
 
+    public void Dispose()
+    {
+      if (tagger != null) {
+        tagger.Dispose();
+        tagger = null;
+      }
+    }
+
     public string Translate(string input)
     {
+      var sb = new StringBuilder(input.Length * 2);
+      var sw = new StringWriter(sb);
+
+      Translate(input, sw);
+
+      return sb.ToString();
+    }
+
+    public void Translate(string input, TextWriter output)
+    {
       var reader = new StringReader(input);
-      var ret = new StringBuilder();
 
       for (;;) {
         var line = reader.ReadLine();
@@ -95,7 +112,7 @@ namespace Smdn.Applications.OndulishTranslator {
           break;
 
         if (line.Trim().Length == 0) {
-          ret.AppendLine(line);
+          output.WriteLine(line);
           continue;
         }
 
@@ -109,10 +126,10 @@ namespace Smdn.Applications.OndulishTranslator {
 
         result = KanaUtils.ConvertWideKatakanaToNarrowKatakana(result);
 
-        ret.AppendLine(result);
+        output.WriteLine(result);
       }
 
-      return ret.ToString();
+      output.Flush();
     }
 
     private static readonly char[] featureSplitter = new[] {','};
