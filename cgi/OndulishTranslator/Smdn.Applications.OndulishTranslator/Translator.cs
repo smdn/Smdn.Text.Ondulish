@@ -44,7 +44,7 @@ namespace Smdn.Applications.OndulishTranslator {
     {
       var dictionary = new SortedList<string, string>(new WordDictionaryComparer());
 
-      using (var reader = new CsvReader(dictionaryPath)) {
+      using (var reader = new CsvReader(dictionaryPath, Encoding.UTF8)) {
         for (;;) {
           var entries = reader.ReadLine();
 
@@ -139,7 +139,7 @@ namespace Smdn.Applications.OndulishTranslator {
       input = input.Replace(",", "，"); // XXX: feature splitter
 
       var ret = new StringBuilder(input.Length * 2);
-      var inputBytes = Encoding.Default.GetBytes(input);
+      var inputBytes = Encoding.UTF8.GetBytes(input);
       var inputOffset = 0;
 
       for (var node = tagger.parseToNode(input); node != null; node = node.next) {
@@ -156,7 +156,7 @@ namespace Smdn.Applications.OndulishTranslator {
           ret.Append(featureEntries[7]);
         else
           // XXX
-          ret.Append(KanaUtils.ConvertWideHiraganaToKatakana(Encoding.Default.GetString(inputBytes, inputOffset, node.length)));
+          ret.Append(KanaUtils.ConvertWideHiraganaToKatakana(Encoding.UTF8.GetString(inputBytes, inputOffset, node.length)));
 
         inputOffset += node.length;
       }
