@@ -29,6 +29,7 @@ using System.Text;
 using Smdn.Formats;
 
 using MeCab;
+using MeCabConsts = MeCab.MeCab;
 
 namespace Smdn.Applications.OndulishTranslator {
   public class Translator : IDisposable {
@@ -143,7 +144,7 @@ namespace Smdn.Applications.OndulishTranslator {
       var inputOffset = 0;
 
       for (var node = tagger.parseToNode(input); node != null; node = node.next) {
-        if (node.stat == 2u /*BOS*/ || node.stat == 3u /*EOS*/)
+        if (node.stat == MeCabConsts.MECAB_BOS_NODE || node.stat == MeCabConsts.MECAB_EOS_NODE)
           continue;
 
 #if false
