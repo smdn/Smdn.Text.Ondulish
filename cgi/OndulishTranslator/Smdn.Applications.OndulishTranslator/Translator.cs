@@ -96,17 +96,17 @@ namespace Smdn.Applications.OndulishTranslator {
       }
     }
 
-    public string Translate(string input)
+    public string Translate(string input, bool convertKatakanaToNarrow)
     {
       var sb = new StringBuilder(input.Length * 2);
       var sw = new StringWriter(sb);
 
-      Translate(input, sw);
+      Translate(input, convertKatakanaToNarrow, sw);
 
       return sb.ToString();
     }
 
-    public void Translate(string input, TextWriter output)
+    public void Translate(string input, bool convertKatakanaToNarrow, TextWriter output)
     {
       var reader = new StringReader(input);
 
@@ -129,7 +129,8 @@ namespace Smdn.Applications.OndulishTranslator {
 
         var result = JoinFragments(fragments);
 
-        result = KanaUtils.ConvertWideKatakanaToNarrowKatakana(result);
+        if (convertKatakanaToNarrow)
+          result = KanaUtils.ConvertWideKatakanaToNarrowKatakana(result);
 
         output.WriteLine(result);
       }
