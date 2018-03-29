@@ -26,7 +26,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
-using Smdn.Formats;
+using Smdn.Formats.Csv;
 
 using MeCab;
 using MeCabConsts = MeCab.MeCab;
