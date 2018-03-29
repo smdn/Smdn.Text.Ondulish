@@ -35,7 +35,7 @@ namespace Smdn.Applications.OndulishTranslator {
   public class Translator : IDisposable {
     public Translator(string taggerArgs, string dictionaryPath)
     {
-      tagger = Tagger.create(taggerArgs);
+      tagger = new Tagger(taggerArgs);
 
       if (tagger == null)
         throw new DllNotFoundException("can't create tagger");
