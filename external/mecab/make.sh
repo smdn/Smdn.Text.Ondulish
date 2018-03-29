@@ -37,12 +37,12 @@ cd swig
 swig -csharp -o MeCab_wrap.cxx -namespace MeCab -dllimport libmecab -c++ MeCab.i
 g++ -fPIC -O2 -c MeCab_wrap.cxx -I../src/
 g++ -fPIC -shared -s MeCab_wrap.o ../src/.libs/libmecab.a -o libmecab.so
-mcs /t:library /out:MeCab.dll *.cs
+#mcs /t:library /out:MeCab.dll *.cs
 
 # copy mecab wrapper
 mkdir -p $wrapperdir
-cp -t $wrapperdir MeCab.dll libmecab.so
-
+#cp -t $wrapperdir MeCab.dll libmecab.so
+cp -t $wrapperdir *.cs libmecab.so
 
 
 # make mecab dictionary
