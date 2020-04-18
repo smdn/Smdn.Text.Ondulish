@@ -24,9 +24,11 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+using Smdn.Collections;
 using Smdn.Formats.Csv;
 
 using MeCab;
@@ -135,11 +137,16 @@ namespace Smdn.Applications.OndulishTranslator {
             f.ConvertedText == null
               ? ConvertWithDictionary(f.SourceText, WordDictionary)
               : Enumerable.Repeat(f, 1)
-            )
+          )
+          .SelectMany(f =>
+            f.ConvertedText == null
+              ? ConvertWithDictionary(f.SourceText, phonemeDictionary)
+              : Enumerable.Repeat(f, 1)
+          )
           .Select(f =>
             new TextFragment(
               f.SourceText,
-              f.ConvertedText ?? ConvertPhoneme(f.SourceText)
+              f.ConvertedText ?? KanaUtils.ConvertWideHiraganaToKatakana(f.SourceText) // redundant?
             )
           );
 
@@ -224,7 +231,10 @@ namespace Smdn.Applications.OndulishTranslator {
       return position != int.MaxValue;
     }
 
-    private static IEnumerable<TextFragment> ConvertWithDictionary(string input, IReadOnlyDictionary<string, string> dictionary)
+    private static IEnumerable<TextFragment> ConvertWithDictionary(
+      string input,
+      IReadOnlyDictionary<string, string> dictionary
+    )
     {
       var offset = 0;
 
@@ -240,66 +250,101 @@ namespace Smdn.Applications.OndulishTranslator {
       yield return new TextFragment(input.Substring(offset), null);
     }
 
-    private static string ConvertPhoneme(string input)
-    {
-      var ret = new StringBuilder(input);
+    private class ReadOnlyOrderedDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> {
+      private readonly IReadOnlyList<KeyValuePair<TKey, TValue>> dictionary;
 
+      public TValue this[TKey key] => throw new NotImplementedException();
+      public IEnumerable<TKey> Keys => throw new NotImplementedException();
+      public IEnumerable<TValue> Values => throw new NotImplementedException();
+      public int Count => dictionary.Count;
+
+      public ReadOnlyOrderedDictionary(IEnumerable<(TKey key, TValue value)> dictionary)
+        : this(
+          (dictionary ?? throw new ArgumentNullException(nameof(dictionary)))
+          .Select(pair => KeyValuePair.Create(pair.key, pair.value))
+          .ToList()
+        )
+      { }
+
+      public ReadOnlyOrderedDictionary(IReadOnlyList<KeyValuePair<TKey, TValue>> dictionary)
+      {
+        this.dictionary = dictionary ?? throw new ArgumentNullException(nameof(dictionary));
+      }
+
+      public bool ContainsKey(TKey key)
+        => throw new NotImplementedException();
+
+      public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        => dictionary.GetEnumerator();
+
+      public bool TryGetValue(TKey key, out TValue value)
+        => throw new NotImplementedException();
+
+      IEnumerator IEnumerable.GetEnumerator()
+        => dictionary.GetEnumerator();
+    }
+
+    private readonly IReadOnlyDictionary<string, string> phonemeDictionary = new ReadOnlyOrderedDictionary<string, string>(new[] {
       // 最優先
-      ret.Replace("ル", "ドゥ");
-      ret.Replace("ム", "ヴ");
+      ("ル", "ドゥ"),
+      ("ム", "ヴ"),
+      ("ボー", "ポッ"),
+      ("ドー", "ドゥー"),
+      ("スナ", "スダ"),
+      ("スルナ", "ドゥルダ"),
+      ("スル", "ドゥル"),
+      ("デモ", "デロ"),
 
       // 母音
-      ret.Replace("ア", "ア゛");
-      ret.Replace("ウ", "ル");
-      ret.Replace("ヤ", "ャ");
+      ("ア", "ア゛"),
+      ("ウ", "ル"),
+      ("ヤ", "ャ"),
 
       // 摩擦音
-      ret.Replace("サ", "ザァ");
-      ret.Replace("ス", "ズ");
-      ret.Replace("ゼ", "デ");
+      ("サ", "ザァ"),
+      ("ス", "ズ"),
+      ("ゼ", "デ"),
 
-      ret.Replace("ハ", "ヴァ");
-      ret.Replace("ヒ", "ビィ");
-      ret.Replace("フ", "ヴ");
-      ret.Replace("ヘ", "ベ");
-      ret.Replace("ホ", "ボ");
+      ("ハ", "ヴァ"),
+      ("ヒ", "ビィ"),
+      ("フ", "ヴ"),
+      ("ヘ", "ベ"),
+      ("ホ", "ボ"),
 
-      ret.Replace("ブ", "ム");
+      ("ブ", "ム"),
 
-      ret.Replace("ゼ", "デ");
+      ("ゼ", "デ"),
 
       // 破裂音
-      ret.Replace("ク", "グ");
-      ret.Replace("キ", "ク");
+      ("ク", "グ"),
+      ("キ", "ク"),
 
-      ret.Replace("デ", "ディ");
+      ("デ", "ディ"),
 
-      ret.Replace("タ", "ダ");
-      ret.Replace("チ", "ディ");
-      ret.Replace("ツ", "ヅ");
-      ret.Replace("テ", "デ");
-      ret.Replace("ト", "ドゥ");
+      ("タ", "ダ"),
+      ("チ", "ディ"),
+      ("ツ", "ヅ"),
+      ("テ", "デ"),
+      ("ト", "ドゥ"),
 
-      ret.Replace("ピ", "ヴィ");
+      ("ピ", "ヴィ"),
 
       // 鼻音
-      ret.Replace("ニ", "ディ");
-      ret.Replace("ヌ", "ズ");
-      ret.Replace("ネ", "ベ");
-      ret.Replace("ノ", "ド");
+      ("ニ", "ディ"),
+      ("ヌ", "ズ"),
+      ("ネ", "ベ"),
+      ("ノ", "ド"),
 
-      ret.Replace("マ", "バ");
-      ret.Replace("ミ", "ヴィ");
-      ret.Replace("メ", "ベ");
-      ret.Replace("モ", "ボ");
+      ("マ", "バ"),
+      ("ミ", "ヴィ"),
+      ("メ", "ベ"),
+      ("モ", "ボ"),
 
       // 流音
-      ret.Replace("リ", "ディ");
-      ret.Replace("レ", "リ");
-      ret.Replace("ロ", "ド");
-
-      return ret.ToString();
-    }
+      ("リ", "ディ"),
+      ("レ", "リ"),
+      ("ロ", "ド"),
+    });
 
     private Tagger tagger;
   }

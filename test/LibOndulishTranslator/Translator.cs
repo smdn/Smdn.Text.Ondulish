@@ -42,6 +42,17 @@ namespace Smdn.Applications.OndulishTranslator {
 
     [TestCase("めかぶ", "ベカム")]
     [TestCase("かてる", "カデドゥ")]
+    [TestCase("あいするな", "ア゛イドゥルダ")]
+    [TestCase("あいする", "ア゛イドゥル")]
+    [TestCase("あいすな", "ア゛イスダ")]
+    [TestCase("あいす", "ア゛イズ")]
+    [TestCase("あいでも", "ア゛イデロ")]
+    [TestCase("あいで", "ア゛イディ")]
+    [TestCase("あいる", "ア゛イドゥ")]
+    [TestCase("ぼーる", "ポッドゥ")]
+    [TestCase("ばーる", "バードゥ")]
+    [TestCase("おんどぅる", "オンドゥル")]
+    [TestCase("おんどぅ", "オンドゥ")]
     public void TestTranslatePhoneme(string input, string expected)
     {
       using (var t = Create()) {
