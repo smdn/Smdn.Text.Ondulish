@@ -28,7 +28,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+#if !(NETSTANDARD2_1)
 using Smdn.Collections;
+#endif
 using Smdn.Formats.Csv;
 
 using MeCab;
