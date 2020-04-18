@@ -190,7 +190,6 @@ namespace Smdn.Applications.OndulishTranslator {
     private IEnumerable<TextFragment> ConvertWords(string input)
     {
       var offset = 0;
-      var wasConverted = false;
 
       for (;;) {
         var posCandidate = int.MaxValue;
@@ -205,27 +204,21 @@ namespace Smdn.Applications.OndulishTranslator {
           }
         }
 
-        if (posCandidate == int.MaxValue)
-          // nothing to convert
-          break;
+        if (posCandidate == int.MaxValue) {
+          var postFragment = input.Substring(offset);
 
-        var preFragment = input.Substring(offset, posCandidate - offset);
+          yield return new TextFragment(postFragment, null);
 
-        yield return new TextFragment(preFragment, null);
+          yield break;
+        }
+        else {
+          yield return new TextFragment(input.Substring(offset, posCandidate - offset), null);
 
-        yield return new TextFragment(candidate.Key, candidate.Value);
+          yield return new TextFragment(candidate.Key, candidate.Value);
 
-        offset = posCandidate + candidate.Key.Length;
-
-        var postFragment = input.Substring(offset);
-
-        yield return new TextFragment(postFragment, null);
-
-        wasConverted = true;
+          offset = posCandidate + candidate.Key.Length;
+        }
       }
-
-      if (!wasConverted)
-        yield return new TextFragment(input, null);
     }
 
     private static string ConvertPhoneme(string input)
