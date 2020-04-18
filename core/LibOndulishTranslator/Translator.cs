@@ -126,8 +126,21 @@ namespace Smdn.Applications.OndulishTranslator {
         }
 
         var fragments =
-          ConvertWords(ConvertToKatakana(line))
-          .Select(fragment => new TextFragment(fragment.SourceText, fragment.ConvertedText ?? ConvertPhoneme(fragment.SourceText)));
+          ConvertWithDictionary(
+            ConvertToKatakana(line),
+            Smdn.Collections.ReadOnlyDictionary<string, string>.Empty // TODO: phrase dictionary
+          )
+          .SelectMany(f =>
+            f.ConvertedText == null
+              ? ConvertWithDictionary(f.SourceText, wordDictionary)
+              : Enumerable.Repeat(f, 1)
+            )
+          .Select(f =>
+            new TextFragment(
+              f.SourceText,
+              f.ConvertedText ?? ConvertPhoneme(f.SourceText)
+            )
+          );
 
         var result = string.Concat(fragments.Select(fragment => fragment.ConvertedText));
 
@@ -210,11 +223,11 @@ namespace Smdn.Applications.OndulishTranslator {
       return position != int.MaxValue;
     }
 
-    private IEnumerable<TextFragment> ConvertWords(string input)
+    private static IEnumerable<TextFragment> ConvertWithDictionary(string input, IReadOnlyDictionary<string, string> dictionary)
     {
       var offset = 0;
 
-      while (FindMostLeftAndLongestCandidate(input, offset, WordDictionary, out var position, out var candidate)) {
+      while (FindMostLeftAndLongestCandidate(input, offset, dictionary, out var position, out var candidate)) {
         if (offset < position)
           yield return new TextFragment(input.Substring(offset, position - offset), null);
 
