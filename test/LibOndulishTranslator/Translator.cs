@@ -1,12 +1,65 @@
+using System;
+using System.IO;
+using System.Reflection;
+
 using NUnit.Framework;
 
 namespace Smdn.Applications.OndulishTranslator {
   [TestFixture]
   public class TranslatorTests {
-    [Test]
-    public void Test()
+    private static Translator Create()
     {
-      Assert.Fail("TODO");
+      var codeBaseDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+      var taggerArg = "-r " + Path.Combine(codeBaseDir, "mecabrc");
+      var dictionaryPath = Path.Combine(codeBaseDir, "dictionary.csv");
+
+      return new Translator(taggerArg, dictionaryPath);
     }
+
+    [TestCase("変身", "ヘシン")]
+    [TestCase("橘さん", "ダディャーナザァーン")]
+    [TestCase("本当に裏切ったんですか", "オンドゥルルラギッタンディスカー")]
+    [TestCase("決着を", "ケッチャコ")]
+    [TestCase("めかぶ", "ベカム")]
+    public void TestTranslate(string input, string expected)
+    {
+      using (var t = Create()) {
+        Assert.AreEqual(
+          expected,
+          t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+        );
+      }
+    }
+
+    [TestCase("めかぶ", "ベカム")]
+    [TestCase("かてる", "カデドゥ")]
+    public void TestTranslatePhoneme(string input, string expected)
+    {
+      using (var t = Create()) {
+        Assert.AreEqual(
+          expected,
+          t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+        );
+      }
+    }
+
+    [Test]
+    public void TestTranslateDictionaryWords()
+    {
+      using (var t = Create()) {
+        foreach (var pair in t.WordDictionary) {
+          const string inputPrepend = "あ";
+          const string outputPrepend = "ア゛";
+          const string inputAppend = "う";
+          const string outputAppend = "ル";
+
+          Assert.AreEqual(
+            outputPrepend + pair.Value + outputAppend,
+            t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
+          );
+        }
+      }
+    }
+
   }
 }

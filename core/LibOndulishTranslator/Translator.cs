@@ -34,6 +34,9 @@ using MeCabConsts = MeCab.MeCab;
 
 namespace Smdn.Applications.OndulishTranslator {
   public class Translator : IDisposable {
+    private readonly SortedList<string, string> wordDictionary;
+    public IReadOnlyDictionary<string, string> WordDictionary => wordDictionary;
+
     public Translator(string taggerArgs, string dictionaryPath)
     {
       tagger = new Tagger(taggerArgs);
@@ -287,7 +290,6 @@ namespace Smdn.Applications.OndulishTranslator {
     }
 
     private Tagger tagger;
-    private SortedList<string, string> wordDictionary;
   }
 }
 
