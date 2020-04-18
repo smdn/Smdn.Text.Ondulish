@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net471;netstandard2.1</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>LibOndulishTranslator</AssemblyName>
+    <RootNamespace>Smdn.Applications.OndulishTranslator</RootNamespace>
+    <VersionPrefix>3.1</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <BaseOutputPath>..\..\build\bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="metadata">
+    <Title>LibOndulishTranslator</Title>
+    <Description>$Title</Description>
+    <Company>smdn:総武ソフトウェア推進所</Company>
+    <Copyright>Copyright © 2012 smdn</Copyright>
+
+    <!-- AssemblyInfo -->
+    <AssemblyTitle>$(AssemblyName)</AssemblyTitle>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <InformationalVersion>$(VersionPrefix)$(VersionSuffix) ($(TargetFramework))</InformationalVersion>
+    <Product>$(AssemblyName)-$(InformationalVersion)</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Smdn\Smdn\src\Smdn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\MeCab\DictionaryInfo.cs" />
+    <Compile Include="..\MeCab\Lattice.cs" />
+    <Compile Include="..\MeCab\MeCab.cs" />
+    <Compile Include="..\MeCab\MeCabPINVOKE.cs" />
+    <Compile Include="..\MeCab\Model.cs" />
+    <Compile Include="..\MeCab\Node.cs" />
+    <Compile Include="..\MeCab\Path.cs" />
+    <Compile Include="..\MeCab\Tagger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\MeCab\dic\ipadic\char.bin">
+      <Link>dic\ipadic\char.bin</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\dicrc">
+      <Link>dic\ipadic\dicrc</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\left-id.def">
+      <Link>dic\ipadic\left-id.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\matrix.bin">
+      <Link>dic\ipadic\matrix.bin</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\pos-id.def">
+      <Link>dic\ipadic\pos-id.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\rewrite.def">
+      <Link>dic\ipadic\rewrite.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\right-id.def">
+      <Link>dic\ipadic\right-id.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\sys.dic">
+      <Link>dic\ipadic\sys.dic</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\dic\ipadic\unk.dic">
+      <Link>dic\ipadic\unk.dic</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MeCab\libmecab.so">
+      <Link>libmecab.so</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="mecabrc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="dictionary.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
