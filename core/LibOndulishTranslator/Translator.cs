@@ -172,10 +172,15 @@ namespace Smdn.Applications.OndulishTranslator {
 
         var featureEntries = node.feature.Split(featureSplitter);
 
-        if (8 <= featureEntries.Length)
-          ret.Append(featureEntries[7]);
-        else
+        if (8 <= featureEntries.Length) {
+          switch (featureEntries[6]) {
+            case "ぶっ殺す": ret.Append("ブッコロス"); break; // ipadic says 'ぶっとばす'
+            default: ret.Append(featureEntries[7]); break;
+          }
+        }
+        else {
           ret.Append(node.surface);
+        }
       }
 
 #if false
