@@ -53,19 +53,19 @@ namespace Smdn.Applications.OndulishTranslator {
         for (;;) {
           var entries = reader.ReadLine();
 
-          if (entries == null) {
+          if (entries == null)
             break;
-          }
-          else if (3 <= entries.Length) {
-            entries[0] = entries[0].Trim();
+          if (entries.Length < 3)
+            break;
 
-            if (entries[0].StartsWith("#", StringComparison.Ordinal))
-              continue; // comment line
+          entries[0] = entries[0].Trim();
 
-            entries[1] = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
+          if (entries[0].StartsWith('#'))
+            continue; // comment line
 
-            dictionary[KanaUtils.ConvertWideHiraganaToKatakana(entries[1])] = entries[2].Trim();
-          }
+          entries[1] = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
+
+          dictionary[KanaUtils.ConvertWideHiraganaToKatakana(entries[1])] = entries[2].Trim();
         }
       }
 
@@ -121,11 +121,7 @@ namespace Smdn.Applications.OndulishTranslator {
           continue;
         }
 
-        line = ConvertToKatakana(line);
-
-        var fragments = ConvertWords(line);
-
-        fragments = ConvertPhoneme(fragments);
+        var fragments = ConvertPhoneme(ConvertWords(ConvertToKatakana(line)));
 
         var result = JoinFragments(fragments);
 
@@ -174,7 +170,7 @@ namespace Smdn.Applications.OndulishTranslator {
       return ret.ToString();
     }
 
-    struct TextFragment {
+    readonly struct TextFragment {
       public readonly string SourceText;
       public readonly string ConvertedText;
 
@@ -292,6 +288,7 @@ namespace Smdn.Applications.OndulishTranslator {
       ret.Replace("メ", "ベ");
       ret.Replace("モ", "ボ");
 
+      // 流音
       ret.Replace("リ", "ディ");
       ret.Replace("レ", "リ");
       ret.Replace("ロ", "ド");
