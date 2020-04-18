@@ -20,7 +20,11 @@ namespace Smdn.Applications.OndulishTranslator {
     [TestCase("橘さん", "ダディャーナザァーン")]
     [TestCase("本当に裏切ったんですか", "オンドゥルルラギッタンディスカー")]
     [TestCase("決着を", "ケッチャコ")]
-    [TestCase("めかぶ", "ベカム")]
+    [TestCase("俺は貴様をぶっころす", "オレァクサムヲムッコロス")]
+    [TestCase("俺は貴様をぶっ殺す", "オレァクサムヲムッコロス")]
+    [TestCase("俺は！貴様を！", "オレァ！クサムヲ！")]
+    [TestCase("俺は！貴様か！", "オレァ！クサムカァ！")]
+    [TestCase("俺の体はボロボロだ", "オデノカラダハボドボドダ")]
     public void TestTranslate(string input, string expected)
     {
       using (var t = Create()) {
