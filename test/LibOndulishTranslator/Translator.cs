@@ -11,9 +11,8 @@ namespace Smdn.Applications.OndulishTranslator {
     {
       var codeBaseDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
       var taggerArg = "-r " + Path.Combine(codeBaseDir, "mecabrc");
-      var dictionaryPath = Path.Combine(codeBaseDir, "dictionary.csv");
 
-      return new Translator(taggerArg, dictionaryPath);
+      return new Translator(taggerArg, dictionaryDirectory: codeBaseDir);
     }
 
     [TestCase("変身", "ヘシン")]
@@ -48,7 +47,7 @@ namespace Smdn.Applications.OndulishTranslator {
     }
 
     [Test]
-    public void TestTranslateDictionaryWords()
+    public void TestTranslateDictionaryTerm_Words()
     {
       using (var t = Create()) {
         foreach (var pair in t.WordDictionary) {
@@ -65,5 +64,22 @@ namespace Smdn.Applications.OndulishTranslator {
       }
     }
 
+    [Test]
+    public void TestTranslateDictionaryTerm_Phrases()
+    {
+      using (var t = Create()) {
+        foreach (var pair in t.PhraseDictionary) {
+          const string inputPrepend = "あ";
+          const string outputPrepend = "ア゛";
+          const string inputAppend = "う";
+          const string outputAppend = "ル";
+
+          Assert.AreEqual(
+            outputPrepend + pair.Value + outputAppend,
+            t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
+          );
+        }
+      }
+    }
   }
 }

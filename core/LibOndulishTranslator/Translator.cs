@@ -34,17 +34,18 @@ using MeCabConsts = MeCab.MeCab;
 
 namespace Smdn.Applications.OndulishTranslator {
   public class Translator : IDisposable {
-    private readonly SortedList<string, string> wordDictionary;
-    public IReadOnlyDictionary<string, string> WordDictionary => wordDictionary;
+    public IReadOnlyDictionary<string, string> PhraseDictionary { get; }
+    public IReadOnlyDictionary<string, string> WordDictionary { get; }
 
-    public Translator(string taggerArgs, string dictionaryPath)
+    public Translator(string taggerArgs, string dictionaryDirectory)
     {
       tagger = new Tagger(taggerArgs);
 
       if (tagger == null)
         throw new DllNotFoundException("can't create tagger");
 
-      wordDictionary = LoadDictionary(dictionaryPath);
+      PhraseDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-phrases.csv"));
+      WordDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-words.csv"));
     }
 
     private static readonly char[] dictionaryPunctuationChars = new[] {'！', '？', '!', '?', '、', '。'};
@@ -128,11 +129,11 @@ namespace Smdn.Applications.OndulishTranslator {
         var fragments =
           ConvertWithDictionary(
             ConvertToKatakana(line),
-            Smdn.Collections.ReadOnlyDictionary<string, string>.Empty // TODO: phrase dictionary
+            PhraseDictionary
           )
           .SelectMany(f =>
             f.ConvertedText == null
-              ? ConvertWithDictionary(f.SourceText, wordDictionary)
+              ? ConvertWithDictionary(f.SourceText, WordDictionary)
               : Enumerable.Repeat(f, 1)
             )
           .Select(f =>
@@ -177,7 +178,9 @@ namespace Smdn.Applications.OndulishTranslator {
           ret.Append(featureEntries[7]);
         else
           // XXX
-          ret.Append(KanaUtils.ConvertWideHiraganaToKatakana(Encoding.UTF8.GetString(inputBytes, inputOffset, node.length)));
+          ret.Append(
+            Encoding.UTF8.GetString(inputBytes, inputOffset, node.length)
+          );
 
         inputOffset += node.length;
       }
