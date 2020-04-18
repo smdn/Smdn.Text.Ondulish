@@ -57,7 +57,7 @@ namespace Smdn.Applications.OndulishTranslator {
           if (entries == null)
             break;
           if (entries.Length < 3)
-            break;
+            continue;
 
           entries[0] = entries[0].Trim();
 
