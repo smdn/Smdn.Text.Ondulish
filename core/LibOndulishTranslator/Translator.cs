@@ -187,24 +187,35 @@ namespace Smdn.Applications.OndulishTranslator {
       }
     }
 
+    private static bool FindMostLeftAndLongestCandidate(
+      string input,
+      int startIndex,
+      IReadOnlyDictionary<string, string> dictionary,
+      out int position,
+      out KeyValuePair<string, string> candidate
+    )
+    {
+      position = int.MaxValue;
+      candidate = default;
+
+      foreach (var entry in dictionary) {
+        var pos = input.IndexOf(entry.Key, startIndex, StringComparison.Ordinal);
+
+        if (0 <= pos && pos < position) {
+          position = pos;
+          candidate = entry;
+        }
+      }
+
+      return position != int.MaxValue;
+    }
+
     private IEnumerable<TextFragment> ConvertWords(string input)
     {
       var offset = 0;
 
       for (;;) {
-        var posCandidate = int.MaxValue;
-        KeyValuePair<string, string> candidate = default;
-
-        foreach (var entry in wordDictionary) {
-          var pos = input.IndexOf(entry.Key, offset, StringComparison.Ordinal);
-
-          if (0 <= pos && pos < posCandidate) {
-            posCandidate = pos;
-            candidate = entry;
-          }
-        }
-
-        if (posCandidate == int.MaxValue) {
+        if (!FindMostLeftAndLongestCandidate(input, offset, WordDictionary, out var position, out var candidate)) {
           var postFragment = input.Substring(offset);
 
           yield return new TextFragment(postFragment, null);
@@ -212,11 +223,11 @@ namespace Smdn.Applications.OndulishTranslator {
           yield break;
         }
         else {
-          yield return new TextFragment(input.Substring(offset, posCandidate - offset), null);
+          yield return new TextFragment(input.Substring(offset, position - offset), null);
 
           yield return new TextFragment(candidate.Key, candidate.Value);
 
-          offset = posCandidate + candidate.Key.Length;
+          offset = position + candidate.Key.Length;
         }
       }
     }
