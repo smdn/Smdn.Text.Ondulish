@@ -15,6 +15,7 @@ namespace Smdn.Applications.OndulishTranslator {
       return new Translator(taggerArg, dictionaryDirectory: codeBaseDir);
     }
 
+    [TestCase("オンドゥル", "オンドゥル")]
     [TestCase("変身", "ヘシン")]
     [TestCase("橘さん", "ダディャーナザァーン")]
     [TestCase("本当に裏切ったんですか", "オンドゥルルラギッタンディスカー")]
@@ -27,6 +28,8 @@ namespace Smdn.Applications.OndulishTranslator {
     [TestCase("あいうえお", "ア゛イルエオ")]
     [TestCase("#$%&'", "#$%&'")]
     [TestCase(@""","", ""，"",", @"""，""，""，""，")]
+    [TestCase(@"変身😆😄", @"ヘシン😆😄")]
+    [TestCase(@"オンドゥル😆😄", @"オンドゥル😆😄")]
     public void TestTranslate(string input, string expected)
     {
       using (var t = Create()) {
