@@ -23,6 +23,7 @@
 // THE SOFTWARE.
 using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -123,7 +124,7 @@ namespace Smdn.Applications.OndulishTranslator {
 
         var fragments = ConvertPhoneme(ConvertWords(ConvertToKatakana(line)));
 
-        var result = JoinFragments(fragments);
+        var result = string.Concat(fragments.Select(fragment => fragment.ConvertedText));
 
         if (convertKatakanaToNarrow)
           result = KanaUtils.ConvertWideKatakanaToNarrowKatakana(result);
@@ -181,14 +182,14 @@ namespace Smdn.Applications.OndulishTranslator {
       }
     }
 
-    private List<TextFragment> ConvertWords(string input)
+    private IEnumerable<TextFragment> ConvertWords(string input)
     {
-      var fragments = new List<TextFragment>();
       var offset = 0;
+      var wasConverted = false;
 
       for (;;) {
         var posCandidate = int.MaxValue;
-        KeyValuePair<string, string> candidate;
+        KeyValuePair<string, string> candidate = default; // TODO: ???
 
         foreach (var entry in wordDictionary) {
           var pos = input.IndexOf(entry.Key, offset, StringComparison.Ordinal);
@@ -205,34 +206,34 @@ namespace Smdn.Applications.OndulishTranslator {
 
         var preFragment = input.Substring(offset, posCandidate - offset);
 
-        fragments.Add(new TextFragment(preFragment, null));
+        yield return new TextFragment(preFragment, null);
 
-        fragments.Add(new TextFragment(candidate.Key, candidate.Value));
+        yield return new TextFragment(candidate.Key, candidate.Value);
 
         offset = posCandidate + candidate.Key.Length;
 
         var postFragment = input.Substring(offset);
 
-        fragments.Add(new TextFragment(postFragment, null));
+        yield return new TextFragment(postFragment, null);
+
+        wasConverted = true;
       }
 
-      if (fragments.Count == 0)
-        // if no dictionary entry found
-        fragments.Add(new TextFragment(input, null));
-
-      return fragments;
+      if (!wasConverted)
+        yield return new TextFragment(input, null);
     }
 
-    private List<TextFragment> ConvertPhoneme(List<TextFragment> inputFragments)
+    private IEnumerable<TextFragment> ConvertPhoneme(IEnumerable<TextFragment> inputFragments)
     {
-      for (var i = 0; i < inputFragments.Count; i++) {
-        if (inputFragments[i].ConvertedText != null)
-          continue;
+      foreach (var inputFragment in inputFragments) {
+        if (inputFragment.ConvertedText != null)
+          yield return inputFragment;
 
-        inputFragments[i] = new TextFragment(inputFragments[i].SourceText, ConvertPhoneme(inputFragments[i].SourceText));
+        yield return new TextFragment(
+          inputFragment.SourceText,
+          ConvertPhoneme(inputFragment.SourceText)
+        );
       }
-
-      return inputFragments;
     }
 
     private static string ConvertPhoneme(string input)
@@ -292,17 +293,6 @@ namespace Smdn.Applications.OndulishTranslator {
       ret.Replace("リ", "ディ");
       ret.Replace("レ", "リ");
       ret.Replace("ロ", "ド");
-
-      return ret.ToString();
-    }
-
-    private static string JoinFragments(IEnumerable<TextFragment> fragments)
-    {
-      var ret = new StringBuilder();
-
-      foreach (var fragment in fragments) {
-        ret.Append(fragment.ConvertedText);
-      }
 
       return ret.ToString();
     }
