@@ -122,7 +122,9 @@ namespace Smdn.Applications.OndulishTranslator {
           continue;
         }
 
-        var fragments = ConvertPhoneme(ConvertWords(ConvertToKatakana(line)));
+        var fragments =
+          ConvertWords(ConvertToKatakana(line))
+          .Select(fragment => new TextFragment(fragment.SourceText, fragment.ConvertedText ?? ConvertPhoneme(fragment.SourceText)));
 
         var result = string.Concat(fragments.Select(fragment => fragment.ConvertedText));
 
@@ -189,7 +191,7 @@ namespace Smdn.Applications.OndulishTranslator {
 
       for (;;) {
         var posCandidate = int.MaxValue;
-        KeyValuePair<string, string> candidate = default; // TODO: ???
+        KeyValuePair<string, string> candidate = default;
 
         foreach (var entry in wordDictionary) {
           var pos = input.IndexOf(entry.Key, offset, StringComparison.Ordinal);
@@ -221,19 +223,6 @@ namespace Smdn.Applications.OndulishTranslator {
 
       if (!wasConverted)
         yield return new TextFragment(input, null);
-    }
-
-    private IEnumerable<TextFragment> ConvertPhoneme(IEnumerable<TextFragment> inputFragments)
-    {
-      foreach (var inputFragment in inputFragments) {
-        if (inputFragment.ConvertedText != null)
-          yield return inputFragment;
-
-        yield return new TextFragment(
-          inputFragment.SourceText,
-          ConvertPhoneme(inputFragment.SourceText)
-        );
-      }
     }
 
     private static string ConvertPhoneme(string input)
