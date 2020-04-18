@@ -161,8 +161,6 @@ namespace Smdn.Applications.OndulishTranslator {
       input = input.Replace(",", "，"); // XXX: feature splitter
 
       var ret = new StringBuilder(input.Length * 2);
-      var inputBytes = Encoding.UTF8.GetBytes(input);
-      var inputOffset = 0;
 
       for (var node = tagger.parseToNode(input); node != null; node = node.next) {
         if (node.stat == MeCabConsts.MECAB_BOS_NODE || node.stat == MeCabConsts.MECAB_EOS_NODE)
@@ -177,12 +175,7 @@ namespace Smdn.Applications.OndulishTranslator {
         if (8 <= featureEntries.Length)
           ret.Append(featureEntries[7]);
         else
-          // XXX
-          ret.Append(
-            Encoding.UTF8.GetString(inputBytes, inputOffset, node.length)
-          );
-
-        inputOffset += node.length;
+          ret.Append(node.surface);
       }
 
 #if false

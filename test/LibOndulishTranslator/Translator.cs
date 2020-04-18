@@ -24,6 +24,9 @@ namespace Smdn.Applications.OndulishTranslator {
     [TestCase("俺は！貴様を！", "オレァ！クサムヲ！")]
     [TestCase("俺は！貴様か！", "オレァ！クサムカァ！")]
     [TestCase("俺の体はボロボロだ", "オデノカラダハボドボドダ")]
+    [TestCase("あいうえお", "ア゛イルエオ")]
+    [TestCase("#$%&'", "#$%&'")]
+    [TestCase(@""","", ""，"",", @"""，""，""，""，")]
     public void TestTranslate(string input, string expected)
     {
       using (var t = Create()) {
