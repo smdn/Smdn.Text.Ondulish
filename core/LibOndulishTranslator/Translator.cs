@@ -214,22 +214,16 @@ namespace Smdn.Applications.OndulishTranslator {
     {
       var offset = 0;
 
-      for (;;) {
-        if (!FindMostLeftAndLongestCandidate(input, offset, WordDictionary, out var position, out var candidate)) {
-          var postFragment = input.Substring(offset);
-
-          yield return new TextFragment(postFragment, null);
-
-          yield break;
-        }
-        else {
+      while (FindMostLeftAndLongestCandidate(input, offset, WordDictionary, out var position, out var candidate)) {
+        if (offset < position)
           yield return new TextFragment(input.Substring(offset, position - offset), null);
 
-          yield return new TextFragment(candidate.Key, candidate.Value);
+        yield return new TextFragment(candidate.Key, candidate.Value);
 
-          offset = position + candidate.Key.Length;
-        }
+        offset = position + candidate.Key.Length;
       }
+
+      yield return new TextFragment(input.Substring(offset), null);
     }
 
     private static string ConvertPhoneme(string input)
