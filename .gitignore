@@ -4,4 +4,5 @@ obj/
 *.userprefs
 external/mecab/mecab/
 external/mecab/mecab-*/
+.vs/
 
