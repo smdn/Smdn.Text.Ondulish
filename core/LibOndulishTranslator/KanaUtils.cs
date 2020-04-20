@@ -56,49 +56,53 @@ namespace Smdn.Applications.OndulishTranslator {
 
     public static string ConvertWideHiraganaToKatakana(string input)
     {
-#if MSVB
-      if (Runtime.IsRunningOnNetFx) {
-        return Strings.StrConv(input, VbStrConv.Katakana);
-      }
-      else {
-#endif
-        var inputChars = input.ToCharArray();
-        var outputChars = new char[inputChars.Length];
+#if NETFRAMEWORK
+      var inputChars = input.ToCharArray();
+      var outputChars = new char[inputChars.Length];
 
-        for (var index = 0; index < inputChars.Length; index++) {
-          if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
-            outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
+      for (var index = 0; index < inputChars.Length; index++) {
+        if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
+          outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
+        else
+          outputChars[index] = inputChars[index];
+      }
+
+      return new string(outputChars);
+#else
+      return string.Create(input.Length, input, (chars, s) => {
+        for (var index = 0; index < chars.Length; index++) {
+          if (wideHiraganaStart <= s[index] && s[index] <= wideHiraganaEnd)
+            chars[index] = (char)(s[index] + offsetFromHiraganaToKatakana);
           else
-            outputChars[index] = inputChars[index];
+            chars[index] = s[index];
         }
-
-        return new string(outputChars);
-#if MSVB
-      }
+      });
 #endif
     }
 
     public static string ConvertWideKatakanaToHiragana(string input)
     {
-#if MSVB
-      if (Runtime.IsRunningOnNetFx) {
-        return Strings.StrConv(input, VbStrConv.Hiragana);
-      }
-      else {
-#endif
-        var inputChars = input.ToCharArray();
-        var outputChars = new char[inputChars.Length];
+#if NETFRAMEWORK
+      var inputChars = input.ToCharArray();
+      var outputChars = new char[inputChars.Length];
 
-        for (var index = 0; index < inputChars.Length; index++) {
-          if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
-            outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
+      for (var index = 0; index < inputChars.Length; index++) {
+        if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
+          outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
+        else
+          outputChars[index] = inputChars[index];
+      }
+
+      return new string(outputChars);
+#else
+      return string.Create(input.Length, input, (chars, s) => {
+        for (var index = 0; index < chars.Length; index++) {
+          if (wideKatakanaStart <= s[index] && s[index] <= wideKatakanaEnd)
+            chars[index] = (char)(s[index] - offsetFromHiraganaToKatakana);
           else
-            outputChars[index] = inputChars[index];
+            chars[index] = s[index];
         }
-
-        return new string(outputChars);
-#if MSVB
-      }
+      });
 #endif
     }
 
