@@ -143,12 +143,19 @@ namespace Smdn.Applications.OndulishTranslator {
             )
           );
 
-        var result = string.Concat(fragments.Select(fragment => fragment.ConvertedText));
-
         if (convertKatakanaToNarrow)
-          result = KanaUtils.ConvertWideKatakanaToNarrowKatakana(result);
+          fragments = fragments.Select(f =>
+            new TextFragment(
+              f.SourceText,
+              KanaUtils.ConvertWideKatakanaToNarrowKatakana(f.ConvertedText)
+            )
+          );
 
-        output.WriteLine(result);
+        output.WriteLine(
+          string.Concat(
+            fragments.Select(fragment => fragment.ConvertedText)
+          )
+        );
       }
 
       output.Flush();
