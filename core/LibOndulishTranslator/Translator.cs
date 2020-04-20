@@ -59,22 +59,18 @@ namespace Smdn.Applications.OndulishTranslator {
       var dictionary = new SortedList<string, string>(new WordDictionaryComparer());
 
       using (var reader = new CsvReader(dictionaryPath, Encoding.UTF8)) {
-        for (;;) {
-          var entries = reader.ReadLine();
-
-          if (entries == null)
-            break;
-          if (entries.Length < 3)
+        foreach (var entries in reader.ReadRecords()) {
+          if (entries.Count < 3)
             continue;
 
-          entries[0] = entries[0].Trim();
+          var entry = entries[0].Trim();
 
-          if (entries[0].StartsWith('#'))
+          if (entry.StartsWith('#'))
             continue; // comment line
 
-          entries[1] = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
+          var key = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
 
-          dictionary[KanaUtils.ConvertWideHiraganaToKatakana(entries[1])] = entries[2].Trim();
+          dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key)] = entries[2].Trim();
         }
       }
 
