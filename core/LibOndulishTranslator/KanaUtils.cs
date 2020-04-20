@@ -22,16 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#define MSVB
-#undef MSVB
-
 using System;
-using System.Collections.Generic;
 using System.Text;
-
-#if MSVB
-using Microsoft.VisualBasic;
-#endif
 
 namespace Smdn.Applications.OndulishTranslator {
   public static class KanaUtils {
