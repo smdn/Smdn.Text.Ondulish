@@ -48,9 +48,6 @@ namespace Smdn.Applications.OndulishTranslator {
     {
       tagger = new Tagger(taggerArgs);
 
-      if (tagger == null)
-        throw new DllNotFoundException("can't create tagger");
-
       PhraseDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-phrases.csv"));
       WordDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-words.csv"));
     }
