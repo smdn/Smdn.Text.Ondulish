@@ -40,6 +40,22 @@ namespace Smdn.Applications.OndulishTranslator {
       }
     }
 
+    [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]
+    [TestCase("変身", "ﾍｼﾝ")]
+    [TestCase("橘さん", "ﾀﾞﾃﾞｨｬｰﾅｻﾞｧｰﾝ")]
+    [TestCase("俺は貴様をぶっころす", "ｵﾚｧｸｻﾑｦﾑｯｺﾛｽ")]
+    [TestCase(@"変身😆😄", @"ﾍｼﾝ😆😄")]
+    [TestCase("あいするな", "ｱﾞｲﾄﾞｩﾙﾀﾞ")]
+    public void TestTranslateToNarrowKatakana(string input, string expected)
+    {
+      using (var t = Create()) {
+        Assert.AreEqual(
+          expected,
+          t.Translate(input, convertKatakanaToNarrow: true).TrimEnd()
+        );
+      }
+    }
+
     [TestCase("相手は俺だ", "アンギョン和田")] // be translated terms with kanji chars
     [TestCase("貴様、相手は俺だ", "チサマ、アンギョン和田")]
     public void TestTranslate_SpecialCase(string input, string expected)
