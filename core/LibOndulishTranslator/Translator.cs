@@ -42,6 +42,8 @@ namespace Smdn.Applications.OndulishTranslator {
     public IReadOnlyDictionary<string, string> PhraseDictionary { get; }
     public IReadOnlyDictionary<string, string> WordDictionary { get; }
 
+    private Tagger tagger;
+
     public Translator(string taggerArgs, string dictionaryDirectory)
     {
       tagger = new Tagger(taggerArgs);
@@ -351,8 +353,6 @@ namespace Smdn.Applications.OndulishTranslator {
       ("レ", "リ"),
       ("ロ", "ド"),
     });
-
-    private Tagger tagger;
   }
 }
 
