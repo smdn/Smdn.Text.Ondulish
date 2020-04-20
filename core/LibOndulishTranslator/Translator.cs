@@ -32,6 +32,7 @@ using System.Text;
 using Smdn.Collections;
 #endif
 using Smdn.Formats.Csv;
+using Smdn.IO;
 
 using MeCab;
 using MeCabConsts = MeCab.MeCab;
@@ -89,20 +90,15 @@ namespace Smdn.Applications.OndulishTranslator {
 
     private class WordDictionaryComparer : IComparer<string> {
       public int Compare(string x, string y)
-      {
-        if (x.Length == y.Length)
-          return StringComparer.Ordinal.Compare(x, y);
-        else
-          return y.Length - x.Length;
-      }
+        => x.Length == y.Length
+          ? StringComparer.Ordinal.Compare(x, y)
+          : y.Length - x.Length;
     }
 
     public void Dispose()
     {
-      if (tagger != null) {
-        tagger.Dispose();
-        tagger = null;
-      }
+      tagger?.Dispose();
+      tagger = null;
     }
 
     public string Translate(string input, bool convertKatakanaToNarrow)
@@ -119,13 +115,8 @@ namespace Smdn.Applications.OndulishTranslator {
     {
       var reader = new StringReader(input);
 
-      for (;;) {
-        var line = reader.ReadLine();
-
-        if (line == null)
-          break;
-
-        if (line.Trim().Length == 0) {
+      foreach (var line in reader.ReadLines()) {
+        if (string.IsNullOrWhiteSpace(line)) {
           output.WriteLine(line);
           continue;
         }
