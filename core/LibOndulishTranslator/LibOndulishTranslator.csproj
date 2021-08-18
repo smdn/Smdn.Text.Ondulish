@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net471;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <AssemblyName>LibOndulishTranslator</AssemblyName>
     <RootNamespace>Smdn.Applications.OndulishTranslator</RootNamespace>
