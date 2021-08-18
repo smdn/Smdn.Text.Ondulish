@@ -23,7 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Smdn\Smdn\src\Smdn.csproj" />
+    <ProjectReference Include="..\Smdn\external\Smdn.Fundamentals\src\Smdn.Fundamental.Csv\Smdn.Fundamental.Csv.csproj" />
+    <ProjectReference Include="..\Smdn\external\Smdn.Fundamentals\src\Smdn.Fundamental.String.Replacement\Smdn.Fundamental.String.Replacement.csproj" />
   </ItemGroup>
 
   <ItemGroup>

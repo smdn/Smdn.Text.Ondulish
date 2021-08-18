@@ -28,11 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-#if !(NETSTANDARD2_1)
-using Smdn.Collections;
-#endif
 using Smdn.Formats.Csv;
-using Smdn.IO;
 
 using MeCab;
 using MeCabConsts = MeCab.MeCab;
@@ -110,7 +106,7 @@ namespace Smdn.Applications.OndulishTranslator {
     {
       var reader = new StringReader(input);
 
-      foreach (var line in reader.ReadLines()) {
+      for (var line = reader.ReadLine(); line is not null; line = reader.ReadLine()) {
         if (string.IsNullOrWhiteSpace(line)) {
           output.WriteLine(line);
           continue;
@@ -256,7 +252,7 @@ namespace Smdn.Applications.OndulishTranslator {
       public ReadOnlyOrderedDictionary(IEnumerable<(TKey key, TValue value)> dictionary)
         : this(
           (dictionary ?? throw new ArgumentNullException(nameof(dictionary)))
-          .Select(pair => KeyValuePair.Create(pair.key, pair.value))
+          .Select(pair => new KeyValuePair<TKey, TValue>(pair.key, pair.value))
           .ToList()
         )
       { }
