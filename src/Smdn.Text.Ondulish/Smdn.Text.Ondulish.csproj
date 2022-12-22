@@ -2,16 +2,12 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <AssemblyName>LibOndulishTranslator</AssemblyName>
-    <RootNamespace>Smdn.Applications.OndulishTranslator</RootNamespace>
     <VersionPrefix>3.2</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <BaseOutputPath>..\..\build\bin\</BaseOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Label="metadata">
-    <Title>LibOndulishTranslator</Title>
-    <Description>$Title</Description>
     <Company>smdn.jp</Company>
     <Copyright>Copyright © 2012 smdn</Copyright>
 
