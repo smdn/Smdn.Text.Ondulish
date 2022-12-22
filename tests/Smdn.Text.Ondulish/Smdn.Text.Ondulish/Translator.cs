@@ -10,13 +10,7 @@ namespace Smdn.Text.Ondulish;
 public class TranslatorTests {
   private static Translator Create()
   {
-    var codeBaseDir = Path.GetDirectoryName(
-#if NET6_0_OR_GREATER
-      Path.GetDirectoryName(Environment.ProcessPath)
-#else
-      Assembly.GetEntryAssembly().Location
-#endif
-    );
+    var codeBaseDir = TestContext.CurrentContext.TestDirectory;
     var taggerArg = "-r " + Path.Combine(codeBaseDir, "mecabrc");
 
     return new Translator(taggerArg, dictionaryDirectory: codeBaseDir);

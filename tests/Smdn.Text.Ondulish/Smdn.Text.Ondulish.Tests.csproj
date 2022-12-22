@@ -12,6 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\core\LibOndulishTranslator\LibOndulishTranslator.csproj" />
+    <ProjectReference Include="..\..\src\Smdn.Text.Ondulish\Smdn.Text.Ondulish.csproj" />
   </ItemGroup>
 </Project>
