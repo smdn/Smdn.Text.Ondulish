@@ -19,8 +19,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Smdn\external\Smdn.Fundamentals\src\Smdn.Fundamental.Csv\Smdn.Fundamental.Csv.csproj" />
-    <ProjectReference Include="..\Smdn\external\Smdn.Fundamentals\src\Smdn.Fundamental.String.Replacement\Smdn.Fundamental.String.Replacement.csproj" />
+    <PackageReference Include="Smdn.Fundamental.Csv" Version="[3.0.2,*)" />
+    <PackageReference Include="Smdn.Fundamental.String.Replacement" Version="[3.0.2,*)" />
   </ItemGroup>
 
   <ItemGroup>
