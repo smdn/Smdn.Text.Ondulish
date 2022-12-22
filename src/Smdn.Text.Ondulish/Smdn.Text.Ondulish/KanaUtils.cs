@@ -25,111 +25,110 @@
 using System;
 using System.Text;
 
-namespace Smdn.Applications.OndulishTranslator {
-  public static class KanaUtils {
-    private const char wideHiraganaStart = '\u3041';
-    private const char wideHiraganaEnd = '\u3096';
+namespace Smdn.Text.Ondulish;
 
-    private const char wideKatakanaStart = '\u30a1';
-    private const char wideKatakanaEnd = '\u30f6';
+public static class KanaUtils {
+  private const char wideHiraganaStart = '\u3041';
+  private const char wideHiraganaEnd = '\u3096';
 
-    private const int offsetFromHiraganaToKatakana = ((int)wideKatakanaStart - (int)wideHiraganaStart);
+  private const char wideKatakanaStart = '\u30a1';
+  private const char wideKatakanaEnd = '\u30f6';
 
-    private const char wideKatakanaExEnd = '\u30fa';
+  private const int offsetFromHiraganaToKatakana = ((int)wideKatakanaStart - (int)wideHiraganaStart);
 
-    private static readonly string[] wideToNarrowKatakanaMap = new[] {
-      "ｧ", "ｱ", "ｨ", "ｲ", "ｩ", "ｳ", "ｪ", "ｴ", "ｫ", "ｵ", "ｶ", "ｶﾞ", "ｷ", "ｷﾞ", "ｸ",               // 30A1 - 30AF
-      "ｸﾞ", "ｹ", "ｹﾞ", "ｺ", "ｺﾞ", "ｻ", "ｻﾞ", "ｼ", "ｼﾞ", "ｽ", "ｽﾞ", "ｾ", "ｾﾞ", "ｿ", "ｿﾞ", "ﾀ",    // 30B0 - 30BF
-      "ﾀﾞ", "ﾁ", "ﾁﾞ", "ｯ", "ﾂ", "ﾂﾞ", "ﾃ", "ﾃﾞ", "ﾄ", "ﾄﾞ", "ﾅ", "ﾆ", "ﾇ", "ﾈ", "ﾉ", "ﾊ",       // 30C0 - 30CF
-      "ﾊﾞ", "ﾊﾟ", "ﾋ", "ﾋﾞ", "ﾋﾟ", "ﾌ", "ﾌﾞ", "ﾌﾟ", "ﾍ", "ﾍﾞ", "ﾍﾟ", "ﾎ", "ﾎﾞ", "ﾎﾟ", "ﾏ", "ﾐ",  // 30D0 - 30DF
-      "ﾑ", "ﾒ", "ﾓ", "ｬ", "ﾔ", "ｭ", "ﾕ", "ｮ", "ﾖ", "ﾗ", "ﾘ", "ﾙ", "ﾚ", "ﾛ", "ヮ", "ﾜ",           // 30E0 - 30EF
-      "ヰ", "ヱ", "ｦ", "ﾝ", "ｳﾞ", "ヵ", "ヶ", "ﾜﾞ", "ヸ", "ヹ", "ｦﾞ", // 30F0 - 30FA
-    };
+  private const char wideKatakanaExEnd = '\u30fa';
 
-    public static string ConvertWideHiraganaToKatakana(string input)
-    {
+  private static readonly string[] wideToNarrowKatakanaMap = new[] {
+    "ｧ", "ｱ", "ｨ", "ｲ", "ｩ", "ｳ", "ｪ", "ｴ", "ｫ", "ｵ", "ｶ", "ｶﾞ", "ｷ", "ｷﾞ", "ｸ",               // 30A1 - 30AF
+    "ｸﾞ", "ｹ", "ｹﾞ", "ｺ", "ｺﾞ", "ｻ", "ｻﾞ", "ｼ", "ｼﾞ", "ｽ", "ｽﾞ", "ｾ", "ｾﾞ", "ｿ", "ｿﾞ", "ﾀ",    // 30B0 - 30BF
+    "ﾀﾞ", "ﾁ", "ﾁﾞ", "ｯ", "ﾂ", "ﾂﾞ", "ﾃ", "ﾃﾞ", "ﾄ", "ﾄﾞ", "ﾅ", "ﾆ", "ﾇ", "ﾈ", "ﾉ", "ﾊ",       // 30C0 - 30CF
+    "ﾊﾞ", "ﾊﾟ", "ﾋ", "ﾋﾞ", "ﾋﾟ", "ﾌ", "ﾌﾞ", "ﾌﾟ", "ﾍ", "ﾍﾞ", "ﾍﾟ", "ﾎ", "ﾎﾞ", "ﾎﾟ", "ﾏ", "ﾐ",  // 30D0 - 30DF
+    "ﾑ", "ﾒ", "ﾓ", "ｬ", "ﾔ", "ｭ", "ﾕ", "ｮ", "ﾖ", "ﾗ", "ﾘ", "ﾙ", "ﾚ", "ﾛ", "ヮ", "ﾜ",           // 30E0 - 30EF
+    "ヰ", "ヱ", "ｦ", "ﾝ", "ｳﾞ", "ヵ", "ヶ", "ﾜﾞ", "ヸ", "ヹ", "ｦﾞ", // 30F0 - 30FA
+  };
+
+  public static string ConvertWideHiraganaToKatakana(string input)
+  {
 #if NETFRAMEWORK
-      var inputChars = input.ToCharArray();
-      var outputChars = new char[inputChars.Length];
+    var inputChars = input.ToCharArray();
+    var outputChars = new char[inputChars.Length];
 
-      for (var index = 0; index < inputChars.Length; index++) {
-        if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
-          outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
-        else
-          outputChars[index] = inputChars[index];
-      }
-
-      return new string(outputChars);
-#else
-      return string.Create(input.Length, input, (chars, s) => {
-        for (var index = 0; index < chars.Length; index++) {
-          if (wideHiraganaStart <= s[index] && s[index] <= wideHiraganaEnd)
-            chars[index] = (char)(s[index] + offsetFromHiraganaToKatakana);
-          else
-            chars[index] = s[index];
-        }
-      });
-#endif
+    for (var index = 0; index < inputChars.Length; index++) {
+      if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
+        outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
+      else
+        outputChars[index] = inputChars[index];
     }
 
-    public static string ConvertWideKatakanaToHiragana(string input)
-    {
+    return new string(outputChars);
+#else
+    return string.Create(input.Length, input, (chars, s) => {
+      for (var index = 0; index < chars.Length; index++) {
+        if (wideHiraganaStart <= s[index] && s[index] <= wideHiraganaEnd)
+          chars[index] = (char)(s[index] + offsetFromHiraganaToKatakana);
+        else
+          chars[index] = s[index];
+      }
+    });
+#endif
+  }
+
+  public static string ConvertWideKatakanaToHiragana(string input)
+  {
 #if NETFRAMEWORK
-      var inputChars = input.ToCharArray();
-      var outputChars = new char[inputChars.Length];
+    var inputChars = input.ToCharArray();
+    var outputChars = new char[inputChars.Length];
 
-      for (var index = 0; index < inputChars.Length; index++) {
-        if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
-          outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
-        else
-          outputChars[index] = inputChars[index];
-      }
+    for (var index = 0; index < inputChars.Length; index++) {
+      if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
+        outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
+      else
+        outputChars[index] = inputChars[index];
+    }
 
-      return new string(outputChars);
+    return new string(outputChars);
 #else
-      return string.Create(input.Length, input, (chars, s) => {
-        for (var index = 0; index < chars.Length; index++) {
-          if (wideKatakanaStart <= s[index] && s[index] <= wideKatakanaEnd)
-            chars[index] = (char)(s[index] - offsetFromHiraganaToKatakana);
-          else
-            chars[index] = s[index];
-        }
-      });
-#endif
-    }
-
-    public static string ConvertWideKatakanaToNarrowKatakana(string input)
-    {
-      var inputChars = input.ToCharArray();
-      var output = new StringBuilder();
-
-      for (var index = 0; index < inputChars.Length; index++) {
-        if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaExEnd)
-          output.Append(wideToNarrowKatakanaMap[inputChars[index] - wideKatakanaStart]);
-        else if (inputChars[index] == 'ー')
-          output.Append('ｰ');
-        else if (inputChars[index] == '゛')
-          output.Append('ﾞ');
-        else if (inputChars[index] == '゜')
-          output.Append('ﾟ');
-        else if (inputChars[index] == '？')
-          output.Append('?');
-        else if (inputChars[index] == '！')
-          output.Append('!');
-        else if (inputChars[index] == '、')
-          output.Append('､');
-        else if (inputChars[index] == '。')
-          output.Append('｡');
-        else if (inputChars[index] == '，')
-          output.Append(',');
-        else if (inputChars[index] == '．')
-          output.Append('.');
+    return string.Create(input.Length, input, (chars, s) => {
+      for (var index = 0; index < chars.Length; index++) {
+        if (wideKatakanaStart <= s[index] && s[index] <= wideKatakanaEnd)
+          chars[index] = (char)(s[index] - offsetFromHiraganaToKatakana);
         else
-          output.Append(inputChars[index]);
+          chars[index] = s[index];
       }
+    });
+#endif
+  }
 
-      return output.ToString();
+  public static string ConvertWideKatakanaToNarrowKatakana(string input)
+  {
+    var inputChars = input.ToCharArray();
+    var output = new StringBuilder();
+
+    for (var index = 0; index < inputChars.Length; index++) {
+      if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaExEnd)
+        output.Append(wideToNarrowKatakanaMap[inputChars[index] - wideKatakanaStart]);
+      else if (inputChars[index] == 'ー')
+        output.Append('ｰ');
+      else if (inputChars[index] == '゛')
+        output.Append('ﾞ');
+      else if (inputChars[index] == '゜')
+        output.Append('ﾟ');
+      else if (inputChars[index] == '？')
+        output.Append('?');
+      else if (inputChars[index] == '！')
+        output.Append('!');
+      else if (inputChars[index] == '、')
+        output.Append('､');
+      else if (inputChars[index] == '。')
+        output.Append('｡');
+      else if (inputChars[index] == '，')
+        output.Append(',');
+      else if (inputChars[index] == '．')
+        output.Append('.');
+      else
+        output.Append(inputChars[index]);
     }
+
+    return output.ToString();
   }
 }
-
