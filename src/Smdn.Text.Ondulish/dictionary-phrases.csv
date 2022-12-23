@@ -1,5 +1,8 @@
+# SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
+# SPDX-License-Identifier: MIT
 #
-# phrases
+# Ondulish phrase dictionary
+#   Note that loading will end when a blank line appears.
 #
 本当に裏切ったんですか！,ほんとうにうらぎったんですか,オンドゥルルラギッタンディスカー
 俺の体はボロボロだ！,おれのからだはぼろぼろだ,オデノカラダハボドボドダ

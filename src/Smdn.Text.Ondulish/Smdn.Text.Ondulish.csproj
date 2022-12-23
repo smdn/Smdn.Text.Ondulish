@@ -1,0 +1,88 @@
+﻿<!--
+SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
+    <VersionPrefix>3.2.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <!-- <PackageValidationBaselineVersion>3.2.0</PackageValidationBaselineVersion> -->
+    <AssemblyCLSCompliant>false</AssemblyCLSCompliant>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MeCabBindingsDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab-bindings\</MeCabBindingsDirectory>
+    <MeCabIpaDicDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab\mecab-ipadic\</MeCabIpaDicDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup Label="assembly attributes">
+    <Description>A text conversion library that provides translation features from Japanese to Ondulish.</Description>
+    <CopyrightYear>2012</CopyrightYear>
+  </PropertyGroup>
+
+  <PropertyGroup Label="package properties">
+    <PackageTags>joke;funny;text-converter;translator</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Smdn.Fundamental.Csv" Version="[3.0.2,4.0.0)" />
+    <PackageReference Include="Smdn.Fundamental.String.Replacement" Version="[3.0.2,4.0.0)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
+    <None Include="$(MeCabBindingsDirectory)runtimes\ubuntu.22.04-x64\native\libmecab.so" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MeCabIpaDicDirectory)char.bin">
+      <Link>dic\ipadic\char.bin</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)dicrc">
+      <Link>dic\ipadic\dicrc</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)left-id.def">
+      <Link>dic\ipadic\left-id.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)matrix.bin">
+      <Link>dic\ipadic\matrix.bin</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)pos-id.def">
+      <Link>dic\ipadic\pos-id.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)rewrite.def">
+      <Link>dic\ipadic\rewrite.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)right-id.def">
+      <Link>dic\ipadic\right-id.def</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)sys.dic">
+      <Link>dic\ipadic\sys.dic</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MeCabIpaDicDirectory)unk.dic">
+      <Link>dic\ipadic\unk.dic</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="mecabrc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="dictionary-phrases.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="dictionary-words.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
