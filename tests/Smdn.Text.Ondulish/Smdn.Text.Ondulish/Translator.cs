@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 using System;
 using System.IO;
+using System.Text;
 
 using NUnit.Framework;
 
@@ -27,6 +28,14 @@ public class TranslatorTests {
   }
 
   [Test]
+  public void Ctor_ArgumentNull()
+  {
+    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null, dictionaryDirectory: null));
+    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null, dictionaryDirectory: string.Empty));
+    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: string.Empty, dictionaryDirectory: null));
+  }
+
+  [Test]
   public void Dispose()
   {
     using var t = Create();
@@ -45,6 +54,7 @@ public class TranslatorTests {
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false, output: TextWriter.Null));
   }
 
+  [TestCase("", "")]
   [TestCase("オンドゥル", "オンドゥル")]
   [TestCase("変身", "ヘシン")]
   [TestCase("橘さん", "ダディャーナザァーン")]
@@ -68,6 +78,44 @@ public class TranslatorTests {
       expected,
       t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
     );
+  }
+
+  [Test]
+  public void Translate_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  {
+    using var t = Create();
+
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null, convertKatakanaToNarrow: convertKatakanaToNarrow));
+  }
+
+  [TestCase("", "")]
+  [TestCase("オンドゥル", "オンドゥル")]
+  [TestCase("変身", "ヘシン")]
+  public void Translate_ToTextWriter(string input, string expectedOutput)
+  {
+    using var t = Create();
+
+    var sb = new StringBuilder();
+    var writer = new StringWriter(sb);
+
+    Assert.DoesNotThrow(() => t.Translate(input: input, convertKatakanaToNarrow: false, output: writer));
+    Assert.AreEqual(expectedOutput, sb.ToString().TrimEnd());
+  }
+
+  [Test]
+  public void Translate_ToTextWriter_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  {
+    using var t = Create();
+
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
+  }
+
+  [Test]
+  public void Translate_ToTextWriter_OutputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  {
+    using var t = Create();
+
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null));
   }
 
   [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]

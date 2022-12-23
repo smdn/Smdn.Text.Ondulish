@@ -30,6 +30,11 @@ public class Translator : IDisposable {
 
   public Translator(string taggerArgs, string dictionaryDirectory)
   {
+    if (taggerArgs is null)
+      throw new ArgumentNullException(nameof(taggerArgs));
+    if (dictionaryDirectory is null)
+      throw new ArgumentNullException(nameof(dictionaryDirectory));
+
     tagger = new Tagger(taggerArgs);
 
     PhraseDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-phrases.csv"));
@@ -88,7 +93,13 @@ public class Translator : IDisposable {
 
   public string Translate(string input, bool convertKatakanaToNarrow)
   {
+    if (input is null)
+      throw new ArgumentNullException(nameof(input));
+
     ThrowIfDisposed();
+
+    if (input.Length == 0)
+      return string.Empty;
 
     var sb = new StringBuilder(input.Length * 2);
     var sw = new StringWriter(sb);
@@ -100,7 +111,15 @@ public class Translator : IDisposable {
 
   public void Translate(string input, bool convertKatakanaToNarrow, TextWriter output)
   {
+    if (input is null)
+      throw new ArgumentNullException(nameof(input));
+    if (output is null)
+      throw new ArgumentNullException(nameof(output));
+
     ThrowIfDisposed();
+
+    if (input.Length == 0)
+      return;
 
     var reader = new StringReader(input);
 
