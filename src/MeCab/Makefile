@@ -4,7 +4,7 @@
 .DEFAULT_GOAL := all
 
 THIS_FILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))/
-CXXFLAGS_COMMON = -fPIC -m64 -O3
+CXXFLAGS_COMMON = -std=c++14 -fPIC -m64 -O3
 MECAB_SOURCE_REPO := https://github.com/taku910/mecab.git
 MECAB_SOURCE_ROOT_DIR := $(THIS_FILE_DIR)mecab/
 MECAB_SOURCE_MECAB_DIR := $(MECAB_SOURCE_ROOT_DIR)mecab/
