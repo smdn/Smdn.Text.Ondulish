@@ -1,9 +1,6 @@
 // SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
-
-using System;
 using System.IO;
-using System.Reflection;
 
 using NUnit.Framework;
 
@@ -36,12 +33,12 @@ public class TranslatorTests {
   [TestCase(@"オンドゥル😆😄", @"オンドゥル😆😄")]
   public void TestTranslate(string input, string expected)
   {
-    using (var t = Create()) {
-      Assert.AreEqual(
-        expected,
-        t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
-      );
-    }
+    using var t = Create();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+    );
   }
 
   [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]
@@ -52,24 +49,24 @@ public class TranslatorTests {
   [TestCase("あいするな", "ｱﾞｲﾄﾞｩﾙﾀﾞ")]
   public void TestTranslateToNarrowKatakana(string input, string expected)
   {
-    using (var t = Create()) {
-      Assert.AreEqual(
-        expected,
-        t.Translate(input, convertKatakanaToNarrow: true).TrimEnd()
-      );
-    }
+    using var t = Create();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input, convertKatakanaToNarrow: true).TrimEnd()
+    );
   }
 
   [TestCase("相手は俺だ", "アンギョン和田")] // be translated terms with kanji chars
   [TestCase("貴様、相手は俺だ", "チサマ、アンギョン和田")]
   public void TestTranslate_SpecialCase(string input, string expected)
   {
-    using (var t = Create()) {
-      Assert.AreEqual(
-        expected,
-        t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
-      );
-    }
+    using var t = Create();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+    );
   }
 
   [TestCase("めかぶ", "ベカム")]
@@ -88,47 +85,47 @@ public class TranslatorTests {
   [TestCase("おんどぅ", "オンドゥ")]
   public void TestTranslatePhoneme(string input, string expected)
   {
-    using (var t = Create()) {
-      Assert.AreEqual(
-        expected,
-        t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
-      );
-    }
+    using var t = Create();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+    );
   }
 
   [Test]
   public void TestTranslateDictionaryTerm_Words()
   {
-    using (var t = Create()) {
-      foreach (var pair in t.WordDictionary) {
-        const string inputPrepend = "あ";
-        const string outputPrepend = "ア゛";
-        const string inputAppend = "う";
-        const string outputAppend = "ル";
+    using var t = Create();
 
-        Assert.AreEqual(
-          outputPrepend + pair.Value + outputAppend,
-          t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
-        );
-      }
+    foreach (var pair in t.WordDictionary) {
+      const string inputPrepend = "あ";
+      const string outputPrepend = "ア゛";
+      const string inputAppend = "う";
+      const string outputAppend = "ル";
+
+      Assert.AreEqual(
+        outputPrepend + pair.Value + outputAppend,
+        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
+      );
     }
   }
 
   [Test]
   public void TestTranslateDictionaryTerm_Phrases()
   {
-    using (var t = Create()) {
-      foreach (var pair in t.PhraseDictionary) {
-        const string inputPrepend = "あ";
-        const string outputPrepend = "ア゛";
-        const string inputAppend = "う";
-        const string outputAppend = "ル";
+    using var t = Create();
 
-        Assert.AreEqual(
-          outputPrepend + pair.Value + outputAppend,
-          t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
-        );
-      }
+    foreach (var pair in t.PhraseDictionary) {
+      const string inputPrepend = "あ";
+      const string outputPrepend = "ア゛";
+      const string inputAppend = "う";
+      const string outputAppend = "ル";
+
+      Assert.AreEqual(
+        outputPrepend + pair.Value + outputAppend,
+        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
+      );
     }
   }
 }

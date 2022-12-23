@@ -1,8 +1,5 @@
 ﻿// SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
-
-using System;
-
 using NUnit.Framework;
 
 namespace Smdn.Text.Ondulish;
@@ -20,12 +17,10 @@ public class KanaUtilsTests {
   [TestCase("日本語", "日本語")]
   [TestCase("\u3040\u3041\u3096\u3097", "\u3040\u30a1\u30f6\u3097")]
   public void TestConvertWideHiraganaToKatakana(string input, string expected)
-  {
-    Assert.AreEqual(
+    => Assert.AreEqual(
       expected,
       KanaUtils.ConvertWideHiraganaToKatakana(input)
     );
-  }
 
   [TestCase("ABC", "ABC")]
   [TestCase("abc", "abc")]
@@ -38,10 +33,8 @@ public class KanaUtilsTests {
   [TestCase("日本語", "日本語")]
   [TestCase("\u3040\u30a1\u30f6\u3097", "\u3040\u3041\u3096\u3097")]
   public void TestConvertWideKatakanaToHiragana(string input, string expected)
-  {
-    Assert.AreEqual(
+    => Assert.AreEqual(
       expected,
       KanaUtils.ConvertWideKatakanaToHiragana(input)
     );
-  }
 }
