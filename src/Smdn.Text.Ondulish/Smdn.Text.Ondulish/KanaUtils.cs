@@ -81,28 +81,21 @@ public static class KanaUtils {
     var output = new StringBuilder();
 
     for (var index = 0; index < inputChars.Length; index++) {
-      if (inputChars[index] is >= WideKatakanaStart and <= WideKatakanaExEnd)
-        output.Append(WideToNarrowKatakanaMap[inputChars[index] - WideKatakanaStart]);
-      else if (inputChars[index] == 'ー')
-        output.Append('ｰ');
-      else if (inputChars[index] == '゛')
-        output.Append('ﾞ');
-      else if (inputChars[index] == '゜')
-        output.Append('ﾟ');
-      else if (inputChars[index] == '？')
-        output.Append('?');
-      else if (inputChars[index] == '！')
-        output.Append('!');
-      else if (inputChars[index] == '、')
-        output.Append('､');
-      else if (inputChars[index] == '。')
-        output.Append('｡');
-      else if (inputChars[index] == '，')
-        output.Append(',');
-      else if (inputChars[index] == '．')
-        output.Append('.');
-      else
-        output.Append(inputChars[index]);
+      output.Append(
+        inputChars[index] switch {
+          >= WideKatakanaStart and <= WideKatakanaExEnd => WideToNarrowKatakanaMap[inputChars[index] - WideKatakanaStart],
+          'ー' => 'ｰ',
+          '゛' => 'ﾞ',
+          '゜' => 'ﾟ',
+          '？' => '?',
+          '！' => '!',
+          '、' => '､',
+          '。' => '｡',
+          '，' => ',',
+          '．' => '.',
+          _ => inputChars[index],
+        }
+      );
     }
 
     return output.ToString();
