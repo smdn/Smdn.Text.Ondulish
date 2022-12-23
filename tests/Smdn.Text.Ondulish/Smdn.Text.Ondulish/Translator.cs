@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
+using System;
 using System.IO;
 
 using NUnit.Framework;
@@ -14,6 +15,34 @@ public class TranslatorTests {
     var taggerArg = "-r " + Path.Combine(codeBaseDir, "mecabrc");
 
     return new Translator(taggerArg, dictionaryDirectory: codeBaseDir);
+  }
+
+  [Test]
+  public void Ctor()
+  {
+    using var t = Create();
+
+    Assert.IsNotNull(t);
+    Assert.DoesNotThrow(t.Dispose);
+  }
+
+  [Test]
+  public void Dispose()
+  {
+    using var t = Create();
+
+    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: true));
+    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: false));
+    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: true, output: TextWriter.Null));
+    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: false, output: TextWriter.Null));
+
+    Assert.DoesNotThrow(() => t.Dispose(), "dispose #1");
+    Assert.DoesNotThrow(() => t.Dispose(), "dispose #2");
+
+    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true));
+    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false));
+    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true, output: TextWriter.Null));
+    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false, output: TextWriter.Null));
   }
 
   [TestCase("オンドゥル", "オンドゥル")]

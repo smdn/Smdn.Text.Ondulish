@@ -22,6 +22,12 @@ public class Translator : IDisposable {
 
   private Tagger tagger;
 
+  private void ThrowIfDisposed()
+  {
+    if (tagger is null)
+      throw new ObjectDisposedException(GetType().FullName);
+  }
+
   public Translator(string taggerArgs, string dictionaryDirectory)
   {
     tagger = new Tagger(taggerArgs);
@@ -70,12 +76,20 @@ public class Translator : IDisposable {
 
   public void Dispose()
   {
+    Dispose(disposing: true);
+    GC.SuppressFinalize(this);
+  }
+
+  protected virtual void Dispose(bool disposing)
+  {
     tagger?.Dispose();
     tagger = null;
   }
 
   public string Translate(string input, bool convertKatakanaToNarrow)
   {
+    ThrowIfDisposed();
+
     var sb = new StringBuilder(input.Length * 2);
     var sw = new StringWriter(sb);
 
@@ -86,6 +100,8 @@ public class Translator : IDisposable {
 
   public void Translate(string input, bool convertKatakanaToNarrow, TextWriter output)
   {
+    ThrowIfDisposed();
+
     var reader = new StringReader(input);
 
     for (var line = reader.ReadLine(); line is not null; line = reader.ReadLine()) {
