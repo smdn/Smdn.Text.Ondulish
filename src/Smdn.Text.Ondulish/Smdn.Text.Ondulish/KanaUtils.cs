@@ -34,7 +34,7 @@ public static class KanaUtils {
       return string.Empty;
 
 #if SYSTEM_STRING_CREATE
-    return string.Create(input.Length, input, (chars, s) => {
+    return string.Create(input.Length, input, static (chars, s) => {
       for (var index = 0; index < chars.Length; index++) {
         chars[index] = s[index] is >= WideHiraganaStart and <= WideHiraganaEnd
           ? (char)(s[index] + OffsetFromHiraganaToKatakana)
@@ -64,7 +64,7 @@ public static class KanaUtils {
       return string.Empty;
 
 #if SYSTEM_STRING_CREATE
-    return string.Create(input.Length, input, (chars, s) => {
+    return string.Create(input.Length, input, static (chars, s) => {
       for (var index = 0; index < chars.Length; index++) {
         chars[index] = s[index] is >= WideKatakanaStart and <= WideKatakanaEnd
           ? (char)(s[index] - OffsetFromHiraganaToKatakana)

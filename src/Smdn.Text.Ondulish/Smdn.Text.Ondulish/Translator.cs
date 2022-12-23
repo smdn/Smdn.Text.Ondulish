@@ -149,7 +149,7 @@ public class Translator : IDisposable {
             ? ConvertWithDictionary(f.SourceText, phonemeDictionary)
             : Enumerable.Repeat(f, 1)
         )
-        .Select(f =>
+        .Select(static f =>
           new TextFragment(
             f.SourceText,
             f.ConvertedText ?? KanaUtils.ConvertWideHiraganaToKatakana(f.SourceText) // redundant?
@@ -169,7 +169,7 @@ public class Translator : IDisposable {
 
       output.WriteLine(
         string.Concat(
-          fragments.Select(fragment => fragment.ConvertedText)
+          fragments.Select(static fragment => fragment.ConvertedText)
         )
       );
     }
@@ -277,7 +277,7 @@ public class Translator : IDisposable {
     public ReadOnlyOrderedDictionary(IEnumerable<(TKey Key, TValue Value)> dictionary)
       : this(
         (dictionary ?? throw new ArgumentNullException(nameof(dictionary)))
-        .Select(pair => new KeyValuePair<TKey, TValue>(pair.Key, pair.Value))
+        .Select(static pair => new KeyValuePair<TKey, TValue>(pair.Key, pair.Value))
         .ToList()
       )
     { }
