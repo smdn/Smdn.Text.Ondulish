@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
 # SPDX-License-Identifier: MIT
-
 #
-# words
+# Ondulish word dictionary
+#   Note that loading will end when a blank line appears.
 #
 オンドゥル,オンドゥル,オンドゥル
 変身,へんしん,ヘシン
