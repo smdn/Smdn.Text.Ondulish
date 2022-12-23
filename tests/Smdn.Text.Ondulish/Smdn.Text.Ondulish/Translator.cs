@@ -30,9 +30,9 @@ public class TranslatorTests {
   [Test]
   public void Ctor_ArgumentNull()
   {
-    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null, dictionaryDirectory: null));
-    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null, dictionaryDirectory: string.Empty));
-    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: string.Empty, dictionaryDirectory: null));
+    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null!, dictionaryDirectory: null!));
+    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null!, dictionaryDirectory: string.Empty));
+    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: string.Empty, dictionaryDirectory: null!));
   }
 
   [Test]
@@ -85,7 +85,7 @@ public class TranslatorTests {
   {
     using var t = Create();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null, convertKatakanaToNarrow: convertKatakanaToNarrow));
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow));
   }
 
   [TestCase("", "")]
@@ -107,7 +107,7 @@ public class TranslatorTests {
   {
     using var t = Create();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
   }
 
   [Test]
@@ -115,7 +115,7 @@ public class TranslatorTests {
   {
     using var t = Create();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null));
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null!));
   }
 
   [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]

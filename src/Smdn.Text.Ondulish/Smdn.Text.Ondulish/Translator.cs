@@ -20,7 +20,7 @@ public class Translator : IDisposable {
   public IReadOnlyDictionary<string, string> PhraseDictionary { get; }
   public IReadOnlyDictionary<string, string> WordDictionary { get; }
 
-  private Tagger tagger;
+  private Tagger? tagger;
 
   private void ThrowIfDisposed()
   {
@@ -73,10 +73,15 @@ public class Translator : IDisposable {
   }
 
   private class WordDictionaryComparer : IComparer<string> {
-    public int Compare(string x, string y)
-      => x.Length == y.Length
+    public int Compare(string? x, string? y)
+    {
+      x ??= string.Empty;
+      y ??= string.Empty;
+
+      return x.Length == y.Length
         ? StringComparer.Ordinal.Compare(x, y)
         : y.Length - x.Length;
+    }
   }
 
   public void Dispose()
@@ -135,12 +140,12 @@ public class Translator : IDisposable {
           PhraseDictionary
         )
         .SelectMany(f =>
-          f.ConvertedText == null
+          f.ConvertedText is null
             ? ConvertWithDictionary(f.SourceText, WordDictionary)
             : Enumerable.Repeat(f, 1)
         )
         .SelectMany(f =>
-          f.ConvertedText == null
+          f.ConvertedText is null
             ? ConvertWithDictionary(f.SourceText, phonemeDictionary)
             : Enumerable.Repeat(f, 1)
         )
@@ -155,7 +160,9 @@ public class Translator : IDisposable {
         fragments = fragments.Select(static f =>
           new TextFragment(
             f.SourceText,
-            KanaUtils.ConvertWideKatakanaToNarrowKatakana(f.ConvertedText)
+            f.ConvertedText is null
+              ? null
+              : KanaUtils.ConvertWideKatakanaToNarrowKatakana(f.ConvertedText)
           )
         );
       }
@@ -178,7 +185,7 @@ public class Translator : IDisposable {
 
     var ret = new StringBuilder(input.Length * 2);
 
-    for (var node = tagger.parseToNode(input); node != null; node = node.next) {
+    for (var node = tagger!.parseToNode(input); node != null; node = node.next) {
       if (node.stat == MeCabConsts.MECAB_BOS_NODE || node.stat == MeCabConsts.MECAB_EOS_NODE)
         continue;
 
@@ -208,9 +215,9 @@ public class Translator : IDisposable {
 
   private readonly struct TextFragment {
     public readonly string SourceText;
-    public readonly string ConvertedText;
+    public readonly string? ConvertedText;
 
-    public TextFragment(string sourceText, string convertedText)
+    public TextFragment(string sourceText, string? convertedText)
     {
       SourceText = sourceText;
       ConvertedText = convertedText;
