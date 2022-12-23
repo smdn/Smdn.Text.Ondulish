@@ -115,7 +115,7 @@ public class TranslatorTests {
   {
     using var t = Create();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null!));
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: string.Empty, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null!));
   }
 
   [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]
