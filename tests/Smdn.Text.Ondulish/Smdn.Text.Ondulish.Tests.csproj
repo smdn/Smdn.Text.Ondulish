@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks Condition=" '$(EnableTargetFrameworkDotNet)' == 'true' ">net6.0</TargetFrameworks>
