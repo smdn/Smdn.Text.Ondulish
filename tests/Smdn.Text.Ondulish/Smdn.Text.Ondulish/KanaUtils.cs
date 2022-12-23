@@ -18,14 +18,14 @@ public class KanaUtilsTests {
   [TestCase("わをん", "ワヲン")]
   [TestCase("日本語", "日本語")]
   [TestCase("\u3040\u3041\u3096\u3097", "\u3040\u30a1\u30f6\u3097")]
-  public void TestConvertWideHiraganaToKatakana(string input, string expected)
+  public void ConvertWideHiraganaToKatakana(string input, string expected)
     => Assert.AreEqual(
       expected,
       KanaUtils.ConvertWideHiraganaToKatakana(input)
     );
 
   [Test]
-  public void TestConvertWideHiraganaToKatakana_ArgumentNull()
+  public void ConvertWideHiraganaToKatakana_ArgumentNull()
     => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideHiraganaToKatakana(input: null));
 
   [TestCase("", "")]
@@ -39,24 +39,24 @@ public class KanaUtilsTests {
   [TestCase("ワヲン", "わをん")]
   [TestCase("日本語", "日本語")]
   [TestCase("\u3040\u30a1\u30f6\u3097", "\u3040\u3041\u3096\u3097")]
-  public void TestConvertWideKatakanaToHiragana(string input, string expected)
+  public void ConvertWideKatakanaToHiragana(string input, string expected)
     => Assert.AreEqual(
       expected,
       KanaUtils.ConvertWideKatakanaToHiragana(input)
     );
 
   [Test]
-  public void TestConvertWideKatakanaToHiragana_ArgumentNull()
+  public void ConvertWideKatakanaToHiragana_ArgumentNull()
     => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToHiragana(input: null));
 
   [TestCase("", "")]
-  public void TestConvertWideKatakanaToNarrowKatakana(string input, string expected)
+  public void ConvertWideKatakanaToNarrowKatakana(string input, string expected)
     => Assert.AreEqual(
       expected,
       KanaUtils.ConvertWideKatakanaToNarrowKatakana(input)
     );
 
   [Test]
-  public void TestConvertWideKatakanaToNarrowKatakana_ArgumentNull()
+  public void ConvertWideKatakanaToNarrowKatakana_ArgumentNull()
     => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToNarrowKatakana(input: null));
 }

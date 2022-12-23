@@ -60,7 +60,7 @@ public class TranslatorTests {
   [TestCase(@""","", ""，"",", @"""，""，""，""，")]
   [TestCase(@"変身😆😄", @"ヘシン😆😄")]
   [TestCase(@"オンドゥル😆😄", @"オンドゥル😆😄")]
-  public void TestTranslate(string input, string expected)
+  public void Translate(string input, string expected)
   {
     using var t = Create();
 
@@ -76,7 +76,7 @@ public class TranslatorTests {
   [TestCase("俺は貴様をぶっころす", "ｵﾚｧｸｻﾑｦﾑｯｺﾛｽ")]
   [TestCase(@"変身😆😄", @"ﾍｼﾝ😆😄")]
   [TestCase("あいするな", "ｱﾞｲﾄﾞｩﾙﾀﾞ")]
-  public void TestTranslateToNarrowKatakana(string input, string expected)
+  public void Translate_ToNarrowKatakana(string input, string expected)
   {
     using var t = Create();
 
@@ -88,7 +88,7 @@ public class TranslatorTests {
 
   [TestCase("相手は俺だ", "アンギョン和田")] // be translated terms with kanji chars
   [TestCase("貴様、相手は俺だ", "チサマ、アンギョン和田")]
-  public void TestTranslate_SpecialCase(string input, string expected)
+  public void Translate_SpecialCase(string input, string expected)
   {
     using var t = Create();
 
@@ -112,7 +112,7 @@ public class TranslatorTests {
   [TestCase("ばーる", "バードゥ")]
   [TestCase("おんどぅる", "オンドゥル")]
   [TestCase("おんどぅ", "オンドゥ")]
-  public void TestTranslatePhoneme(string input, string expected)
+  public void Translate_Phoneme(string input, string expected)
   {
     using var t = Create();
 
@@ -123,7 +123,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void TestTranslateDictionaryTerm_Words()
+  public void Translate_DictionaryTerm_Words()
   {
     using var t = Create();
 
@@ -141,7 +141,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void TestTranslateDictionaryTerm_Phrases()
+  public void Translate_DictionaryTerm_Phrases()
   {
     using var t = Create();
 
