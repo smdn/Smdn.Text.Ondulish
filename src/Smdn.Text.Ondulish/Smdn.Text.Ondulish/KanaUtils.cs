@@ -1,23 +1,22 @@
 // SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
 
-using System;
 using System.Text;
 
 namespace Smdn.Text.Ondulish;
 
 public static class KanaUtils {
-  private const char wideHiraganaStart = '\u3041';
-  private const char wideHiraganaEnd = '\u3096';
+  private const char WideHiraganaStart = '\u3041';
+  private const char WideHiraganaEnd = '\u3096';
 
-  private const char wideKatakanaStart = '\u30a1';
-  private const char wideKatakanaEnd = '\u30f6';
+  private const char WideKatakanaStart = '\u30a1';
+  private const char WideKatakanaEnd = '\u30f6';
 
-  private const int offsetFromHiraganaToKatakana = ((int)wideKatakanaStart - (int)wideHiraganaStart);
+  private const int OffsetFromHiraganaToKatakana = WideKatakanaStart - WideHiraganaStart;
 
-  private const char wideKatakanaExEnd = '\u30fa';
+  private const char WideKatakanaExEnd = '\u30fa';
 
-  private static readonly string[] wideToNarrowKatakanaMap = new[] {
+  private static readonly string[] WideToNarrowKatakanaMap = new[] {
     "ｧ", "ｱ", "ｨ", "ｲ", "ｩ", "ｳ", "ｪ", "ｴ", "ｫ", "ｵ", "ｶ", "ｶﾞ", "ｷ", "ｷﾞ", "ｸ",               // 30A1 - 30AF
     "ｸﾞ", "ｹ", "ｹﾞ", "ｺ", "ｺﾞ", "ｻ", "ｻﾞ", "ｼ", "ｼﾞ", "ｽ", "ｽﾞ", "ｾ", "ｾﾞ", "ｿ", "ｿﾞ", "ﾀ",    // 30B0 - 30BF
     "ﾀﾞ", "ﾁ", "ﾁﾞ", "ｯ", "ﾂ", "ﾂﾞ", "ﾃ", "ﾃﾞ", "ﾄ", "ﾄﾞ", "ﾅ", "ﾆ", "ﾇ", "ﾈ", "ﾉ", "ﾊ",       // 30C0 - 30CF
@@ -33,7 +32,7 @@ public static class KanaUtils {
     var outputChars = new char[inputChars.Length];
 
     for (var index = 0; index < inputChars.Length; index++) {
-      if (wideHiraganaStart <= inputChars[index] && inputChars[index] <= wideHiraganaEnd)
+      if (WideHiraganaStart <= inputChars[index] && inputChars[index] <= WideHiraganaEnd)
         outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
       else
         outputChars[index] = inputChars[index];
@@ -43,10 +42,9 @@ public static class KanaUtils {
 #else
     return string.Create(input.Length, input, (chars, s) => {
       for (var index = 0; index < chars.Length; index++) {
-        if (wideHiraganaStart <= s[index] && s[index] <= wideHiraganaEnd)
-          chars[index] = (char)(s[index] + offsetFromHiraganaToKatakana);
-        else
-          chars[index] = s[index];
+        chars[index] = s[index] is >= WideHiraganaStart and <= WideHiraganaEnd
+          ? (char)(s[index] + OffsetFromHiraganaToKatakana)
+          : s[index];
       }
     });
 #endif
@@ -59,7 +57,7 @@ public static class KanaUtils {
     var outputChars = new char[inputChars.Length];
 
     for (var index = 0; index < inputChars.Length; index++) {
-      if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaEnd)
+      if (WideKatakanaStart <= inputChars[index] && inputChars[index] <= WideKatakanaEnd)
         outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
       else
         outputChars[index] = inputChars[index];
@@ -69,10 +67,9 @@ public static class KanaUtils {
 #else
     return string.Create(input.Length, input, (chars, s) => {
       for (var index = 0; index < chars.Length; index++) {
-        if (wideKatakanaStart <= s[index] && s[index] <= wideKatakanaEnd)
-          chars[index] = (char)(s[index] - offsetFromHiraganaToKatakana);
-        else
-          chars[index] = s[index];
+        chars[index] = s[index] is >= WideKatakanaStart and <= WideKatakanaEnd
+          ? (char)(s[index] - OffsetFromHiraganaToKatakana)
+          : s[index];
       }
     });
 #endif
@@ -84,8 +81,8 @@ public static class KanaUtils {
     var output = new StringBuilder();
 
     for (var index = 0; index < inputChars.Length; index++) {
-      if (wideKatakanaStart <= inputChars[index] && inputChars[index] <= wideKatakanaExEnd)
-        output.Append(wideToNarrowKatakanaMap[inputChars[index] - wideKatakanaStart]);
+      if (inputChars[index] is >= WideKatakanaStart and <= WideKatakanaExEnd)
+        output.Append(WideToNarrowKatakanaMap[inputChars[index] - WideKatakanaStart]);
       else if (inputChars[index] == 'ー')
         output.Append('ｰ');
       else if (inputChars[index] == '゛')

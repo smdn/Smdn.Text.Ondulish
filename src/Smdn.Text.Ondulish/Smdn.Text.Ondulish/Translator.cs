@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: MIT
 
 using System;
-using System.IO;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+
+using MeCab;
 
 using Smdn.Formats.Csv;
 
-using MeCab;
 using MeCabConsts = MeCab.MeCab;
 
 namespace Smdn.Text.Ondulish;
@@ -29,7 +30,7 @@ public class Translator : IDisposable {
     WordDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-words.csv"));
   }
 
-  private static readonly char[] dictionaryPunctuationChars = new[] {'！', '？', '!', '?', '、', '。'};
+  private static readonly char[] dictionaryPunctuationChars = new[] { '！', '？', '!', '?', '、', '。' };
 
   private static SortedList<string, string> LoadDictionary(string dictionaryPath)
   {
@@ -115,13 +116,14 @@ public class Translator : IDisposable {
           )
         );
 
-      if (convertKatakanaToNarrow)
-        fragments = fragments.Select(f =>
+      if (convertKatakanaToNarrow) {
+        fragments = fragments.Select(static f =>
           new TextFragment(
             f.SourceText,
             KanaUtils.ConvertWideKatakanaToNarrowKatakana(f.ConvertedText)
           )
         );
+      }
 
       output.WriteLine(
         string.Concat(
@@ -133,7 +135,7 @@ public class Translator : IDisposable {
     output.Flush();
   }
 
-  private static readonly char[] featureSplitter = new[] {','};
+  private static readonly char[] featureSplitter = new[] { ',' };
 
   private string ConvertToKatakana(string input)
   {
@@ -169,14 +171,14 @@ public class Translator : IDisposable {
     return ret.ToString();
   }
 
-  readonly struct TextFragment {
+  private readonly struct TextFragment {
     public readonly string SourceText;
     public readonly string ConvertedText;
 
     public TextFragment(string sourceText, string convertedText)
     {
-      this.SourceText = sourceText;
-      this.ConvertedText = convertedText;
+      SourceText = sourceText;
+      ConvertedText = convertedText;
     }
   }
 
@@ -230,10 +232,10 @@ public class Translator : IDisposable {
     public IEnumerable<TValue> Values => throw new NotImplementedException();
     public int Count => dictionary.Count;
 
-    public ReadOnlyOrderedDictionary(IEnumerable<(TKey key, TValue value)> dictionary)
+    public ReadOnlyOrderedDictionary(IEnumerable<(TKey Key, TValue Value)> dictionary)
       : this(
         (dictionary ?? throw new ArgumentNullException(nameof(dictionary)))
-        .Select(pair => new KeyValuePair<TKey, TValue>(pair.key, pair.value))
+        .Select(pair => new KeyValuePair<TKey, TValue>(pair.Key, pair.Value))
         .ToList()
       )
     { }
