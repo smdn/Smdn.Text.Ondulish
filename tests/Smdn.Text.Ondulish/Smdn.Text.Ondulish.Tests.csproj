@@ -1,17 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
+    <TargetFrameworks Condition=" '$(EnableTargetFrameworkDotNet)' == 'true' ">net6.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(EnableTargetFrameworkNetCoreApp)' == 'true' ">$(TargetFrameworks)</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(EnableTargetFrameworkNetFx)' == 'true' ">$(TargetFrameworks)</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="NUnitLite" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Smdn.Text.Ondulish\Smdn.Text.Ondulish.csproj" />
-  </ItemGroup>
 </Project>

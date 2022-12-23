@@ -1,23 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
-    <VersionPrefix>3.2</VersionPrefix>
+    <VersionPrefix>3.2.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
-    <BaseOutputPath>..\..\build\bin\</BaseOutputPath>
+    <!-- <PackageValidationBaselineVersion>3.2.0</PackageValidationBaselineVersion> -->
+    <AssemblyCLSCompliant>false</AssemblyCLSCompliant>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <MeCabBindingsDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab-bindings\</MeCabBindingsDirectory>
     <MeCabIpaDicDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab\mecab-ipadic\</MeCabIpaDicDirectory>
   </PropertyGroup>
 
-  <PropertyGroup Label="metadata">
-    <Company>smdn.jp</Company>
-    <Copyright>Copyright © 2012 smdn</Copyright>
+  <PropertyGroup Label="assembly attributes">
+    <Description>A text conversion library that provides translation features from Japanese to Ondulish.</Description>
+    <CopyrightYear>2012</CopyrightYear>
+  </PropertyGroup>
 
-    <!-- AssemblyInfo -->
-    <AssemblyTitle>$(AssemblyName)</AssemblyTitle>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
-    <InformationalVersion>$(VersionPrefix)$(VersionSuffix) ($(TargetFramework))</InformationalVersion>
-    <Product>$(AssemblyName)-$(InformationalVersion)</Product>
+  <PropertyGroup Label="package properties">
+    <PackageTags>joke;funny;text-converter;translator</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
