@@ -5,8 +5,7 @@
 
 THIS_FILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))/
 CXXFLAGS_COMMON = -fPIC -m64 -O3
-MECAB_SOURCE_REPO := https://github.com/ikegami-yukino/mecab.git
-MECAB_SOURCE_TAG := v0.996.2
+MECAB_SOURCE_REPO := https://github.com/taku910/mecab.git
 MECAB_SOURCE_ROOT_DIR := $(THIS_FILE_DIR)mecab/
 MECAB_SOURCE_MECAB_DIR := $(MECAB_SOURCE_ROOT_DIR)mecab/
 MECAB_SOURCE_MECAB_IPADIC_DIR := $(MECAB_SOURCE_ROOT_DIR)mecab-ipadic/
@@ -24,13 +23,12 @@ MECAB_BINDINGS_NATIVE_LIBRARY_OUTPUT_PATH_UBUNTU_22_04_X64 := $(MECAB_BINDINGS_N
 mecab-src: $(MECAB_SOURCE_ROOT_DIR)
 
 $(MECAB_SOURCE_ROOT_DIR):
+# TODO: specify commit hash or branch
 	git clone \
 	  $(MECAB_SOURCE_REPO) \
-	  -b $(MECAB_SOURCE_TAG) \
 	  --depth 1 \
 	  $(MECAB_SOURCE_ROOT_DIR)
 
-	cd $(MECAB_SOURCE_MECAB_DIR) && sed -ie "s/<cstdint.h>/<stdint.h>/" src/utils.h
 	cd $(MECAB_SOURCE_MECAB_DIR) && ./configure \
 	  --enable-shared \
 	  --enable-static \
