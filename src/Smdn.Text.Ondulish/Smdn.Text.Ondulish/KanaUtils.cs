@@ -27,7 +27,15 @@ public static class KanaUtils {
 
   public static string ConvertWideHiraganaToKatakana(string input)
   {
-#if NETFRAMEWORK
+#if SYSTEM_STRING_CREATE
+    return string.Create(input.Length, input, (chars, s) => {
+      for (var index = 0; index < chars.Length; index++) {
+        chars[index] = s[index] is >= WideHiraganaStart and <= WideHiraganaEnd
+          ? (char)(s[index] + OffsetFromHiraganaToKatakana)
+          : s[index];
+      }
+    });
+#else
     var inputChars = input.ToCharArray();
     var outputChars = new char[inputChars.Length];
 
@@ -39,20 +47,20 @@ public static class KanaUtils {
     }
 
     return new string(outputChars);
-#else
-    return string.Create(input.Length, input, (chars, s) => {
-      for (var index = 0; index < chars.Length; index++) {
-        chars[index] = s[index] is >= WideHiraganaStart and <= WideHiraganaEnd
-          ? (char)(s[index] + OffsetFromHiraganaToKatakana)
-          : s[index];
-      }
-    });
 #endif
   }
 
   public static string ConvertWideKatakanaToHiragana(string input)
   {
-#if NETFRAMEWORK
+#if SYSTEM_STRING_CREATE
+    return string.Create(input.Length, input, (chars, s) => {
+      for (var index = 0; index < chars.Length; index++) {
+        chars[index] = s[index] is >= WideKatakanaStart and <= WideKatakanaEnd
+          ? (char)(s[index] - OffsetFromHiraganaToKatakana)
+          : s[index];
+      }
+    });
+#else
     var inputChars = input.ToCharArray();
     var outputChars = new char[inputChars.Length];
 
@@ -64,14 +72,6 @@ public static class KanaUtils {
     }
 
     return new string(outputChars);
-#else
-    return string.Create(input.Length, input, (chars, s) => {
-      for (var index = 0; index < chars.Length; index++) {
-        chars[index] = s[index] is >= WideKatakanaStart and <= WideKatakanaEnd
-          ? (char)(s[index] - OffsetFromHiraganaToKatakana)
-          : s[index];
-      }
-    });
 #endif
   }
 
