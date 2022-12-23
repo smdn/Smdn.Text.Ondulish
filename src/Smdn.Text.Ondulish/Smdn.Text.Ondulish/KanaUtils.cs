@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
 
+using System;
 using System.Text;
 
 namespace Smdn.Text.Ondulish;
@@ -27,6 +28,11 @@ public static class KanaUtils {
 
   public static string ConvertWideHiraganaToKatakana(string input)
   {
+    if (input is null)
+      throw new ArgumentNullException(nameof(input));
+    if (input.Length == 0)
+      return string.Empty;
+
 #if SYSTEM_STRING_CREATE
     return string.Create(input.Length, input, (chars, s) => {
       for (var index = 0; index < chars.Length; index++) {
@@ -52,6 +58,11 @@ public static class KanaUtils {
 
   public static string ConvertWideKatakanaToHiragana(string input)
   {
+    if (input is null)
+      throw new ArgumentNullException(nameof(input));
+    if (input.Length == 0)
+      return string.Empty;
+
 #if SYSTEM_STRING_CREATE
     return string.Create(input.Length, input, (chars, s) => {
       for (var index = 0; index < chars.Length; index++) {
@@ -77,6 +88,11 @@ public static class KanaUtils {
 
   public static string ConvertWideKatakanaToNarrowKatakana(string input)
   {
+    if (input is null)
+      throw new ArgumentNullException(nameof(input));
+    if (input.Length == 0)
+      return string.Empty;
+
     var inputChars = input.ToCharArray();
     var output = new StringBuilder();
 

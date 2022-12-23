@@ -1,11 +1,13 @@
 ﻿// SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
+using System;
 using NUnit.Framework;
 
 namespace Smdn.Text.Ondulish;
 
 [TestFixture]
 public class KanaUtilsTests {
+  [TestCase("", "")]
   [TestCase("ABC", "ABC")]
   [TestCase("abc", "abc")]
   [TestCase("ＡＢＣ", "ＡＢＣ")]
@@ -22,6 +24,11 @@ public class KanaUtilsTests {
       KanaUtils.ConvertWideHiraganaToKatakana(input)
     );
 
+  [Test]
+  public void TestConvertWideHiraganaToKatakana_ArgumentNull()
+    => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideHiraganaToKatakana(input: null));
+
+  [TestCase("", "")]
   [TestCase("ABC", "ABC")]
   [TestCase("abc", "abc")]
   [TestCase("ＡＢＣ", "ＡＢＣ")]
@@ -37,4 +44,19 @@ public class KanaUtilsTests {
       expected,
       KanaUtils.ConvertWideKatakanaToHiragana(input)
     );
+
+  [Test]
+  public void TestConvertWideKatakanaToHiragana_ArgumentNull()
+    => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToHiragana(input: null));
+
+  [TestCase("", "")]
+  public void TestConvertWideKatakanaToNarrowKatakana(string input, string expected)
+    => Assert.AreEqual(
+      expected,
+      KanaUtils.ConvertWideKatakanaToNarrowKatakana(input)
+    );
+
+  [Test]
+  public void TestConvertWideKatakanaToNarrowKatakana_ArgumentNull()
+    => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToNarrowKatakana(input: null));
 }
