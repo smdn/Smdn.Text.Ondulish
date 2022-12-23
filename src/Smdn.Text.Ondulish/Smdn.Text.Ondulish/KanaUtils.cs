@@ -42,14 +42,12 @@ public static class KanaUtils {
       }
     });
 #else
-    var inputChars = input.ToCharArray();
-    var outputChars = new char[inputChars.Length];
+    var outputChars = new char[input.Length];
 
-    for (var index = 0; index < inputChars.Length; index++) {
-      if (WideHiraganaStart <= inputChars[index] && inputChars[index] <= WideHiraganaEnd)
-        outputChars[index] = (char)((int)inputChars[index] + offsetFromHiraganaToKatakana);
-      else
-        outputChars[index] = inputChars[index];
+    for (var index = 0; index < input.Length; index++) {
+      outputChars[index] = input[index] is >= WideHiraganaStart and <= WideHiraganaEnd
+        ? (char)(input[index] + OffsetFromHiraganaToKatakana)
+        : outputChars[index] = input[index];
     }
 
     return new string(outputChars);
@@ -72,14 +70,12 @@ public static class KanaUtils {
       }
     });
 #else
-    var inputChars = input.ToCharArray();
-    var outputChars = new char[inputChars.Length];
+    var outputChars = new char[input.Length];
 
-    for (var index = 0; index < inputChars.Length; index++) {
-      if (WideKatakanaStart <= inputChars[index] && inputChars[index] <= WideKatakanaEnd)
-        outputChars[index] = (char)((int)inputChars[index] - offsetFromHiraganaToKatakana);
-      else
-        outputChars[index] = inputChars[index];
+    for (var index = 0; index < input.Length; index++) {
+      outputChars[index] = input[index] is >= WideKatakanaStart and <= WideKatakanaEnd
+        ? (char)(input[index] - OffsetFromHiraganaToKatakana)
+        : input[index];
     }
 
     return new string(outputChars);
@@ -93,13 +89,12 @@ public static class KanaUtils {
     if (input.Length == 0)
       return string.Empty;
 
-    var inputChars = input.ToCharArray();
-    var output = new StringBuilder();
+    var output = new StringBuilder(input.Length * 2);
 
-    for (var index = 0; index < inputChars.Length; index++) {
+    for (var index = 0; index < input.Length; index++) {
       output.Append(
-        inputChars[index] switch {
-          >= WideKatakanaStart and <= WideKatakanaExEnd => WideToNarrowKatakanaMap[inputChars[index] - WideKatakanaStart],
+        input[index] switch {
+          >= WideKatakanaStart and <= WideKatakanaExEnd => WideToNarrowKatakanaMap[input[index] - WideKatakanaStart],
           'ー' => 'ｰ',
           '゛' => 'ﾞ',
           '゜' => 'ﾟ',
@@ -109,7 +104,7 @@ public static class KanaUtils {
           '。' => '｡',
           '，' => ',',
           '．' => '.',
-          _ => inputChars[index],
+          _ => input[index],
         }
       );
     }

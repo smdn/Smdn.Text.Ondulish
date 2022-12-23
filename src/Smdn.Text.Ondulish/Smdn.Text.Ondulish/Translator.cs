@@ -167,11 +167,11 @@ public class Translator : IDisposable {
         );
       }
 
-      output.WriteLine(
-        string.Concat(
-          fragments.Select(static fragment => fragment.ConvertedText)
-        )
-      );
+      foreach (var fragment in fragments) {
+        output.Write(fragment.ConvertedText);
+      }
+
+      output.WriteLine();
     }
 
     output.Flush();
