@@ -69,8 +69,8 @@ SPDX-License-Identifier: MIT
 
     <!-- MeCab configuration file -->
     <Content
-      Include="mecabrc"
-      TargetPath="$(MeCabDeploymentBasePath)%(Filename)"
+      Include="null.mecabrc"
+      TargetPath="$(MeCabDeploymentBasePath)%(Filename)%(Extension)"
       CopyToOutputDirectory="PreserveNewest"
       Pack="true"
       PackagePath="contentFiles\any\any\$([System.IO.Path]::TrimEndingDirectorySeparator('$(MeCabDeploymentBasePath)'))"
