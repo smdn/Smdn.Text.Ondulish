@@ -17,6 +17,7 @@ SPDX-License-Identifier: MIT
     <MeCabMakefileDirectory>$(MSBuildThisFileDirectory)..\MeCab\</MeCabMakefileDirectory>
     <MeCabBindingsDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab-bindings\</MeCabBindingsDirectory>
     <MeCabIpaDicDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab\mecab-ipadic\</MeCabIpaDicDirectory>
+    <MeCabIpaDicDeploymentBasePath>dic\ipadic\</MeCabIpaDicDeploymentBasePath>
   </PropertyGroup>
 
   <PropertyGroup Label="assembly attributes">
@@ -34,59 +35,54 @@ SPDX-License-Identifier: MIT
   </ItemGroup>
 
   <ItemGroup>
+    <!-- MeCab bindings source -->
     <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
-    <None Include="$(MeCabBindingsDirectory)runtimes\ubuntu.22.04-x64\native\libmecab.so" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <None Include="$(MeCabIpaDicDirectory)char.bin">
-      <Link>dic\ipadic\char.bin</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)dicrc">
-      <Link>dic\ipadic\dicrc</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)left-id.def">
-      <Link>dic\ipadic\left-id.def</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)matrix.bin">
-      <Link>dic\ipadic\matrix.bin</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)pos-id.def">
-      <Link>dic\ipadic\pos-id.def</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)rewrite.def">
-      <Link>dic\ipadic\rewrite.def</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)right-id.def">
-      <Link>dic\ipadic\right-id.def</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)sys.dic">
-      <Link>dic\ipadic\sys.dic</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MeCabIpaDicDirectory)unk.dic">
-      <Link>dic\ipadic\unk.dic</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <!-- MeCab shared library -->
+    <None
+      Include="$(MeCabBindingsDirectory)runtimes\ubuntu.22.04-x64\native\libmecab.so"
+      Pack="true"
+      PackagePath="runtimes\ubuntu.22.04-x64\native\libmecab.so"
+      CopyToOutputDirectory="PreserveNewest"
+    />
 
-  <ItemGroup>
-    <None Update="mecabrc">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="dictionary-phrases.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="dictionary-words.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <!-- MeCab IPA dictionary files -->
+    <Content Include="$(MeCabIpaDicDirectory)char.bin" />
+    <Content Include="$(MeCabIpaDicDirectory)dicrc" />
+    <Content Include="$(MeCabIpaDicDirectory)left-id.def" />
+    <Content Include="$(MeCabIpaDicDirectory)matrix.bin" />
+    <Content Include="$(MeCabIpaDicDirectory)pos-id.def" />
+    <Content Include="$(MeCabIpaDicDirectory)rewrite.def" />
+    <Content Include="$(MeCabIpaDicDirectory)right-id.def" />
+    <Content Include="$(MeCabIpaDicDirectory)sys.dic" />
+    <Content Include="$(MeCabIpaDicDirectory)unk.dic" />
+
+    <Content
+      Update="$(MeCabIpaDicDirectory)*"
+      TargetPath="$(MeCabIpaDicDeploymentBasePath)$([System.IO.Path]::GetFileName('%(Identity)'))"
+      CopyToOutputDirectory="PreserveNewest"
+      Pack="true"
+      PackagePath="contentFiles\any\any\$([System.IO.Path]::TrimEndingDirectorySeparator('$(MeCabIpaDicDeploymentBasePath)'))"
+      PackageCopyToOutput="true"
+    />
+
+    <!-- MeCab configuration file -->
+    <Content
+      Include="mecabrc"
+      CopyToOutputDirectory="PreserveNewest"
+      Pack="true"
+      PackagePath="contentFiles\any\any"
+      PackageCopyToOutput="true"
+    />
+
+    <!-- Ondulish dictionary files -->
+    <Content
+      Include="dictionary-phrases.csv;dictionary-words.csv"
+      CopyToOutputDirectory="PreserveNewest"
+      Pack="true"
+      PackagePath="contentFiles\any\any"
+      PackageCopyToOutput="true"
+    />
   </ItemGroup>
 
   <ImportGroup>
