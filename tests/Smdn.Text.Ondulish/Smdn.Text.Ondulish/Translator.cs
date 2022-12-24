@@ -13,7 +13,7 @@ public class TranslatorTests {
   private static Translator Create()
   {
     var codeBaseDir = TestContext.CurrentContext.TestDirectory;
-    var taggerArg = "-r " + Path.Combine(codeBaseDir, "mecabrc");
+    var taggerArg = "-r " + Path.Combine(codeBaseDir, "mecab", "mecabrc");
 
     return new Translator(taggerArg, dictionaryDirectory: codeBaseDir);
   }

@@ -17,7 +17,8 @@ SPDX-License-Identifier: MIT
     <MeCabMakefileDirectory>$(MSBuildThisFileDirectory)..\MeCab\</MeCabMakefileDirectory>
     <MeCabBindingsDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab-bindings\</MeCabBindingsDirectory>
     <MeCabIpaDicDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab\mecab-ipadic\</MeCabIpaDicDirectory>
-    <MeCabIpaDicDeploymentBasePath>dic\ipadic\</MeCabIpaDicDeploymentBasePath>
+    <MeCabDeploymentBasePath>mecab\</MeCabDeploymentBasePath>
+    <MeCabIpaDicDeploymentBasePath>$(MeCabDeploymentBasePath)dic\ipadic\</MeCabIpaDicDeploymentBasePath>
   </PropertyGroup>
 
   <PropertyGroup Label="assembly attributes">
@@ -69,9 +70,10 @@ SPDX-License-Identifier: MIT
     <!-- MeCab configuration file -->
     <Content
       Include="mecabrc"
+      TargetPath="$(MeCabDeploymentBasePath)%(Filename)"
       CopyToOutputDirectory="PreserveNewest"
       Pack="true"
-      PackagePath="contentFiles\any\any"
+      PackagePath="contentFiles\any\any\$([System.IO.Path]::TrimEndingDirectorySeparator('$(MeCabDeploymentBasePath)'))"
       PackageCopyToOutput="true"
     />
 
