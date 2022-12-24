@@ -1,0 +1,31 @@
+<!--
+SPDX-FileCopyrightText: 2022 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
+<Project>
+  <PropertyGroup>
+    <BuildInParallel>false</BuildInParallel> <!-- disable parallel builds to avoid running simultaneous MeCab build -->
+  </PropertyGroup>
+
+  <Target
+    Name="MeCabBindings_Build"
+    BeforeTargets="DispatchToInnerBuilds;BeforeBuild"
+  >
+    <!-- generate MeCab shared library and swig bindings -->
+    <Exec
+      Command="make mecab-bindings"
+      WorkingDirectory="$(MeCabMakefileDirectory)"
+    />
+  </Target>
+
+  <Target
+    Name="MeCabBindings_Clean"
+    AfterTargets="Clean"
+  >
+    <!-- clean MeCab shared library and swig bindings -->
+    <Exec
+      Command="make clean-mecab-bindings"
+      WorkingDirectory="$(Highlight_MakefileDirectory)"
+    />
+  </Target>
+</Project>

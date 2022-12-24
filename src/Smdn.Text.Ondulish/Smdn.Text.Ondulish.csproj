@@ -13,6 +13,7 @@ SPDX-License-Identifier: MIT
   </PropertyGroup>
 
   <PropertyGroup>
+    <MeCabMakefileDirectory>$(MSBuildThisFileDirectory)..\MeCab\</MeCabMakefileDirectory>
     <MeCabBindingsDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab-bindings\</MeCabBindingsDirectory>
     <MeCabIpaDicDirectory>$(MSBuildThisFileDirectory)..\MeCab\mecab\mecab-ipadic\</MeCabIpaDicDirectory>
   </PropertyGroup>
@@ -86,4 +87,9 @@ SPDX-License-Identifier: MIT
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="$(MSBuildThisFileDirectory)MeCab.targets" />
+  </ImportGroup>
+
 </Project>
