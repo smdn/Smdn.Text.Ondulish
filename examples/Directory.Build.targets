@@ -1,0 +1,40 @@
+<!--
+SPDX-FileCopyrightText: 2022 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
+<Project InitialTargets="ReplaceSmdnTextOndulishPackageReferencesToProjectReferences">
+  <!-- Replace PackageReference to ProjectReference of the local project -->
+  <Target
+    Name="ReplaceSmdnTextOndulishPackageReferencesToProjectReferences"
+    Condition=" '$(UseLocalProjectInsteadOfPublishedPackage)' == 'true' "
+  >
+    <ItemGroup>
+      <_SmdnTextOndulishReference
+        Include="@(PackageReference)"
+        Condition="$([System.String]::new('%(Identity)').StartsWith('Smdn.Text.Ondulish'))"
+        ProjectPath="$(MSBuildThisFileDirectory)..\src\%(Identity)\%(Identity).csproj"
+      />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- Remove package references to Smdn.Text.Ondulish.* -->
+      <PackageReference Remove="@(_SmdnTextOndulishReference)" />
+
+      <!-- Include project reference to Smdn.Text.Ondulish -->
+      <ProjectReference
+        Include="%(_SmdnTextOndulishReference.ProjectPath)"
+        ReferenceOutputAssembly="true"
+        AdditionalProperties="IsBuildDueToProjectReference=true"
+        Condition=" '%(_SmdnTextOndulishReference.Identity)' == 'Smdn.Text.Ondulish' "
+      />
+
+      <!-- Include project reference to Smdn.Text.Ondulish.*, but not include the output assembly from asset-only project -->
+      <ProjectReference
+        Include="%(_SmdnTextOndulishReference.ProjectPath)"
+        ReferenceOutputAssembly="false"
+        AdditionalProperties="IsBuildDueToProjectReference=true"
+        Condition=" '%(_SmdnTextOndulishReference.Identity)' != 'Smdn.Text.Ondulish' "
+      />
+    </ItemGroup>
+  </Target>
+</Project>
