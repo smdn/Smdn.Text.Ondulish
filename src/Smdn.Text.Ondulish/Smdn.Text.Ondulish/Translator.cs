@@ -81,20 +81,20 @@ public class Translator : IDisposable {
   {
     var dictionary = new SortedList<string, string>(new WordDictionaryComparer());
 
-    using (var reader = new CsvReader(dictionaryPath, Encoding.UTF8)) {
-      foreach (var entries in reader.ReadRecords()) {
-        if (entries.Count < 3)
-          continue;
+    using var reader = new CsvReader(stream, Encoding.UTF8);
 
-        var entry = entries[0].Trim();
+    foreach (var entries in reader.ReadRecords()) {
+      if (entries.Count < 3)
+        continue;
 
-        if (entry.StartsWith('#'))
-          continue; // comment line
+      var entry = entries[0].Trim();
 
-        var key = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
+      if (entry.StartsWith('#'))
+        continue; // comment line
 
-        dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key)] = entries[2].Trim();
-      }
+      var key = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
+
+      dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key)] = entries[2].Trim();
     }
 
 #if false
