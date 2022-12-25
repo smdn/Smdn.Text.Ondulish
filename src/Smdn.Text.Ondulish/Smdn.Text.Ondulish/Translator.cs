@@ -17,6 +17,8 @@ using MeCabConsts = MeCab.MeCab;
 namespace Smdn.Text.Ondulish;
 
 public class Translator : IDisposable {
+  private const string MeCabDeploymentDirectory = "mecab";
+
   public IReadOnlyDictionary<string, string> PhraseDictionary { get; }
   public IReadOnlyDictionary<string, string> WordDictionary { get; }
 
@@ -26,6 +28,31 @@ public class Translator : IDisposable {
   {
     if (tagger is null)
       throw new ObjectDisposedException(GetType().FullName);
+  }
+
+  private static string GetMeCabDefaultTaggerArgs(string baseDirectory)
+  {
+    var mecabDeploymentDirectoryPath = string.IsNullOrEmpty(baseDirectory)
+      ? MeCabDeploymentDirectory // fallback: use relative path from current directory
+      : System.IO.Path.Join(baseDirectory, MeCabDeploymentDirectory);
+
+    var pathToMeCabResourceFile = System.IO.Path.Join(mecabDeploymentDirectoryPath, "null.mecabrc");
+    var pathToMeCabDictionaryDirectory = System.IO.Path.Join(mecabDeploymentDirectoryPath, "dic", "ipadic");
+
+    return $"-r {pathToMeCabResourceFile} -d {pathToMeCabDictionaryDirectory}";
+  }
+
+  public Translator()
+    : this(processDirectory: System.IO.Path.GetDirectoryName(Environment.ProcessPath) ?? string.Empty /* fallback: use relative path from current directory */)
+  {
+  }
+
+  public Translator(string processDirectory)
+    : this(
+      taggerArgs: GetMeCabDefaultTaggerArgs(processDirectory ?? throw new ArgumentNullException(nameof(processDirectory))),
+      dictionaryDirectory: processDirectory
+    )
+  {
   }
 
   public Translator(string taggerArgs, string dictionaryDirectory)

@@ -11,12 +11,7 @@ namespace Smdn.Text.Ondulish;
 [TestFixture]
 public class TranslatorTests {
   private static Translator Create()
-  {
-    var codeBaseDir = TestContext.CurrentContext.TestDirectory;
-    var taggerArg = $"-r {Path.Combine(codeBaseDir, "mecab", "null.mecabrc")} -d {Path.Combine(codeBaseDir, "mecab", "dic", "ipadic")}";
-
-    return new Translator(taggerArg, dictionaryDirectory: codeBaseDir);
-  }
+    => new(processDirectory: TestContext.CurrentContext.TestDirectory);
 
   [Test]
   public void Ctor()
@@ -28,8 +23,17 @@ public class TranslatorTests {
   }
 
   [Test]
+  public void Ctor_NonExistentProcessDirectory()
+    => Assert.Throws<ApplicationException>(
+      () => {
+        using var t = new Translator(processDirectory: Path.Combine("path", "to", "non-existent", "dir"));
+      }
+    );
+
+  [Test]
   public void Ctor_ArgumentNull()
   {
+    Assert.Throws<ArgumentNullException>(() => new Translator(processDirectory: null!));
     Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null!, dictionaryDirectory: null!));
     Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null!, dictionaryDirectory: string.Empty));
     Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: string.Empty, dictionaryDirectory: null!));
