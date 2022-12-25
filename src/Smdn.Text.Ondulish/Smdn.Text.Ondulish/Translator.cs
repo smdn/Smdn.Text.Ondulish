@@ -72,6 +72,13 @@ public class Translator : IDisposable {
 
   private static SortedList<string, string> LoadDictionary(string dictionaryPath)
   {
+    using var stream = File.OpenRead(dictionaryPath);
+
+    return LoadDictionary(stream);
+  }
+
+  private static SortedList<string, string> LoadDictionary(Stream stream)
+  {
     var dictionary = new SortedList<string, string>(new WordDictionaryComparer());
 
     using (var reader = new CsvReader(dictionaryPath, Encoding.UTF8)) {
