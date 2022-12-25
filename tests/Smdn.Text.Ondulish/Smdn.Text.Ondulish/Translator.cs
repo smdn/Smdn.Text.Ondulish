@@ -84,6 +84,19 @@ public class TranslatorTests {
     );
   }
 
+  [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]
+  [TestCase("変身", "ﾍｼﾝ")]
+  [TestCase("めかぶ", "ﾍﾞｶﾑ")]
+  public void Translate_ConvertKatakanaToNarrowDefaultValue(string input, string expected)
+  {
+    using var t = Create();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input).TrimEnd()
+    );
+  }
+
   [Test]
   public void Translate_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
   {

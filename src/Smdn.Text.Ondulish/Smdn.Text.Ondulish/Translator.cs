@@ -123,7 +123,7 @@ public class Translator : IDisposable {
     tagger = null;
   }
 
-  public string Translate(string input, bool convertKatakanaToNarrow)
+  public string Translate(string input, bool convertKatakanaToNarrow = true)
   {
     if (input is null)
       throw new ArgumentNullException(nameof(input));
