@@ -1,0 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2022 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
+<Project>
+  <PropertyGroup>
+    <OndulishDictionaryResourceLogicalNameForPhrases>Smdn.Text.Ondulish.Dictionaries.phrases</OndulishDictionaryResourceLogicalNameForPhrases>
+    <OndulishDictionaryResourceLogicalNameForWords>Smdn.Text.Ondulish.Dictionaries.words</OndulishDictionaryResourceLogicalNameForWords>
+  </PropertyGroup>
+</Project>

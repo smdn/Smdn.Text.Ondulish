@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 using MeCab;
@@ -64,18 +65,58 @@ public class Translator : IDisposable {
 
     tagger = new Tagger(taggerArgs);
 
-    PhraseDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-phrases.csv"));
-    WordDictionary = LoadDictionary(System.IO.Path.Combine(dictionaryDirectory, "dictionary-words.csv"));
+    // set default value
+    IReadOnlyDictionary<string, string> emptyDictionary = Enumerable.Empty<(string Key, string Value)>().ToDictionary(static pair => pair.Key, static pair => pair.Value);
+
+    PhraseDictionary = emptyDictionary;
+    WordDictionary = emptyDictionary;
+
+    // load Ondulish dictionaries from assembly Smdn.Text.Ondulish.Dictionaries
+    try {
+      const string dictionaryAssemblyName = "Smdn.Text.Ondulish.Dictionaries";
+
+      var assm = typeof(Tagger).Assembly;
+      var assmDictionaries = Assembly.Load(dictionaryAssemblyName);
+
+      PhraseDictionary = LoadDictionary(
+        GetResourceStream(
+          assmDictionaries,
+          assm
+            .GetCustomAttributes<AssemblyMetadataAttribute>()
+            .FirstOrDefault(static metadata => "OndulishDictionaryResourceLogicalNameForPhrases".Equals(metadata.Key, StringComparison.Ordinal))
+            ?.Value
+        )
+      );
+      WordDictionary = LoadDictionary(
+        GetResourceStream(
+          assmDictionaries,
+          assm
+            .GetCustomAttributes<AssemblyMetadataAttribute>()
+            .FirstOrDefault(static metadata => "OndulishDictionaryResourceLogicalNameForWords".Equals(metadata.Key, StringComparison.Ordinal))
+            ?.Value
+        )
+      );
+    }
+    catch (FileNotFoundException) {
+      // continue
+    }
+    catch (FileLoadException) {
+      // continue
+    }
+    catch (BadImageFormatException) {
+      // continue
+    }
+
+    static Stream GetResourceStream(Assembly assm, string? logicalName)
+    {
+      if (logicalName is null)
+        return Stream.Null;
+
+      return assm.GetManifestResourceStream(logicalName) ?? Stream.Null;
+    }
   }
 
   private static readonly char[] dictionaryPunctuationChars = new[] { '！', '？', '!', '?', '、', '。' };
-
-  private static SortedList<string, string> LoadDictionary(string dictionaryPath)
-  {
-    using var stream = File.OpenRead(dictionaryPath);
-
-    return LoadDictionary(stream);
-  }
 
   private static SortedList<string, string> LoadDictionary(Stream stream)
   {

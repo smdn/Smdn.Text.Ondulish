@@ -1,0 +1,29 @@
+﻿<!--
+SPDX-FileCopyrightText: 2022 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(MSBuildThisFileDirectory)..\Smdn.Text.Ondulish.Common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0</TargetFrameworks>
+    <VersionPrefix>4.0.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <!-- <PackageValidationBaselineVersion>4.0.0</PackageValidationBaselineVersion> -->
+  </PropertyGroup>
+
+  <PropertyGroup Label="assembly attributes">
+    <Description>An Ondulish dictionary assembly for Smdn.Text.Ondulish.</Description>
+    <CopyrightYear>2022</CopyrightYear>
+  </PropertyGroup>
+
+  <PropertyGroup Label="package properties">
+    <PackageTags>joke;funny;text-converter;translator</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="dictionary-phrases.csv" CopyToOutputDirectory="Never" LogicalName="$(OndulishDictionaryResourceLogicalNameForPhrases)" />
+    <EmbeddedResource Include="dictionary-words.csv" CopyToOutputDirectory="Never" LogicalName="$(OndulishDictionaryResourceLogicalNameForWords)" />
+  </ItemGroup>
+
+</Project>
