@@ -152,7 +152,7 @@ public class TranslatorTests {
   }
 
   [TestCase("相手は俺だ", "アンギョン和田")] // be translated terms with kanji chars
-  [TestCase("貴様、相手は俺だ", "チサマ、アンギョン和田")]
+  [TestCase("貴様、相手は俺だ", "クサム、アンギョン和田")]
   public void Translate_SpecialCase(string input, string expected)
   {
     using var t = Create();
