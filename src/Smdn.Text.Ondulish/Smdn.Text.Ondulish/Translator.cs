@@ -175,10 +175,16 @@ public class Translator : IDisposable {
       return;
 
     var reader = new StringReader(input);
+    var firstLine = true;
 
     for (var line = reader.ReadLine(); line is not null; line = reader.ReadLine()) {
+      if (firstLine)
+        firstLine = false;
+      else
+        output.WriteLine();
+
       if (string.IsNullOrWhiteSpace(line)) {
-        output.WriteLine(line);
+        output.Write(line);
         continue;
       }
 
@@ -218,8 +224,6 @@ public class Translator : IDisposable {
       foreach (var fragment in fragments) {
         output.Write(fragment.ConvertedText);
       }
-
-      output.WriteLine();
     }
 
     output.Flush();

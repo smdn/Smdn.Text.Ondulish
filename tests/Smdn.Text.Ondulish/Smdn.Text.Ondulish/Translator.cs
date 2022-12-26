@@ -80,7 +80,37 @@ public class TranslatorTests {
 
     Assert.AreEqual(
       expected,
-      t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+      t.Translate(input, convertKatakanaToNarrow: false)
+    );
+  }
+
+  [Test]
+  public void Translate_SingleLine()
+  {
+    using var t = Create();
+
+    Assert.AreEqual(
+      "オンドゥルルラギッタンディスカー",
+      t.Translate("本当に裏切ったんですか", convertKatakanaToNarrow: false)
+    );
+  }
+
+  [Test]
+  public void Translate_MultipleLines()
+  {
+    const string input = @"本当に裏切ったんですか
+
+本当に裏切ったんですか";
+
+    var expected = @"オンドゥルルラギッタンディスカー
+
+オンドゥルルラギッタンディスカー".Replace("\r", string.Empty).Replace("\n", Environment.NewLine);
+
+    using var t = Create();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input, convertKatakanaToNarrow: false)
     );
   }
 
@@ -93,7 +123,7 @@ public class TranslatorTests {
 
     Assert.AreEqual(
       expected,
-      t.Translate(input).TrimEnd()
+      t.Translate(input)
     );
   }
 
@@ -116,7 +146,7 @@ public class TranslatorTests {
     var writer = new StringWriter(sb);
 
     Assert.DoesNotThrow(() => t.Translate(input: input, convertKatakanaToNarrow: false, output: writer));
-    Assert.AreEqual(expectedOutput, sb.ToString().TrimEnd());
+    Assert.AreEqual(expectedOutput, sb.ToString());
   }
 
   [Test]
@@ -147,7 +177,7 @@ public class TranslatorTests {
 
     Assert.AreEqual(
       expected,
-      t.Translate(input, convertKatakanaToNarrow: true).TrimEnd()
+      t.Translate(input, convertKatakanaToNarrow: true)
     );
   }
 
@@ -159,7 +189,7 @@ public class TranslatorTests {
 
     Assert.AreEqual(
       expected,
-      t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+      t.Translate(input, convertKatakanaToNarrow: false)
     );
   }
 
@@ -183,7 +213,7 @@ public class TranslatorTests {
 
     Assert.AreEqual(
       expected,
-      t.Translate(input, convertKatakanaToNarrow: false).TrimEnd()
+      t.Translate(input, convertKatakanaToNarrow: false)
     );
   }
 
@@ -200,7 +230,7 @@ public class TranslatorTests {
 
       Assert.AreEqual(
         outputPrepend + pair.Value + outputAppend,
-        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
+        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false)
       );
     }
   }
@@ -218,7 +248,7 @@ public class TranslatorTests {
 
       Assert.AreEqual(
         outputPrepend + pair.Value + outputAppend,
-        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false).TrimEnd()
+        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false)
       );
     }
   }
