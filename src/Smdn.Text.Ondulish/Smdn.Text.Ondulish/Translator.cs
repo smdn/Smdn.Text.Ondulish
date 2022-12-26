@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 using MeCab;
@@ -65,55 +64,29 @@ public class Translator : IDisposable {
 
     tagger = new Tagger(taggerArgs);
 
-    // set default value
-    IReadOnlyDictionary<string, string> emptyDictionary = Enumerable.Empty<(string Key, string Value)>().ToDictionary(static pair => pair.Key, static pair => pair.Value);
-
-    PhraseDictionary = emptyDictionary;
-    WordDictionary = emptyDictionary;
-
     // load Ondulish dictionaries from assembly Smdn.Text.Ondulish.Dictionaries
     try {
-      const string dictionaryAssemblyName = "Smdn.Text.Ondulish.Dictionaries";
+      using var stream = OndulishDictionaries.OpenPhraseDictionaryStream();
 
-      var assm = typeof(Tagger).Assembly;
-      var assmDictionaries = Assembly.Load(dictionaryAssemblyName);
-
-      PhraseDictionary = LoadDictionary(
-        GetResourceStream(
-          assmDictionaries,
-          assm
-            .GetCustomAttributes<AssemblyMetadataAttribute>()
-            .FirstOrDefault(static metadata => "OndulishDictionaryResourceLogicalNameForPhrases".Equals(metadata.Key, StringComparison.Ordinal))
-            ?.Value
-        )
-      );
-      WordDictionary = LoadDictionary(
-        GetResourceStream(
-          assmDictionaries,
-          assm
-            .GetCustomAttributes<AssemblyMetadataAttribute>()
-            .FirstOrDefault(static metadata => "OndulishDictionaryResourceLogicalNameForWords".Equals(metadata.Key, StringComparison.Ordinal))
-            ?.Value
-        )
-      );
+      PhraseDictionary = LoadDictionary(stream);
     }
-    catch (FileNotFoundException) {
-      // continue
-    }
-    catch (FileLoadException) {
-      // continue
-    }
-    catch (BadImageFormatException) {
-      // continue
+    catch {
+      // ignore exceptions
+      PhraseDictionary = CreateEmptyDictionary();
     }
 
-    static Stream GetResourceStream(Assembly assm, string? logicalName)
-    {
-      if (logicalName is null)
-        return Stream.Null;
+    try {
+      using var stream = OndulishDictionaries.OpenWordDictionaryStream();
 
-      return assm.GetManifestResourceStream(logicalName) ?? Stream.Null;
+      WordDictionary = LoadDictionary(stream);
     }
+    catch {
+      // ignore exceptions
+      WordDictionary = CreateEmptyDictionary();
+    }
+
+    static IReadOnlyDictionary<string, string> CreateEmptyDictionary()
+      => Enumerable.Empty<(string Key, string Value)>().ToDictionary(static pair => pair.Key, static pair => pair.Value);
   }
 
   private static readonly char[] dictionaryPunctuationChars = new[] { '！', '？', '!', '?', '、', '。' };

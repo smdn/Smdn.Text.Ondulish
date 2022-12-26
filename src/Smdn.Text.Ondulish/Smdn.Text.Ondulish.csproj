@@ -3,8 +3,6 @@ SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
 SPDX-License-Identifier: MIT
 -->
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(MSBuildThisFileDirectory)..\Smdn.Text.Ondulish.Common.props" />
-
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <RuntimeIdentifiers>ubuntu.22.04-x64</RuntimeIdentifiers>
@@ -31,12 +29,6 @@ SPDX-License-Identifier: MIT
   <PropertyGroup Label="package properties">
     <PackageTags>joke;funny;text-converter;translator</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- embed resource logical names as assembly metadata -->
-    <AssemblyMetadata Include="OndulishDictionaryResourceLogicalNameForPhrases" Value="$(OndulishDictionaryResourceLogicalNameForPhrases)" />
-    <AssemblyMetadata Include="OndulishDictionaryResourceLogicalNameForWords" Value="$(OndulishDictionaryResourceLogicalNameForWords)" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Smdn.Fundamental.Csv" Version="[3.0.2,4.0.0)" />
