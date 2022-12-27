@@ -11,6 +11,7 @@ SPDX-License-Identifier: MIT
     <!-- <PackageValidationBaselineVersion>3.2.0</PackageValidationBaselineVersion> -->
     <Nullable>enable</Nullable>
     <AssemblyCLSCompliant>false</AssemblyCLSCompliant>
+    <GenerateNupkgReadmeFileDependsOnTargets>$(GenerateNupkgReadmeFileDependsOnTargets);GenerateReadmeFileContent</GenerateNupkgReadmeFileDependsOnTargets>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -41,6 +42,14 @@ SPDX-License-Identifier: MIT
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Third party notice -->
+    <None
+      Include="$(MSBuildThisFileDirectory)..\..\ThirdPartyNotices.md"
+      Pack="true"
+      PackagePath="ThirdPartyNotices.md"
+      CopyToOutputDirectory="None"
+    />
+
     <!-- MeCab bindings source -->
     <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
 
@@ -82,6 +91,36 @@ SPDX-License-Identifier: MIT
       PackageCopyToOutput="true"
     />
   </ItemGroup>
+
+  <Target Name="GenerateReadmeFileContent">
+    <ItemGroup>
+      <_SupportedRuntimeIdentifier Include="$(RuntimeIdentifiers)" />
+      <_SupportedRuntimeIdentifierMarkdownList Include="- `%(_SupportedRuntimeIdentifier.Identity)`" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <PackageReadmeFileContent><![CDATA[# $(AssemblyName)-$(InformationalVersion)
+$(Description)
+
+## Usage
+```cs
+$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)..\..\examples\hello-ondulish-world\Program.cs'))
+```
+
+## MeCab bindings for .NET
+This package includes [MeCab](https://github.com/taku910/mecab.git) bindings for .NET and supports the platforms represented by the following [RID](https://learn.microsoft.com/dotnet/core/rid-catalog)s.
+@(_SupportedRuntimeIdentifierMarkdownList, '%0A')
+
+For other platforms, a wrapper library for the bindings must be built and deployed separately.
+]]></PackageReadmeFileContent>
+    </PropertyGroup>
+
+    <!-- append licence notice to package readme -->
+    <PropertyGroup>
+      <ThirdPartyNoticesMarkdownText>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)..\..\ThirdPartyNotices.md'))</ThirdPartyNoticesMarkdownText>
+      <PackageReadmeFileContentPostamble>$(PackageReadmeFileContentPostamble)$(ThirdPartyNoticesMarkdownText)</PackageReadmeFileContentPostamble>
+    </PropertyGroup>
+  </Target>
 
   <ImportGroup>
     <Import Project="$(MSBuildThisFileDirectory)MeCab.targets" />
