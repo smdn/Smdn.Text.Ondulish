@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: MIT
 using Smdn.Text.Ondulish;
 
-var translator = new Translator();
+using var t = new Translator();
 
-Console.WriteLine(translator.Translate("こんにちは、オンドゥル語の世界！"));
-Console.WriteLine(translator.Translate("本当に裏切ったんですか!?"));
+// This code outputs as follows: "ｺﾝﾃﾞｨﾃﾞｨｳﾞｧ､ｵﾝﾄﾞｩﾙｺﾞﾄﾞｾｶｲ!"
+Console.WriteLine(t.Translate("こんにちは、オンドゥル語の世界！"));
+
+// This code outputs as follows: "ｵﾝﾄﾞｩﾙﾙﾗｷﾞｯﾀﾝﾃﾞｨｽｶｰ!?"
+Console.WriteLine(t.Translate("本当に裏切ったんですか!?"));
