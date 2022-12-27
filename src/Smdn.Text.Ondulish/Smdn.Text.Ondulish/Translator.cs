@@ -42,8 +42,15 @@ public class Translator : IDisposable {
     return $"-r {pathToMeCabResourceFile} -d {pathToMeCabDictionaryDirectory}";
   }
 
+  private static string? GetProcessDirectory()
+#if SYSTEM_ENVIRONMENT_PROCESSPATH
+    => System.IO.Path.GetDirectoryName(Environment.ProcessPath);
+#else
+    => System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+#endif
+
   public Translator()
-    : this(processDirectory: System.IO.Path.GetDirectoryName(Environment.ProcessPath) ?? string.Empty /* fallback: use relative path from current directory */)
+    : this(processDirectory: GetProcessDirectory() ?? string.Empty /* fallback: use relative path from current directory */)
   {
   }
 
