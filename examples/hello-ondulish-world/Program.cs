@@ -1,4 +1,6 @@
-﻿using Smdn.Text.Ondulish;
+﻿// SPDX-FileCopyrightText: 2022 smdn <smdn@smdn.jp>
+// SPDX-License-Identifier: MIT
+using Smdn.Text.Ondulish;
 
 var translator = new Translator();
 
