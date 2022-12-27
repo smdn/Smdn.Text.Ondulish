@@ -1,16 +1,13 @@
-THIRD PARTY NOTICES
-
+# THIRD PARTY NOTICES
 This project incorporates material from the projects listed below or described in the code.
 
 The attached notices are provided for information purposes only.
 
+## License notice for MeCab
+- https://github.com/taku910/mecab/
+- https://github.com/taku910/mecab/blob/master/mecab/BSD
 
-
-License notice for MeCab
---------------------------------------------------------------
-https://github.com/taku910/mecab/
-https://github.com/taku910/mecab/blob/master/mecab/BSD
-
+```txt
 Copyright (c) 2001-2008, Taku Kudo
 Copyright (c) 2004-2008, Nippon Telegraph and Telephone Corporation
 All rights reserved.
@@ -40,14 +37,13 @@ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR P
 INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
 
+## License notice for MeCab IPA dictionary
+- https://github.com/taku910/mecab/
+- https://github.com/taku910/mecab/blob/master/mecab-ipadic/COPYING
 
-
-License notice for MeCab IPA dictionary
---------------------------------------------------------------
-https://github.com/taku910/mecab/
-https://github.com/taku910/mecab/blob/master/mecab-ipadic/COPYING
-
+```txt
 Copyright 2000, 2001, 2002, 2003 Nara Institute of Science
 and Technology.  All Rights Reserved.
 
@@ -118,3 +114,4 @@ grants independently of ICOT any specific warranty to the user in
 writing, such person, organization or entity, will also be exempted
 from and not be held liable to the user for any such damages as noted
 above as far as the program is concerned.
+```
