@@ -16,6 +16,7 @@ namespace Smdn.Text.Ondulish;
 
 public partial class Translator : IDisposable {
   private const string MeCabDeploymentDirectory = "mecab";
+  private const bool ConvertKatakanaToNarrowDefaultValue = true;
 
   private Tagger? tagger;
   private readonly bool shouldDisposeTagger;
@@ -101,7 +102,7 @@ public partial class Translator : IDisposable {
 
   public string Translate(
     string input,
-    bool convertKatakanaToNarrow = true
+    bool convertKatakanaToNarrow = ConvertKatakanaToNarrowDefaultValue
   )
   {
     if (input is null)
@@ -126,7 +127,7 @@ public partial class Translator : IDisposable {
   public void Translate(
     string input,
     TextWriter output,
-    bool convertKatakanaToNarrow
+    bool convertKatakanaToNarrow = ConvertKatakanaToNarrowDefaultValue
   )
     => Translate(
       input: new StringReader(input ?? throw new ArgumentNullException(nameof(input))),
@@ -137,7 +138,7 @@ public partial class Translator : IDisposable {
   public void Translate(
     TextReader input,
     TextWriter output,
-    bool convertKatakanaToNarrow
+    bool convertKatakanaToNarrow = ConvertKatakanaToNarrowDefaultValue
   )
   {
     if (input is null)
