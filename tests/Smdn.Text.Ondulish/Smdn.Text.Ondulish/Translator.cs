@@ -156,12 +156,40 @@ public class TranslatorTests {
     Assert.AreEqual(expectedOutput, sb.ToString());
   }
 
-  [Test]
-  public void Translate_ToTextWriter_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  [TestCase("", "")]
+  [TestCase("オンドゥル\n\n変身\n", "オンドゥル\n\nヘシン")] // final newline should be trimmed
+  public void Translate_ToTextWriter_FromTextReader(string input, string expectedOutput)
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
+    var sb = new StringBuilder();
+    var writer = new StringWriter(sb);
+
+    Assert.DoesNotThrow(
+      () => t.Translate(
+        input: new StringReader(input),
+        convertKatakanaToNarrow: false,
+        output: writer
+      )
+    );
+
+    Assert.AreEqual(expectedOutput, sb.ToString());
+  }
+
+  [Test]
+  public void Translate_ToTextWriter_TextReaderInputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  {
+    using var t = new Translator();
+
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: (TextReader)null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
+  }
+
+  [Test]
+  public void Translate_ToTextWriter_StringInputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  {
+    using var t = new Translator();
+
+    Assert.Throws<ArgumentNullException>(() => t.Translate(input: (string)null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
   }
 
   [Test]

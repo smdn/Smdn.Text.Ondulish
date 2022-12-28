@@ -110,14 +110,28 @@ public partial class Translator : IDisposable {
       return string.Empty;
 
     var sb = new StringBuilder(input.Length * 2);
-    var sw = new StringWriter(sb);
 
-    Translate(input, convertKatakanaToNarrow, sw);
+    Translate(
+      input: new StringReader(input),
+      output: new StringWriter(sb),
+      convertKatakanaToNarrow: convertKatakanaToNarrow
+    );
 
     return sb.ToString();
   }
 
   public void Translate(string input, bool convertKatakanaToNarrow, TextWriter output)
+    => Translate(
+      input: new StringReader(input ?? throw new ArgumentNullException(nameof(input))),
+      output: output ?? throw new ArgumentNullException(nameof(output)),
+      convertKatakanaToNarrow: convertKatakanaToNarrow
+    );
+
+  public void Translate(
+    TextReader input,
+    TextWriter output,
+    bool convertKatakanaToNarrow
+  )
   {
     if (input is null)
       throw new ArgumentNullException(nameof(input));
@@ -126,13 +140,9 @@ public partial class Translator : IDisposable {
 
     ThrowIfDisposed();
 
-    if (input.Length == 0)
-      return;
-
-    var reader = new StringReader(input);
     var firstLine = true;
 
-    for (var line = reader.ReadLine(); line is not null; line = reader.ReadLine()) {
+    for (var line = input.ReadLine(); line is not null; line = input.ReadLine()) {
       if (firstLine)
         firstLine = false;
       else
