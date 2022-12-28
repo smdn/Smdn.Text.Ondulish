@@ -11,7 +11,10 @@ namespace Smdn.Text.Ondulish;
 [TestFixture]
 public class TranslatorTests {
   private static Translator Create()
-    => new(processDirectory: TestContext.CurrentContext.TestDirectory);
+    => new(
+      tagger: Translator.CreateTaggerForBundledDictionary(processDirectoryPath: TestContext.CurrentContext.TestDirectory),
+      shouldDisposeTagger: true
+    );
 
   [Test]
   public void Ctor()
@@ -23,20 +26,10 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void Ctor_NonExistentProcessDirectory()
-    => Assert.Throws<ApplicationException>(
-      () => {
-        using var t = new Translator(processDirectory: Path.Combine("path", "to", "non-existent", "dir"));
-      }
-    );
-
-  [Test]
   public void Ctor_ArgumentNull()
   {
-    Assert.Throws<ArgumentNullException>(() => new Translator(processDirectory: null!));
-    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null!, dictionaryDirectory: null!));
-    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: null!, dictionaryDirectory: string.Empty));
-    Assert.Throws<ArgumentNullException>(() => new Translator(taggerArgs: string.Empty, dictionaryDirectory: null!));
+    Assert.Throws<ArgumentNullException>(() => new Translator(tagger: null!, shouldDisposeTagger: true));
+    Assert.Throws<ArgumentNullException>(() => new Translator(tagger: null!, shouldDisposeTagger: false));
   }
 
   [Test]
@@ -56,6 +49,26 @@ public class TranslatorTests {
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false));
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true, output: TextWriter.Null));
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false, output: TextWriter.Null));
+  }
+
+  [Test]
+  public void Dispose_DisposeComposedTagger([Values(true, false)] bool shouldDisposeTagger)
+  {
+    using var tagger = Translator.CreateTaggerForBundledDictionary(TestContext.CurrentContext.TestDirectory);
+    using var t = new Translator(
+      tagger: tagger,
+      shouldDisposeTagger: shouldDisposeTagger
+    );
+
+    Assert.DoesNotThrow(t.Dispose);
+
+    if (shouldDisposeTagger) {
+      // cannot test: this test code will cause crash
+      // Assert.Throws<Exception>(() => tagger.parseToString("mecab"));
+    }
+    else {
+      Assert.DoesNotThrow(() => tagger.parseToString("mecab"));
+    }
   }
 
   [TestCase("", "")]

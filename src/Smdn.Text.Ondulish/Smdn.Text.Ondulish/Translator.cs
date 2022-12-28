@@ -23,6 +23,7 @@ public class Translator : IDisposable {
   public IReadOnlyDictionary<string, string> WordDictionary { get; }
 
   private Tagger? tagger;
+  private readonly bool shouldDisposeTagger;
 
   private void ThrowIfDisposed()
   {
@@ -30,16 +31,21 @@ public class Translator : IDisposable {
       throw new ObjectDisposedException(GetType().FullName);
   }
 
-  private static string GetMeCabDefaultTaggerArgs(string baseDirectory)
+  public static Tagger CreateTaggerForBundledDictionary(string processDirectoryPath)
   {
-    var mecabDeploymentDirectoryPath = string.IsNullOrEmpty(baseDirectory)
+    if (processDirectoryPath is null)
+      throw new ArgumentNullException(nameof(processDirectoryPath));
+
+    var mecabDeploymentDirectoryPath = processDirectoryPath.Length == 0
       ? MeCabDeploymentDirectory // fallback: use relative path from current directory
-      : System.IO.Path.Join(baseDirectory, MeCabDeploymentDirectory);
+      : System.IO.Path.Join(processDirectoryPath, MeCabDeploymentDirectory);
 
     var pathToMeCabResourceFile = System.IO.Path.Join(mecabDeploymentDirectoryPath, "null.mecabrc");
     var pathToMeCabDictionaryDirectory = System.IO.Path.Join(mecabDeploymentDirectoryPath, "dic", "ipadic");
 
-    return $"-r {pathToMeCabResourceFile} -d {pathToMeCabDictionaryDirectory}";
+    var taggerArgs = $"-r {pathToMeCabResourceFile} -d {pathToMeCabDictionaryDirectory}";
+
+    return new Tagger(taggerArgs);
   }
 
   private static string? GetProcessDirectory()
@@ -50,26 +56,25 @@ public class Translator : IDisposable {
 #endif
 
   public Translator()
-    : this(processDirectory: GetProcessDirectory() ?? string.Empty /* fallback: use relative path from current directory */)
-  {
-  }
-
-  public Translator(string processDirectory)
     : this(
-      taggerArgs: GetMeCabDefaultTaggerArgs(processDirectory ?? throw new ArgumentNullException(nameof(processDirectory))),
-      dictionaryDirectory: processDirectory
+      tagger: CreateTaggerForBundledDictionary(
+        GetProcessDirectory() ?? string.Empty // fallback: use relative path from current directory
+      ),
+      shouldDisposeTagger: true
     )
   {
   }
 
-  public Translator(string taggerArgs, string dictionaryDirectory)
+  public Translator(
+    Tagger tagger,
+    bool shouldDisposeTagger
+  )
   {
-    if (taggerArgs is null)
-      throw new ArgumentNullException(nameof(taggerArgs));
-    if (dictionaryDirectory is null)
-      throw new ArgumentNullException(nameof(dictionaryDirectory));
+    if (tagger is null)
+      throw new ArgumentNullException(nameof(tagger));
 
-    tagger = new Tagger(taggerArgs);
+    this.tagger = tagger;
+    this.shouldDisposeTagger = shouldDisposeTagger;
 
     // load Ondulish dictionaries from assembly Smdn.Text.Ondulish.Dictionaries
     try {
@@ -147,7 +152,9 @@ public class Translator : IDisposable {
 
   protected virtual void Dispose(bool disposing)
   {
-    tagger?.Dispose();
+    if (shouldDisposeTagger && tagger is not null)
+      tagger.Dispose();
+
     tagger = null;
   }
 
