@@ -10,16 +10,10 @@ namespace Smdn.Text.Ondulish;
 
 [TestFixture]
 public class TranslatorTests {
-  private static Translator Create()
-    => new(
-      tagger: Translator.CreateTaggerForBundledDictionary(processDirectoryPath: TestContext.CurrentContext.TestDirectory),
-      shouldDisposeTagger: true
-    );
-
   [Test]
   public void Ctor()
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.IsNotNull(t);
     Assert.DoesNotThrow(t.Dispose);
@@ -35,7 +29,7 @@ public class TranslatorTests {
   [Test]
   public void Dispose()
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: true));
     Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: false));
@@ -54,7 +48,7 @@ public class TranslatorTests {
   [Test]
   public void Dispose_DisposeComposedTagger([Values(true, false)] bool shouldDisposeTagger)
   {
-    using var tagger = Translator.CreateTaggerForBundledDictionary(TestContext.CurrentContext.TestDirectory);
+    using var tagger = Translator.CreateTaggerForBundledDictionary();
     using var t = new Translator(
       tagger: tagger,
       shouldDisposeTagger: shouldDisposeTagger
@@ -89,7 +83,7 @@ public class TranslatorTests {
   [TestCase(@"オンドゥル😆😄", @"オンドゥル😆😄")]
   public void Translate(string input, string expected)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       expected,
@@ -100,7 +94,7 @@ public class TranslatorTests {
   [Test]
   public void Translate_SingleLine()
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       "オンドゥルルラギッタンディスカー",
@@ -119,7 +113,7 @@ public class TranslatorTests {
 
 オンドゥルルラギッタンディスカー".Replace("\r", string.Empty).Replace("\n", Environment.NewLine);
 
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       expected,
@@ -132,7 +126,7 @@ public class TranslatorTests {
   [TestCase("めかぶ", "ﾍﾞｶﾑ")]
   public void Translate_ConvertKatakanaToNarrowDefaultValue(string input, string expected)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       expected,
@@ -143,7 +137,7 @@ public class TranslatorTests {
   [Test]
   public void Translate_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow));
   }
@@ -153,7 +147,7 @@ public class TranslatorTests {
   [TestCase("変身", "ヘシン")]
   public void Translate_ToTextWriter(string input, string expectedOutput)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     var sb = new StringBuilder();
     var writer = new StringWriter(sb);
@@ -165,7 +159,7 @@ public class TranslatorTests {
   [Test]
   public void Translate_ToTextWriter_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
   }
@@ -173,7 +167,7 @@ public class TranslatorTests {
   [Test]
   public void Translate_ToTextWriter_OutputNull([Values(true, false)] bool convertKatakanaToNarrow)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.Throws<ArgumentNullException>(() => t.Translate(input: string.Empty, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null!));
   }
@@ -186,7 +180,7 @@ public class TranslatorTests {
   [TestCase("あいするな", "ｱﾞｲﾄﾞｩﾙﾀﾞ")]
   public void Translate_ToNarrowKatakana(string input, string expected)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       expected,
@@ -198,7 +192,7 @@ public class TranslatorTests {
   [TestCase("貴様、相手は俺だ", "クサム、アンギョン和田")]
   public void Translate_SpecialCase(string input, string expected)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       expected,
@@ -222,7 +216,7 @@ public class TranslatorTests {
   [TestCase("おんどぅ", "オンドゥ")]
   public void Translate_Phoneme(string input, string expected)
   {
-    using var t = Create();
+    using var t = new Translator();
 
     Assert.AreEqual(
       expected,
@@ -233,7 +227,7 @@ public class TranslatorTests {
   [Test]
   public void Translate_DictionaryTerm_Words()
   {
-    using var t = Create();
+    using var t = new Translator();
 
     foreach (var pair in t.WordDictionary) {
       const string inputPrepend = "あ";
@@ -251,7 +245,7 @@ public class TranslatorTests {
   [Test]
   public void Translate_DictionaryTerm_Phrases()
   {
-    using var t = Create();
+    using var t = new Translator();
 
     foreach (var pair in t.PhraseDictionary) {
       const string inputPrepend = "あ";

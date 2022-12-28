@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 using MeCab;
@@ -31,14 +32,12 @@ public class Translator : IDisposable {
       throw new ObjectDisposedException(GetType().FullName);
   }
 
-  public static Tagger CreateTaggerForBundledDictionary(string processDirectoryPath)
+  public static Tagger CreateTaggerForBundledDictionary()
   {
-    if (processDirectoryPath is null)
-      throw new ArgumentNullException(nameof(processDirectoryPath));
-
-    var mecabDeploymentDirectoryPath = processDirectoryPath.Length == 0
+    var assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    var mecabDeploymentDirectoryPath = string.IsNullOrEmpty(assemblyDirectory)
       ? MeCabDeploymentDirectory // fallback: use relative path from current directory
-      : System.IO.Path.Join(processDirectoryPath, MeCabDeploymentDirectory);
+      : System.IO.Path.Join(assemblyDirectory, MeCabDeploymentDirectory);
 
     var pathToMeCabResourceFile = System.IO.Path.Join(mecabDeploymentDirectoryPath, "null.mecabrc");
     var pathToMeCabDictionaryDirectory = System.IO.Path.Join(mecabDeploymentDirectoryPath, "dic", "ipadic");
@@ -48,18 +47,9 @@ public class Translator : IDisposable {
     return new Tagger(taggerArgs);
   }
 
-  private static string? GetProcessDirectory()
-#if SYSTEM_ENVIRONMENT_PROCESSPATH
-    => System.IO.Path.GetDirectoryName(Environment.ProcessPath);
-#else
-    => System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-#endif
-
   public Translator()
     : this(
-      tagger: CreateTaggerForBundledDictionary(
-        GetProcessDirectory() ?? string.Empty // fallback: use relative path from current directory
-      ),
+      tagger: CreateTaggerForBundledDictionary(),
       shouldDisposeTagger: true
     )
   {
