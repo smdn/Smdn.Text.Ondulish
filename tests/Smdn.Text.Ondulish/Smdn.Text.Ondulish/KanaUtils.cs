@@ -167,6 +167,41 @@ public class KanaUtilsTests {
       KanaUtils.ConvertWideKatakanaToNarrowKatakana(input)
     );
 
+  private static System.Collections.IEnumerable YieldTestCases_ConvertWideKatakanaToNarrowKatakana_KatakanaPhoneticExtensions()
+  {
+    // 31F0 - 31FF Katakana Phonetic Extensions
+    yield return new object[] { "ㇰ" };
+    yield return new object[] { "ㇱ" };
+    yield return new object[] { "ㇲ" };
+    yield return new object[] { "ㇳ" };
+    yield return new object[] { "ㇴ" };
+    yield return new object[] { "ㇵ" };
+    yield return new object[] { "ㇶ" };
+    yield return new object[] { "ㇷ" };
+    yield return new object[] { "ㇸ" };
+    yield return new object[] { "ㇹ" };
+    yield return new object[] { "ㇺ" };
+    yield return new object[] { "ㇻ" };
+    yield return new object[] { "ㇼ" };
+    yield return new object[] { "ㇽ" };
+    yield return new object[] { "ㇾ" };
+    yield return new object[] { "ㇿ" };
+
+    // 1B130 – 1B16F Small Kana Extension
+    yield return new object[] { "\U0001B155" }; // U+1B155
+    yield return new object[] { "\U0001B164" }; // U+1B164
+    yield return new object[] { "\U0001B165" }; // U+1B165
+    yield return new object[] { "\U0001B166" }; // U+1B166
+    yield return new object[] { "\U0001B167" }; // U+1B167
+  }
+
+  [TestCaseSource(nameof(YieldTestCases_ConvertWideKatakanaToNarrowKatakana_KatakanaPhoneticExtensions))]
+  public void ConvertWideKatakanaToNarrowKatakana_KatakanaPhoneticExtensions(string input)
+    => Assert.AreEqual(
+      input,
+      KanaUtils.ConvertWideKatakanaToNarrowKatakana(input)
+    );
+
   [Test]
   public void ConvertWideKatakanaToNarrowKatakana_ArgumentNull()
     => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToNarrowKatakana(input: null!));
