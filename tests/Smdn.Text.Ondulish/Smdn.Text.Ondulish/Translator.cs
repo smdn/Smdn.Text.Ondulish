@@ -33,16 +33,16 @@ public class TranslatorTests {
 
     Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: true));
     Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: false));
-    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: true, output: TextWriter.Null));
-    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: false, output: TextWriter.Null));
+    Assert.DoesNotThrow(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true));
+    Assert.DoesNotThrow(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false));
 
     Assert.DoesNotThrow(() => t.Dispose(), "dispose #1");
     Assert.DoesNotThrow(() => t.Dispose(), "dispose #2");
 
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true));
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false));
-    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true, output: TextWriter.Null));
-    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false, output: TextWriter.Null));
+    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true));
+    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false));
   }
 
   [Test]
@@ -139,7 +139,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow));
+    Assert.Throws<ArgumentNullException>(
+      () => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow)
+    );
   }
 
   [TestCase("", "")]
@@ -152,7 +154,11 @@ public class TranslatorTests {
     var sb = new StringBuilder();
     var writer = new StringWriter(sb);
 
-    Assert.DoesNotThrow(() => t.Translate(input: input, convertKatakanaToNarrow: false, output: writer));
+    Assert.DoesNotThrow(() => t.Translate(
+      input: input,
+      output: writer,
+      convertKatakanaToNarrow: false)
+    );
     Assert.AreEqual(expectedOutput, sb.ToString());
   }
 
@@ -168,8 +174,8 @@ public class TranslatorTests {
     Assert.DoesNotThrow(
       () => t.Translate(
         input: new StringReader(input),
-        convertKatakanaToNarrow: false,
-        output: writer
+        output: writer,
+        convertKatakanaToNarrow: false
       )
     );
 
@@ -181,7 +187,13 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: (TextReader)null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
+    Assert.Throws<ArgumentNullException>(
+      () => t.Translate(
+        input: (TextReader)null!,
+        output: TextWriter.Null,
+        convertKatakanaToNarrow: convertKatakanaToNarrow
+      )
+    );
   }
 
   [Test]
@@ -189,7 +201,13 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: (string)null!, convertKatakanaToNarrow: convertKatakanaToNarrow, output: TextWriter.Null));
+    Assert.Throws<ArgumentNullException>(
+      () => t.Translate(
+        input: (string)null!,
+        output: TextWriter.Null,
+        convertKatakanaToNarrow: convertKatakanaToNarrow
+      )
+    );
   }
 
   [Test]
@@ -197,7 +215,13 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(() => t.Translate(input: string.Empty, convertKatakanaToNarrow: convertKatakanaToNarrow, output: null!));
+    Assert.Throws<ArgumentNullException>(
+      () => t.Translate(
+        input: string.Empty,
+        output: null!,
+        convertKatakanaToNarrow: convertKatakanaToNarrow
+      )
+    );
   }
 
   [TestCase("オンドゥル", "ｵﾝﾄﾞｩﾙ")]

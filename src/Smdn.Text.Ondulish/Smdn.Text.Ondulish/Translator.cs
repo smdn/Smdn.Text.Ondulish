@@ -99,7 +99,10 @@ public partial class Translator : IDisposable {
     tagger = null;
   }
 
-  public string Translate(string input, bool convertKatakanaToNarrow = true)
+  public string Translate(
+    string input,
+    bool convertKatakanaToNarrow = true
+  )
   {
     if (input is null)
       throw new ArgumentNullException(nameof(input));
@@ -120,7 +123,11 @@ public partial class Translator : IDisposable {
     return sb.ToString();
   }
 
-  public void Translate(string input, bool convertKatakanaToNarrow, TextWriter output)
+  public void Translate(
+    string input,
+    TextWriter output,
+    bool convertKatakanaToNarrow
+  )
     => Translate(
       input: new StringReader(input ?? throw new ArgumentNullException(nameof(input))),
       output: output ?? throw new ArgumentNullException(nameof(output)),
