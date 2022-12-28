@@ -54,7 +54,7 @@ partial class Translator {
     return dictionary;
   }
 
-  private readonly IReadOnlyDictionary<string, string> phonemeDictionary =
+  private static readonly IReadOnlyDictionary<string, string> phonemeDictionary =
     new ReadOnlyOrderedDictionary<string, string>(
       new[] {
         // 最優先
