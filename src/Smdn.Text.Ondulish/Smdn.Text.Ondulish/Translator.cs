@@ -113,12 +113,6 @@ public class Translator : IDisposable {
       dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key)] = entries[2].Trim();
     }
 
-#if false
-    foreach (var e in dictionary) {
-      Console.WriteLine("{0} => {1}", e.Key, e.Value);
-    }
-#endif
-
     return dictionary;
   }
 
@@ -245,10 +239,6 @@ public class Translator : IDisposable {
       if (node.stat == MeCabConsts.MECAB_BOS_NODE || node.stat == MeCabConsts.MECAB_EOS_NODE)
         continue;
 
-#if false
-      Console.WriteLine("feature: {0}", node.feature);
-#endif
-
       var featureEntries = node.feature.Split(featureSplitter);
 
       if (8 <= featureEntries.Length) {
@@ -261,10 +251,6 @@ public class Translator : IDisposable {
         ret.Append(node.surface);
       }
     }
-
-#if false
-    Console.WriteLine("{0} {1}", input, ret);
-#endif
 
     return ret.ToString();
   }
