@@ -21,6 +21,12 @@ SPDX-License-Identifier: MIT
     <ItemGroup>
       <Compile Update="$(MeCabBindingsDirectory)src\*.cs" />
     </ItemGroup>
+
+    <!-- generate MeCab IPA dictionary -->
+    <Exec
+      Command="make mecab-ipadic"
+      WorkingDirectory="$(MeCabMakefileDirectory)"
+    />
   </Target>
 
   <Target
