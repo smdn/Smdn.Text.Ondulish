@@ -36,7 +36,7 @@ SPDX-License-Identifier: MIT
     <!-- clean MeCab shared library and swig bindings -->
     <Exec
       Command="make clean-mecab-bindings"
-      WorkingDirectory="$(Highlight_MakefileDirectory)"
+      WorkingDirectory="$(MeCabMakefileDirectory)"
     />
   </Target>
 </Project>
