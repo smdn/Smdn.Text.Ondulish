@@ -51,7 +51,10 @@ SPDX-License-Identifier: MIT
     />
 
     <!-- MeCab bindings source -->
-    <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
+    <!--
+      These files will be added by MeCab.targets during the MSBuild execution phase.
+      <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
+    -->
 
     <!-- MeCab shared library -->
     <None

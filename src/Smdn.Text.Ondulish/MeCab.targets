@@ -28,7 +28,7 @@ SPDX-License-Identifier: MIT
 
     <!-- make sure to include generated SWIG binding source files to the <Compile> items -->
     <ItemGroup>
-      <Compile Update="$(MeCabBindingsDirectory)src\*.cs" />
+      <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
     </ItemGroup>
 
     <!-- generate MeCab IPA dictionary -->
