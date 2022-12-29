@@ -7,7 +7,8 @@
 install-buildtime-deps-ubuntu.22.04.stamp:
 	sudo apt-get install -y \
 	  autotools-dev \
-	  automake1.11
+	  autoconf2.64 \
+	  automake1.11 \
 	touch $@
 
 install-buildtime-deps-ubuntu.22.04: install-buildtime-deps-ubuntu.22.04.stamp
