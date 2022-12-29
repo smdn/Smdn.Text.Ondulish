@@ -11,11 +11,16 @@ SPDX-License-Identifier: MIT
     Name="MeCabBindings_Build"
     BeforeTargets="DispatchToInnerBuilds;BeforeBuild"
   >
-    <!-- generate MeCab shared library and swig bindings -->
+    <!-- generate MeCab shared library and SWIG bindings -->
     <Exec
       Command="make mecab-bindings"
       WorkingDirectory="$(MeCabMakefileDirectory)"
     />
+
+    <!-- make sure to include generated SWIG binding source files to the <Compile> items -->
+    <ItemGroup>
+      <Compile Update="$(MeCabBindingsDirectory)src\*.cs" />
+    </ItemGroup>
   </Target>
 
   <Target
