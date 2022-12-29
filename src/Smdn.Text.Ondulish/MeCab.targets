@@ -11,6 +11,15 @@ SPDX-License-Identifier: MIT
     Name="MeCabBindings_Build"
     BeforeTargets="DispatchToInnerBuilds;BeforeBuild"
   >
+    <Exec
+      Command="make install-buildtime-deps-ubuntu.22.04 -f install-deps.mk"
+      WorkingDirectory="$(MSBuildThisFileDirectory)..\..\eng\dependencies\"
+      Condition="
+        '$(GITHUB_ACTIONS)' == 'true' and
+        $([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier.StartsWith('ubuntu.22.04'))
+      "
+    />
+
     <!-- generate MeCab shared library and SWIG bindings -->
     <Exec
       Command="make mecab-bindings"
