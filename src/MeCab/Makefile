@@ -33,13 +33,19 @@ $(MECAB_SOURCE_ROOT_DIR):
 	cd $(MECAB_SOURCE_MECAB_DIR) && ./configure \
 	  --enable-shared \
 	  --enable-static \
-	  --with-pic \
 	  --with-charset=utf8 \
-	  --enable-utf8-only
+	  --with-pic
 
 libmecab-static: $(LIBMECAB_STATIC_FILE)
 
 $(LIBMECAB_STATIC_FILE): $(MECAB_SOURCE_ROOT_DIR)
+	cd $(MECAB_SOURCE_MECAB_DIR) && ./configure \
+	  --enable-shared \
+	  --enable-static \
+	  --with-pic \
+	  --with-charset=utf8 \
+	  --enable-utf8-only
+
 	$(MAKE) \
 	  --directory $(MECAB_SOURCE_MECAB_DIR)src/ \
 	  CXXFLAGS="$(CXXFLAGS_COMMON)" \
