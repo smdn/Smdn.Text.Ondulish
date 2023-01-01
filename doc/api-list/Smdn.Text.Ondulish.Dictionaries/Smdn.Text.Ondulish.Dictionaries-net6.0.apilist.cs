@@ -1,7 +1,7 @@
-// Smdn.Text.Ondulish.Dictionaries.dll (Smdn.Text.Ondulish.Dictionaries-4.0.0-preview1)
+// Smdn.Text.Ondulish.Dictionaries.dll (Smdn.Text.Ondulish.Dictionaries-4.0.0)
 //   Name: Smdn.Text.Ondulish.Dictionaries
 //   AssemblyVersion: 4.0.0.0
-//   InformationalVersion: 4.0.0-preview1+e47f0cd7079b79c34ed00e252d68a337f739d938
+//   InformationalVersion: 4.0.0+b00b156c08ffd1653c8d529e2d4f30ccb5cd60dc
 //   TargetFramework: .NETCoreApp,Version=v6.0
 //   Configuration: Release
 //   Embedded resources:
