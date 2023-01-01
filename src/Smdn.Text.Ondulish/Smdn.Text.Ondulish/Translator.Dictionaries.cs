@@ -17,7 +17,7 @@ partial class Translator {
   public IReadOnlyDictionary<string, string> PhraseDictionary { get; }
   public IReadOnlyDictionary<string, string> WordDictionary { get; }
 
-  private class WordDictionaryComparer : IComparer<string> {
+  private sealed class WordDictionaryComparer : IComparer<string> {
     public int Compare(string? x, string? y)
     {
       x ??= string.Empty;

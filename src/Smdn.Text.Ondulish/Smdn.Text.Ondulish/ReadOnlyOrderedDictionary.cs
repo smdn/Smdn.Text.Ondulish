@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Smdn.Text.Ondulish;
 
-internal class ReadOnlyOrderedDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> {
+internal sealed class ReadOnlyOrderedDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue> {
   private readonly IReadOnlyList<KeyValuePair<TKey, TValue>> dictionary;
 
   public TValue this[TKey key] => throw new NotImplementedException();
