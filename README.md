@@ -3,6 +3,15 @@
 [![CodeQL](https://github.com/smdn/Smdn.Text.Ondulish/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/smdn/Smdn.Text.Ondulish/actions/workflows/codeql-analysis.yml)
 
 # Smdn.Text.Ondulish
+This repository contains the following two .NET assemblies/NuGet packages.
+
+|Assembly|Package|
+| --- | --- |
+|[Smdn.Text.Ondulish](src/Smdn.Text.Ondulish/)|[![NuGet Smdn.Text.Ondulish](https://buildstats.info/nuget/Smdn.Text.Ondulish/)](https://www.nuget.org/packages/Smdn.Text.Ondulish/)|
+|[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)|[![NuGet Smdn.Text.Ondulish.Dictionaries](https://buildstats.info/nuget/Smdn.Text.Ondulish.Dictionaries/)](https://www.nuget.org/packages/Smdn.Text.Ondulish.Dictionaries/)|
+
+----
+
 **[Smdn.Text.Ondulish](src/Smdn.Text.Ondulish/)** is a text conversion library that provides translation features from Japanese to [Ondulish](https://kamenrider.fandom.com/wiki/Kazuma_Kenzaki#Memes) (オンドゥル語, Ondul-go, Ondul language).
 
 **[Smdn.Text.Ondulish](src/Smdn.Text.Ondulish/)** は日本語から[オンドゥル語](https://ja.wikipedia.org/wiki/%E4%BB%AE%E9%9D%A2%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E5%89%A3#%E3%82%AA%E3%83%B3%E3%83%89%E3%82%A5%E3%83%AB%E8%AA%9E)への変換機能を提供する.NETライブラリです。
@@ -22,13 +31,6 @@ For other platforms, it is required to build and deploy the wrapper library for 
 **[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)** はオンドゥル語の単語とフレーズへの変換を行う辞書を提供するライブラリです。
 
 These dictionaries are provided as `<EmbeddedResource>`s in the assembly, and are automatically loaded from `Smdn.Text.Ondulish`.
-
-----
-
-|Assembly|Package|
-| --- | --- |
-|[Smdn.Text.Ondulish](src/Smdn.Text.Ondulish/)|[![NuGet Smdn.Text.Ondulish](https://buildstats.info/nuget/Smdn.Text.Ondulish/)](https://www.nuget.org/packages/Smdn.Text.Ondulish/)|
-|[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)|[![NuGet Smdn.Text.Ondulish.Dictionaries](https://buildstats.info/nuget/Smdn.Text.Ondulish.Dictionaries/)](https://www.nuget.org/packages/Smdn.Text.Ondulish.Dictionaries/)|
 
 ## Usage
 First, add `<PackageReference>`s to the project file.
