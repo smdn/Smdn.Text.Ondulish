@@ -9,7 +9,7 @@
 
 This library requires [MeCab](https://taku910.github.io/mecab/) for the text conversion. The NuGet package `Smdn.Text.Ondulish` includes and provides MeCab bindings for .NET. Supported platforms of the bundled wrapper library are described by the property `RuntimeIdentifiers`' [RID](https://learn.microsoft.com/dotnet/core/rid-catalog). See the file [Smdn.Text.Ondulish.csproj](src/Smdn.Text.Ondulish/Smdn.Text.Ondulish.csproj).
 
-For other platforms, it is required to build and deploy the wrapper library for the bindings by yourself for now.
+For other platforms, it is required to build and deploy the wrapper library for the bindings by yourself for now. See [build instructions](./doc/build-mecab-wrapper-library.md) for detail.
 
 **[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)** is a library provides dictionaries for conversion to Ondulish words and phrases.
 
