@@ -11,11 +11,19 @@ This library requires [MeCab](https://taku910.github.io/mecab/) for the text con
 
 For other platforms, it is required to build and deploy the wrapper library for the bindings by yourself for now. See [build instructions](./doc/build-mecab-wrapper-library.md) for detail.
 
+このライブラリでは、テキスト変換に[MeCab](https://taku910.github.io/mecab/)を使用しています。　NuGetパッケージ`Smdn.Text.Ondulish`には、.NET用MeCabバインディングも同梱していますが、[Smdn.Text.Ondulish.csproj](src/Smdn.Text.Ondulish/Smdn.Text.Ondulish.csproj)の`RuntimeIdentifiers`に記載されているプラットフォームのみをサポートしています。
+
+それ以外のプラットフォームでは、MeCabバインディング用のラッパーライブラリを個別にビルドして配置する必要があります。　詳しくは[ビルド手順](./doc/build-mecab-wrapper-library.md)を参照してください。
+
+----
+
 **[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)** is a library provides dictionaries for conversion to Ondulish words and phrases.
 
 **[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)** はオンドゥル語の単語とフレーズへの変換を行う辞書を提供するライブラリです。
 
 These dictionaries are provided as `<EmbeddedResource>`s in the assembly, and are automatically loaded from `Smdn.Text.Ondulish`.
+
+----
 
 |Assembly|Package|
 | --- | --- |
