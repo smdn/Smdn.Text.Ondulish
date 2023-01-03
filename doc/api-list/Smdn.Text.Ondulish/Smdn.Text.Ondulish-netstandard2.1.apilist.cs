@@ -1,7 +1,7 @@
-// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.0.0-preview1)
+// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.0.0)
 //   Name: Smdn.Text.Ondulish
 //   AssemblyVersion: 4.0.0.0
-//   InformationalVersion: 4.0.0-preview1+e47f0cd7079b79c34ed00e252d68a337f739d938
+//   InformationalVersion: 4.0.0+83e998fd2f6e3822969df4b1b14bf2fab381d0f5
 //   TargetFramework: .NETStandard,Version=v2.1
 //   Configuration: Release
 #nullable enable annotations
