@@ -12,7 +12,8 @@ SPDX-License-Identifier: MIT
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Smdn.Text.Ondulish" Version="4.*" />
+    <PackageReference Include="Smdn.Text.Ondulish" Version="4.0.*" />
+    <PackageReference Include="Smdn.Text.Ondulish.Dictionaries" Version="4.0.*" />
   </ItemGroup>
 
 </Project>
