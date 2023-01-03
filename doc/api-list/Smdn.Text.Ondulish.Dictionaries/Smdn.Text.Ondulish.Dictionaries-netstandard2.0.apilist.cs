@@ -1,12 +1,12 @@
-// Smdn.Text.Ondulish.Dictionaries.dll (Smdn.Text.Ondulish.Dictionaries-4.0.0)
+// Smdn.Text.Ondulish.Dictionaries.dll (Smdn.Text.Ondulish.Dictionaries-4.0.1)
 //   Name: Smdn.Text.Ondulish.Dictionaries
-//   AssemblyVersion: 4.0.0.0
-//   InformationalVersion: 4.0.0+b00b156c08ffd1653c8d529e2d4f30ccb5cd60dc
+//   AssemblyVersion: 4.0.1.0
+//   InformationalVersion: 4.0.1+c1dd603eda752a0663a70ade3b4ffbc85061ba78
 //   TargetFramework: .NETStandard,Version=v2.0
 //   Configuration: Release
 //   Embedded resources:
-//     Smdn.Text.Ondulish.Dictionaries.phrases (4,549 bytes, Embedded, ContainedInManifestFile)
-//     Smdn.Text.Ondulish.Dictionaries.words (1,751 bytes, Embedded, ContainedInManifestFile)
+//     Smdn.Text.Ondulish.Dictionaries.phrases (5,027 bytes, Embedded, ContainedInManifestFile)
+//     Smdn.Text.Ondulish.Dictionaries.words (2,002 bytes, Embedded, ContainedInManifestFile)
 #nullable enable annotations
 
 using System.IO;
