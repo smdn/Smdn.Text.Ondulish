@@ -1,13 +1,13 @@
-// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.0.0)
+// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.0.1)
 //   Name: Smdn.Text.Ondulish
-//   AssemblyVersion: 4.0.0.0
-//   InformationalVersion: 4.0.0+83e998fd2f6e3822969df4b1b14bf2fab381d0f5
+//   AssemblyVersion: 4.0.1.0
+//   InformationalVersion: 4.0.1+adcd5ace021c7d1e4227125816c448c35b6af524
 //   TargetFramework: .NETStandard,Version=v2.1
 //   Configuration: Release
 //   Referenced assemblies:
 //     Smdn.Fundamental.Csv, Version=3.1.0.0, Culture=neutral
 //     Smdn.Fundamental.String.Replacement, Version=3.0.2.0, Culture=neutral
-//     Smdn.Text.Ondulish.Dictionaries, Version=4.0.1.0, Culture=neutral
+//     Smdn.Text.Ondulish.Dictionaries, Version=4.0.0.0, Culture=neutral
 //     netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 #nullable enable annotations
 
