@@ -1,0 +1,60 @@
+# This file is based on https://github.com/dotnet/runtime/blob/main/.github/ISSUE_TEMPLATE/02_api_proposal.yml
+name: Feature Request
+description: Propose a feature request, API additions, or implementation improvements.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project welcomes proposals! Please take a look at project's contribution guidelines before submitting an proposal.
+        以下のテンプレートは可能なら英語での記入が望ましいですが、日本語でも構いません。
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Background and motivation
+      description: |
+        Please describe what you would like to accomplish with this proposal or what your goal is.
+
+        - What features are missing to achieve your goals?
+        - What APIs are missing to achieve your purpose?
+        - What improvements can be made to the current implementation?
+
+      placeholder: Purpose or goal / この提案が目的とすること、この提案で実現したいことは何ですか?
+    validations:
+      required: true
+
+  - type: textarea
+    id: api-suggestion
+    attributes:
+      label: API suggestion
+      description: |
+        Please provide the specific public API signature if you have a suggestion for API addition.
+      placeholder: |
+        API declaration (no method bodies) / API追加の提案であれば、提案するAPI宣言
+
+        ```csharp
+        namespace Smdn.Library;
+
+        public class ACertainExistingType {
+            public void InvokeCurrentFeature();
+            public void InvokeNewAwesomeFeature(); // new API
+        }
+        ```
+
+        Add `InvokeNewAwesomeFeature()` to provide a call to the certain awesome feature.
+    validations:
+      required: false
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Proposal details and considerations
+      description: |
+        Please provide details and considerations of your proposal.
+
+        - Please provide any considerations and additional information, such as prerequisites for implementation, work that will be required, possible problems, etc.
+        - Please provide any references, specifications, or links relevant to your proposal.
+      placeholder: Proposal details and considerations / 提案の詳細や検討すべき事項、参考となる文書へのリンクなど
+    validations:
+      required: false
