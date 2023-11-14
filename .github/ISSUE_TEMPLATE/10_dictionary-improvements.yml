@@ -1,0 +1,52 @@
+name: 単語やフレーズの追加・修正
+description: 辞書への単語またはフレーズの追加・修正を提案します
+labels: [dictionary-improvements]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        辞書への訳語の追加、あるいは訳語の修正を提案する場合は、以下のテンプレートを記入してください。
+        追加や修正が妥当かどうかを判断できる根拠・出典・参考資料等の提示がない場合は、要望を却下します。
+
+  - type: textarea
+    id: input-text
+    attributes:
+      label: 翻訳前の単語またはフレーズ
+      description: 翻訳前の単語またはフレーズを記入してください。
+      placeholder: 本当に裏切ったんですか!?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-ondulish-translation
+    attributes:
+      label: 期待される訳語あるいは翻訳結果
+      description: 翻訳前の単語またはフレーズに対して、翻訳結果として期待されるオンドゥル語を記入してください。
+      placeholder: ｵﾝﾄﾞｩﾙﾙﾗｷﾞｯﾀﾝﾃﾞｨｽｶｰ!?
+    validations:
+      required: true
+
+  - type: textarea
+    id: ondulish-references
+    attributes:
+      label: 根拠・出典・参考資料など
+      description: |
+        期待される訳語あるいは翻訳結果が「オンドゥル語であること、また適切な訳語であること」を示す根拠・出典・参考資料などを提示してください。
+
+        - オンドゥル語をまとめたWikiなど、すでに多人数による検証済みの出典・参考資料を提示してください。
+        - 出典・参考資料がない場合は、広く知られ、また使われている訳語であることを示す何らかのレポートを提示してください。
+        - 上記いずれもない場合は、あなたがそのオンドゥル語を知った・見た場所(動画・ウェブサイトなど)を提示してください。
+      placeholder: |
+        Wikipediaの「仮面ライダー剣」ページ「オンドゥル語」セクションにて、以下のように記述されています。
+
+        <q cite="https://ja.m.wikipedia.org/wiki/%E4%BB%AE%E9%9D%A2%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E5%89%A3#%E3%82%AA%E3%83%B3%E3%83%89%E3%82%A5%E3%83%AB%E8%AA%9E">「本当に裏切ったんですか!?」というセリフが、滑舌が悪かったため不明瞭で「ｵﾝﾄﾞｩﾙﾙﾗｷﾞｯﾀﾝﾃﾞｨｽｶｰ!」に聞こえた</q>
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-info
+    attributes:
+      label: その他の記載事項
+      description: なにかあればご記入ください。
+    validations:
+      required: false
