@@ -48,7 +48,7 @@ partial class Translator {
 
       var key = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
 
-      dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key)] = entries[2].Trim();
+      dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key).ToLowerInvariant()] = entries[2].Trim().ToLowerInvariant();
     }
 
     return dictionary;

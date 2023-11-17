@@ -163,7 +163,7 @@ public partial class Translator : IDisposable {
 
       var fragments =
         ConvertWithDictionary(
-          ConvertToKatakana(line),
+          ConvertToKatakana(line).ToLowerInvariant(),
           PhraseDictionary
         )
         .SelectMany(f =>
