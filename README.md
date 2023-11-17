@@ -88,9 +88,9 @@ The APIs exposed by each package are listed in [doc/api-list/](doc/api-list/).
 # For contributers
 Contributions are welcome!
 
-It is very welcome to accept contributions to improve and update the [word](src/Smdn.Text.Ondulish.Dictionaries/dictionary-words.csv) and [phrase](src/Smdn.Text.Ondulish.Dictionaries/dictionary-phrases.csv) dictionary. Please propose these changes by creating a [Pull Request](/../../pulls/).
+It is very welcome to accept contributions to improve and update the [word](src/Smdn.Text.Ondulish.Dictionaries/dictionary-words.csv) and [phrase](src/Smdn.Text.Ondulish.Dictionaries/dictionary-phrases.csv) dictionary. Please propose these changes by creating a [Issue](/../../issues/new?labels=dictionary-improvements&template=10_dictionary-improvements.yml&title=[辞書改善]%3A+) or [Pull Request](/../../pulls/).
 
-[単語](src/Smdn.Text.Ondulish.Dictionaries/dictionary-words.csv)と[フレーズ](src/Smdn.Text.Ondulish.Dictionaries/dictionary-phrases.csv)の辞書については、更新・改善に関する変更を積極的に受け付けています。　[プルリクエスト](/../../pulls/)にてご提案ください。
+[単語](src/Smdn.Text.Ondulish.Dictionaries/dictionary-words.csv)と[フレーズ](src/Smdn.Text.Ondulish.Dictionaries/dictionary-phrases.csv)の辞書については、更新・改善に関する変更を積極的に受け付けています。　[Issue](/../../issues/new?labels=dictionary-improvements&template=10_dictionary-improvements.yml&title=[辞書改善]%3A+)または[プルリクエスト](/../../pulls/)にてご提案ください。
 
 Note that though, adding library functionality or expanding target platforms is not a major goal for now, so changes like these are not considered high priority task.
 
