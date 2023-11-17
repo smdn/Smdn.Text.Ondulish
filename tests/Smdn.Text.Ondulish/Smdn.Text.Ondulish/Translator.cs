@@ -78,6 +78,10 @@ public class TranslatorTests {
   [TestCase("俺は！  貴様を！", "オレァ！クサムヲ！")]
   [TestCase("俺は！　貴様を！", "オレァ！　クサムヲ！")]
   [TestCase("俺は！貴様か！", "オレァ！クサムカァ！")]
+  [TestCase("いえ！何も！", "ヴェ！マリモ！")]
+  [TestCase("いえ!何も!", "ヴェ!マリモ!")]
+  [TestCase("いえ、何も!", "ヴェ、マリモ!")]
+  [TestCase("いえ何も。", "ヴェマリモ。")]
   [TestCase("俺の体はボロボロだ", "オデノカラダハボドボドダ")]
   [TestCase("あいうえお", "ア゛イルエオ")]
   [TestCase("#$%&'", "#$%&'")]
@@ -240,6 +244,22 @@ public class TranslatorTests {
     Assert.AreEqual(
       expected,
       t.Translate(input, convertKatakanaToNarrow: true)
+    );
+  }
+
+  [TestCase("GOT TO BE STRONG", "辛味噌")]
+  [TestCase("Got To Be Strong", "辛味噌")]
+  [TestCase("got to be strong", "辛味噌")]
+  [TestCase("got to be strong!", "辛味噌!")]
+  [TestCase("7020km", "南西20キロ")]
+  [TestCase("7020キロ", "南西20キロ")]
+  public void Translate_FromNonJapanesePhrase(string input, string expected)
+  {
+    using var t = new Translator();
+
+    Assert.AreEqual(
+      expected,
+      t.Translate(input, convertKatakanaToNarrow: false)
     );
   }
 
