@@ -1,7 +1,7 @@
-// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.0.1)
+// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.0.2)
 //   Name: Smdn.Text.Ondulish
-//   AssemblyVersion: 4.0.1.0
-//   InformationalVersion: 4.0.1+adcd5ace021c7d1e4227125816c448c35b6af524
+//   AssemblyVersion: 4.0.2.0
+//   InformationalVersion: 4.0.2+7eedf34a0e35f2209f6384d70422e3e8bc328dc1
 //   TargetFramework: .NETStandard,Version=v2.1
 //   Configuration: Release
 //   Referenced assemblies:
