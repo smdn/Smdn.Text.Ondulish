@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2024 smdn <smdn@smdn.jp>
+# SPDX-License-Identifier: MIT
+#
+# EditorConfig is awesome: https://EditorConfig.org
+
+[*.cs]
+generated_code = true
+
+dotnet_diagnostic.CS8981.severity = none # CS8981 - The type name only contains lower-cased ascii characters.

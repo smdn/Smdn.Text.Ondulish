@@ -1,2 +1,3 @@
 mecab/
 mecab-bindings/
+!mecab-bindings/src/.editorconfig
