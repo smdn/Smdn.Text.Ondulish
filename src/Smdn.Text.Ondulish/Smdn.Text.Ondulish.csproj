@@ -4,8 +4,14 @@ SPDX-License-Identifier: MIT
 -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
-    <RuntimeIdentifiers>ubuntu.22.04-x64</RuntimeIdentifiers>
+    <TargetFrameworks>net8.0;net6.0;netstandard2.1</TargetFrameworks>
+    <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers Condition="
+      $(TargetFramework.StartsWith('net7')) or
+      $(TargetFramework.StartsWith('net6')) or
+      $(TargetFramework.StartsWith('net5')) or
+      $(TargetFramework.StartsWith('netstandard'))
+    ">linux-x64;ubuntu.22.04-x64</RuntimeIdentifiers>
     <VersionPrefix>4.0.2</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <PackageValidationBaselineVersion>4.0.0</PackageValidationBaselineVersion>
@@ -58,11 +64,18 @@ SPDX-License-Identifier: MIT
       <Compile Include="$(MeCabBindingsDirectory)src\*.cs" />
     -->
 
-    <!-- MeCab shared library -->
+    <!-- MeCab shared library for ubuntu.22.04-x64 -->
     <None
       Include="$(MeCabBindingsDirectory)runtimes\ubuntu.22.04-x64\native\libmecab.so"
       Pack="true"
       PackagePath="runtimes\ubuntu.22.04-x64\native\libmecab.so"
+      CopyToOutputDirectory="PreserveNewest"
+    />
+    <!-- MeCab shared library for linux-x64 (substitute ubuntu.22.04-x64 for linux-x64) -->
+    <None
+      Include="$(MeCabBindingsDirectory)runtimes\ubuntu.22.04-x64\native\libmecab.so"
+      Pack="true"
+      PackagePath="runtimes\linux-x64\native\libmecab.so"
       CopyToOutputDirectory="PreserveNewest"
     />
 
