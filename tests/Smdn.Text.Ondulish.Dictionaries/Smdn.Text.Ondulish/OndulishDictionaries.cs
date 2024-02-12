@@ -1,8 +1,8 @@
 ﻿// SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
-using System;
 using System.IO;
 using System.Text;
+
 using NUnit.Framework;
 
 namespace Smdn.Text.Ondulish;
@@ -14,15 +14,15 @@ public class OndulishDictionariesTests {
   {
     using var stream = OndulishDictionaries.OpenPhraseDictionaryStream();
 
-    Assert.IsNotNull(stream);
-    Assert.Greater(stream.Length, 0);
-    Assert.IsTrue(stream.CanRead);
+    Assert.That(stream, Is.Not.Null);
+    Assert.That(stream.Length, Is.GreaterThan(0));
+    Assert.That(stream.CanRead, Is.True);
 
     var reader = new StreamReader(stream, Encoding.UTF8);
 
-    StringAssert.Contains(
-      ",オンドゥルルラギッタンディスカー",
-      reader.ReadToEnd()
+    Assert.That(
+      reader.ReadToEnd(),
+      Does.Contain(",オンドゥルルラギッタンディスカー")
     );
   }
 
@@ -31,15 +31,15 @@ public class OndulishDictionariesTests {
   {
     using var stream = OndulishDictionaries.OpenWordDictionaryStream();
 
-    Assert.IsNotNull(stream);
-    Assert.Greater(stream.Length, 0);
-    Assert.IsTrue(stream.CanRead);
+    Assert.That(stream, Is.Not.Null);
+    Assert.That(stream.Length, Is.GreaterThan(0));
+    Assert.That(stream.CanRead, Is.True);
 
     var reader = new StreamReader(stream, Encoding.UTF8);
 
-    StringAssert.Contains(
-      ",ダディャーナザァーン",
-      reader.ReadToEnd()
+    Assert.That(
+      reader.ReadToEnd(),
+      Does.Contain(",ダディャーナザァーン")
     );
   }
 }

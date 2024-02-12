@@ -1,6 +1,7 @@
 ﻿// SPDX-FileCopyrightText: 2020 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
 using System;
+
 using NUnit.Framework;
 
 namespace Smdn.Text.Ondulish;
@@ -19,9 +20,9 @@ public class KanaUtilsTests {
   [TestCase("日本語", "日本語")]
   [TestCase("\u3040\u3041\u3096\u3097", "\u3040\u30a1\u30f6\u3097")]
   public void ConvertWideHiraganaToKatakana(string input, string expected)
-    => Assert.AreEqual(
-      expected,
-      KanaUtils.ConvertWideHiraganaToKatakana(input)
+    => Assert.That(
+      KanaUtils.ConvertWideHiraganaToKatakana(input),
+      Is.EqualTo(expected)
     );
 
   [Test]
@@ -40,9 +41,9 @@ public class KanaUtilsTests {
   [TestCase("日本語", "日本語")]
   [TestCase("\u3040\u30a1\u30f6\u3097", "\u3040\u3041\u3096\u3097")]
   public void ConvertWideKatakanaToHiragana(string input, string expected)
-    => Assert.AreEqual(
-      expected,
-      KanaUtils.ConvertWideKatakanaToHiragana(input)
+    => Assert.That(
+      KanaUtils.ConvertWideKatakanaToHiragana(input),
+      Is.EqualTo(expected)
     );
 
   [Test]
@@ -162,9 +163,9 @@ public class KanaUtilsTests {
 
   [TestCaseSource(nameof(YieldTestCases_ConvertWideKatakanaToNarrowKatakana))]
   public void ConvertWideKatakanaToNarrowKatakana(string input, string expected)
-    => Assert.AreEqual(
-      expected,
-      KanaUtils.ConvertWideKatakanaToNarrowKatakana(input)
+    => Assert.That(
+      KanaUtils.ConvertWideKatakanaToNarrowKatakana(input),
+      Is.EqualTo(expected)
     );
 
   private static System.Collections.IEnumerable YieldTestCases_ConvertWideKatakanaToNarrowKatakana_KatakanaPhoneticExtensions()
@@ -197,9 +198,9 @@ public class KanaUtilsTests {
 
   [TestCaseSource(nameof(YieldTestCases_ConvertWideKatakanaToNarrowKatakana_KatakanaPhoneticExtensions))]
   public void ConvertWideKatakanaToNarrowKatakana_KatakanaPhoneticExtensions(string input)
-    => Assert.AreEqual(
-      input,
-      KanaUtils.ConvertWideKatakanaToNarrowKatakana(input)
+    => Assert.That(
+      KanaUtils.ConvertWideKatakanaToNarrowKatakana(input),
+      Is.EqualTo(input)
     );
 
   [Test]

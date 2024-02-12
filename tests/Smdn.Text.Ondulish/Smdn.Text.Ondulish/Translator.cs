@@ -15,7 +15,7 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.IsNotNull(t);
+    Assert.That(t, Is.Not.Null);
     Assert.DoesNotThrow(t.Dispose);
   }
 
@@ -36,8 +36,8 @@ public class TranslatorTests {
     Assert.DoesNotThrow(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true));
     Assert.DoesNotThrow(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false));
 
-    Assert.DoesNotThrow(() => t.Dispose(), "dispose #1");
-    Assert.DoesNotThrow(() => t.Dispose(), "dispose #2");
+    Assert.DoesNotThrow(t.Dispose, "dispose #1");
+    Assert.DoesNotThrow(t.Dispose, "dispose #2");
 
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true));
     Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false));
@@ -92,9 +92,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input, convertKatakanaToNarrow: false)
+    Assert.That(
+      t.Translate(input, convertKatakanaToNarrow: false),
+      Is.EqualTo(expected)
     );
   }
 
@@ -103,16 +103,16 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      "オンドゥルルラギッタンディスカー",
-      t.Translate("本当に裏切ったんですか", convertKatakanaToNarrow: false)
+    Assert.That(
+      t.Translate("本当に裏切ったんですか", convertKatakanaToNarrow: false),
+      Is.EqualTo("オンドゥルルラギッタンディスカー")
     );
   }
 
   [Test]
   public void Translate_MultipleLines()
   {
-    const string input = @"本当に裏切ったんですか
+    const string Input = @"本当に裏切ったんですか
 
 本当に裏切ったんですか";
 
@@ -122,9 +122,9 @@ public class TranslatorTests {
 
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input, convertKatakanaToNarrow: false)
+    Assert.That(
+      t.Translate(Input, convertKatakanaToNarrow: false),
+      Is.EqualTo(expected)
     );
   }
 
@@ -135,9 +135,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input)
+    Assert.That(
+      t.Translate(input),
+      Is.EqualTo(expected)
     );
   }
 
@@ -166,7 +166,7 @@ public class TranslatorTests {
       output: writer,
       convertKatakanaToNarrow: false)
     );
-    Assert.AreEqual(expectedOutput, sb.ToString());
+    Assert.That(sb.ToString(), Is.EqualTo(expectedOutput));
   }
 
   [TestCase("", "")]
@@ -186,7 +186,7 @@ public class TranslatorTests {
       )
     );
 
-    Assert.AreEqual(expectedOutput, sb.ToString());
+    Assert.That(sb.ToString(), Is.EqualTo(expectedOutput));
   }
 
   [Test]
@@ -241,9 +241,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input, convertKatakanaToNarrow: true)
+    Assert.That(
+      t.Translate(input, convertKatakanaToNarrow: true),
+      Is.EqualTo(expected)
     );
   }
 
@@ -257,9 +257,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input, convertKatakanaToNarrow: false)
+    Assert.That(
+      t.Translate(input, convertKatakanaToNarrow: false),
+      Is.EqualTo(expected)
     );
   }
 
@@ -269,9 +269,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input, convertKatakanaToNarrow: false)
+    Assert.That(
+      t.Translate(input, convertKatakanaToNarrow: false),
+      Is.EqualTo(expected)
     );
   }
 
@@ -293,9 +293,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.AreEqual(
-      expected,
-      t.Translate(input, convertKatakanaToNarrow: false)
+    Assert.That(
+      t.Translate(input, convertKatakanaToNarrow: false),
+      Is.EqualTo(expected)
     );
   }
 
@@ -305,14 +305,14 @@ public class TranslatorTests {
     using var t = new Translator();
 
     foreach (var pair in t.WordDictionary) {
-      const string inputPrepend = "あ";
-      const string outputPrepend = "ア゛";
-      const string inputAppend = "う";
-      const string outputAppend = "ル";
+      const string InputPrepend = "あ";
+      const string OutputPrepend = "ア゛";
+      const string InputAppend = "う";
+      const string OutputAppend = "ル";
 
-      Assert.AreEqual(
-        outputPrepend + pair.Value + outputAppend,
-        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false)
+      Assert.That(
+        t.Translate(InputPrepend + pair.Key + InputAppend, convertKatakanaToNarrow: false),
+        Is.EqualTo(OutputPrepend + pair.Value + OutputAppend)
       );
     }
   }
@@ -323,14 +323,14 @@ public class TranslatorTests {
     using var t = new Translator();
 
     foreach (var pair in t.PhraseDictionary) {
-      const string inputPrepend = "あ";
-      const string outputPrepend = "ア゛";
-      const string inputAppend = "う";
-      const string outputAppend = "ル";
+      const string InputPrepend = "あ";
+      const string OutputPrepend = "ア゛";
+      const string InputAppend = "う";
+      const string OutputAppend = "ル";
 
-      Assert.AreEqual(
-        outputPrepend + pair.Value + outputAppend,
-        t.Translate(inputPrepend + pair.Key + inputAppend, convertKatakanaToNarrow: false)
+      Assert.That(
+        t.Translate(InputPrepend + pair.Key + InputAppend, convertKatakanaToNarrow: false),
+        Is.EqualTo(OutputPrepend + pair.Value + OutputAppend)
       );
     }
   }
