@@ -61,6 +61,27 @@ This code outputs as follows:
 See the projects in the [examples](./examples/) directory for more usages.
 
 ## Troubleshooting at run time
+### Warning `NETSDK1206` / Simplified RID issues (.NET 8.0)
+Starting with .NET 8.0, Runtime Identifiers (RID) such as `ubuntu.22.04-x64` have been simplified and it is recommended to use `linux-x64` instead.
+
+Some older versions of `Smdn.Text.Ondulish` packages do not contain native binaries targeting `linux-x64`.
+
+This may result in native binaries not being deployed and `DllNotFoundException` being thrown at runtime. Also, a warning `NETSDK1206` is displayed at build time.
+
+```
+$ dotnet build
+/usr/share/dotnet/sdk/8.0.101/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Sdk.targets(284,5): warning NETSDK1206: Found version-specific or distribution-specific runtime identifier(s): ubuntu.22.04-x64. Affected libraries: Smdn.Text.Ondulish. In .NET 8.0 and higher, assets for version-specific and distribution-specific runtime identifiers will not be found by default. See https://aka.ms/dotnet/rid-usage for details. [/home/runner/work/OndulishTranslator/OndulishTranslator.csproj::TargetFramework=net8.0]
+
+$ dotnet run
+System.TypeInitializationException: The type initializer for 'MeCab.MeCabPINVOKE' threw an exception.
+  ---> System.TypeInitializationException: The type initializer for 'SWIGExceptionHelper' threw an exception.
+  ---> System.DllNotFoundException: Unable to load shared library 'mecab' or one of its dependencies. In order to help diagnose loading problems, consider using a tool like strace. If you're using glibc, consider setting the LD_DEBUG environment variable:
+```
+
+To avoid this problem, use the version of `Smdn.Text.Ondulish` that ships with `linux-x64` native binaries, or apply the workaround given in [smdn/Smdn.LibHighlightSharp issue #141](https://github.com/smdn/Smdn.LibHighlightSharp/issues/141).
+
+
+
 ### `DllImport` issues
 If the exception `TypeInitializationException` or `DllNotFoundException` occurs like below, the [MeCab SWIG binding library](https://github.com/taku910/mecab/tree/master/mecab/swig) may not have been deployed correctly or is not available on the deployed platform.
 
