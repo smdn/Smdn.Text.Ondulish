@@ -2,10 +2,10 @@
 //   Name: Smdn.Text.Ondulish.Dictionaries
 //   AssemblyVersion: 4.1.0.0
 //   InformationalVersion: 4.1.0+03f779090fe8f75585cc1750ae1d8fc9f650a641
-//   TargetFramework: .NETStandard,Version=v2.0
+//   TargetFramework: .NETCoreApp,Version=v8.0
 //   Configuration: Release
 //   Referenced assemblies:
-//     netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+//     System.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 //   Embedded resources:
 //     Smdn.Text.Ondulish.Dictionaries.phrases (5,670 bytes, Embedded, ContainedInManifestFile)
 //     Smdn.Text.Ondulish.Dictionaries.words (2,231 bytes, Embedded, ContainedInManifestFile)
