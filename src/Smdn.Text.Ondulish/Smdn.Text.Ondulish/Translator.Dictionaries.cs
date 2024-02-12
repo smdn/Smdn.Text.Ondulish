@@ -24,7 +24,7 @@ partial class Translator {
       y ??= string.Empty;
 
       return x.Length == y.Length
-        ? StringComparer.Ordinal.Compare(x, y)
+        ? StringComparer.OrdinalIgnoreCase.Compare(x, y)
         : y.Length - x.Length;
     }
   }

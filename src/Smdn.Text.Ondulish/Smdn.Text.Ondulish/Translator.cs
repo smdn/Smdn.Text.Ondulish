@@ -168,17 +168,18 @@ public partial class Translator : IDisposable {
 
       var fragments =
         ConvertWithDictionary(
-          ConvertToKatakana(line).ToLowerInvariant(),
-          PhraseDictionary
+          ConvertToKatakana(line),
+          PhraseDictionary,
+          StringComparison.OrdinalIgnoreCase
         )
         .SelectMany(f =>
           f.ConvertedText is null
-            ? ConvertWithDictionary(f.SourceText, WordDictionary)
+            ? ConvertWithDictionary(f.SourceText, WordDictionary, StringComparison.OrdinalIgnoreCase)
             : Enumerable.Repeat(f, 1)
         )
         .SelectMany(f =>
           f.ConvertedText is null
-            ? ConvertWithDictionary(f.SourceText, PhonemeDictionary)
+            ? ConvertWithDictionary(f.SourceText, PhonemeDictionary, StringComparison.OrdinalIgnoreCase)
             : Enumerable.Repeat(f, 1)
         )
         .Select(static f =>
@@ -256,6 +257,7 @@ public partial class Translator : IDisposable {
     string input,
     int startIndex,
     IReadOnlyDictionary<string, string> dictionary,
+    StringComparison comparison,
     out int position,
     out KeyValuePair<string, string> candidate
   )
@@ -264,7 +266,7 @@ public partial class Translator : IDisposable {
     candidate = default;
 
     foreach (var entry in dictionary) {
-      var pos = input.IndexOf(entry.Key, startIndex, StringComparison.Ordinal);
+      var pos = input.IndexOf(entry.Key, startIndex, comparison);
 
       if (0 <= pos && pos < position) {
         position = pos;
@@ -277,12 +279,13 @@ public partial class Translator : IDisposable {
 
   private static IEnumerable<TextFragment> ConvertWithDictionary(
     string input,
-    IReadOnlyDictionary<string, string> dictionary
+    IReadOnlyDictionary<string, string> dictionary,
+    StringComparison comparison
   )
   {
     var offset = 0;
 
-    while (FindMostLeftAndLongestCandidate(input, offset, dictionary, out var position, out var candidate)) {
+    while (FindMostLeftAndLongestCandidate(input, offset, dictionary, comparison, out var position, out var candidate)) {
       if (offset < position)
         yield return new TextFragment(input.Substring(offset, position - offset), null);
 

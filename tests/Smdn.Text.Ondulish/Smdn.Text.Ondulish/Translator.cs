@@ -253,6 +253,7 @@ public class TranslatorTests {
   [TestCase("got to be strong!", "辛味噌!")]
   [TestCase("7020km", "南西20キロ")]
   [TestCase("7020キロ", "南西20キロ")]
+  [TestCase("(OwO)", "(OwO)")] // will not be translated, to be returned as it is
   public void Translate_FromNonJapanesePhrase(string input, string expected)
   {
     using var t = new Translator();
