@@ -67,20 +67,24 @@ public partial class Translator : IDisposable {
 
       PhraseDictionary = LoadDictionary(stream);
     }
+#pragma warning disable CA1031
     catch {
-      // ignore exceptions
+      // ignore any exceptions
       PhraseDictionary = CreateEmptyDictionary();
     }
+#pragma warning restore CA1031
 
     try {
       using var stream = OndulishDictionaries.OpenWordDictionaryStream();
 
       WordDictionary = LoadDictionary(stream);
     }
+#pragma warning disable CA1031
     catch {
-      // ignore exceptions
+      // ignore any exceptions
       WordDictionary = CreateEmptyDictionary();
     }
+#pragma warning restore CA1031
 
     static IReadOnlyDictionary<string, string> CreateEmptyDictionary()
       => Enumerable.Empty<(string Key, string Value)>().ToDictionary(static pair => pair.Key, static pair => pair.Value);
@@ -114,10 +118,11 @@ public partial class Translator : IDisposable {
       return string.Empty;
 
     var sb = new StringBuilder(input.Length * 2);
+    using var writer = new StringWriter(sb);
 
     Translate(
       input: new StringReader(input),
-      output: new StringWriter(sb),
+      output: writer,
       convertKatakanaToNarrow: convertKatakanaToNarrow
     );
 
@@ -173,7 +178,7 @@ public partial class Translator : IDisposable {
         )
         .SelectMany(f =>
           f.ConvertedText is null
-            ? ConvertWithDictionary(f.SourceText, phonemeDictionary)
+            ? ConvertWithDictionary(f.SourceText, PhonemeDictionary)
             : Enumerable.Repeat(f, 1)
         )
         .Select(static f =>
@@ -202,11 +207,17 @@ public partial class Translator : IDisposable {
     output.Flush();
   }
 
-  private static readonly char[] featureSplitter = new[] { ',' };
+  private static readonly char[] FeatureSplitter = { ',' };
 
   private string ConvertToKatakana(string input)
   {
-    input = input.Replace(",", "，"); // XXX: feature splitter
+    // XXX: feature splitter
+    input = input
+#if SYSTEM_STRING_REPLACE_STRING_STRING_STRINGCOMPARISON
+      .Replace(",", "，", StringComparison.Ordinal);
+#else
+      .Replace(",", "，");
+#endif
 
     var ret = new StringBuilder(input.Length * 2);
 
@@ -214,7 +225,7 @@ public partial class Translator : IDisposable {
       if (node.stat == MeCabConsts.MECAB_BOS_NODE || node.stat == MeCabConsts.MECAB_EOS_NODE)
         continue;
 
-      var featureEntries = node.feature.Split(featureSplitter);
+      var featureEntries = node.feature.Split(FeatureSplitter);
 
       if (8 <= featureEntries.Length) {
         switch (featureEntries[6]) {

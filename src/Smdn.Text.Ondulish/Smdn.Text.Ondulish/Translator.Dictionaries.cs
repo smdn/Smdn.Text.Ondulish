@@ -29,7 +29,7 @@ partial class Translator {
     }
   }
 
-  private static readonly char[] dictionaryPunctuationChars = new[] { '！', '？', '!', '?', '、', '。' };
+  private static readonly char[] DictionaryPunctuationChars = new[] { '！', '？', '!', '?', '、', '。' };
 
   private static SortedList<string, string> LoadDictionary(Stream stream)
   {
@@ -46,7 +46,7 @@ partial class Translator {
       if (entry.StartsWith('#'))
         continue; // comment line
 
-      var key = entries[1].Trim().RemoveChars(dictionaryPunctuationChars);
+      var key = entries[1].Trim().RemoveChars(DictionaryPunctuationChars);
 
       dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key).ToLowerInvariant()] = entries[2].Trim().ToLowerInvariant();
     }
@@ -54,7 +54,7 @@ partial class Translator {
     return dictionary;
   }
 
-  private static readonly IReadOnlyDictionary<string, string> phonemeDictionary =
+  private static readonly IReadOnlyDictionary<string, string> PhonemeDictionary =
     new ReadOnlyOrderedDictionary<string, string>(
       new[] {
         // 最優先
