@@ -7,8 +7,8 @@ This repository contains the following two .NET assemblies/NuGet packages.
 
 |Assembly|Package|
 | --- | --- |
-|[Smdn.Text.Ondulish](src/Smdn.Text.Ondulish/)|[![NuGet Smdn.Text.Ondulish](https://buildstats.info/nuget/Smdn.Text.Ondulish/)](https://www.nuget.org/packages/Smdn.Text.Ondulish/)|
-|[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)|[![NuGet Smdn.Text.Ondulish.Dictionaries](https://buildstats.info/nuget/Smdn.Text.Ondulish.Dictionaries/)](https://www.nuget.org/packages/Smdn.Text.Ondulish.Dictionaries/)|
+|[Smdn.Text.Ondulish](src/Smdn.Text.Ondulish/)|[![NuGet Smdn.Text.Ondulish](https://img.shields.io/nuget/v/Smdn.Text.Ondulish.svg)](https://www.nuget.org/packages/Smdn.Text.Ondulish/)|
+|[Smdn.Text.Ondulish.Dictionaries](src/Smdn.Text.Ondulish.Dictionaries/)|[![NuGet Smdn.Text.Ondulish.Dictionaries](https://img.shields.io/nuget/v/Smdn.Text.Ondulish.Dictionaries.svg)](https://www.nuget.org/packages/Smdn.Text.Ondulish.Dictionaries/)|
 
 ----
 
