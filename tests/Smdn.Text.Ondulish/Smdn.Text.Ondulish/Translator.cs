@@ -46,7 +46,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void Dispose_DisposeComposedTagger([Values(true, false)] bool shouldDisposeTagger)
+  public void Dispose_DisposeComposedTagger([Values] bool shouldDisposeTagger)
   {
     using var tagger = Translator.CreateTaggerForBundledDictionary();
     using var t = new Translator(
@@ -142,7 +142,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void Translate_InputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  public void Translate_InputNull([Values] bool convertKatakanaToNarrow)
   {
     using var t = new Translator();
 
@@ -190,7 +190,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void Translate_ToTextWriter_TextReaderInputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  public void Translate_ToTextWriter_TextReaderInputNull([Values] bool convertKatakanaToNarrow)
   {
     using var t = new Translator();
 
@@ -204,7 +204,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void Translate_ToTextWriter_StringInputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  public void Translate_ToTextWriter_StringInputNull([Values] bool convertKatakanaToNarrow)
   {
     using var t = new Translator();
 
@@ -218,7 +218,7 @@ public class TranslatorTests {
   }
 
   [Test]
-  public void Translate_ToTextWriter_OutputNull([Values(true, false)] bool convertKatakanaToNarrow)
+  public void Translate_ToTextWriter_OutputNull([Values] bool convertKatakanaToNarrow)
   {
     using var t = new Translator();
 
