@@ -1,0 +1,14 @@
+<!--
+SPDX-FileCopyrightText: 2025 smdn <smdn@smdn.jp>
+SPDX-License-Identifier: MIT
+-->
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Smdn.Text.Ondulish/Smdn.Text.Ondulish.csproj" />
+    <Project Path="src/Smdn.Text.Ondulish.Dictionaries/Smdn.Text.Ondulish.Dictionaries.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Smdn.Text.Ondulish/Smdn.Text.Ondulish.Tests.csproj" />
+    <Project Path="tests/Smdn.Text.Ondulish.Dictionaries/Smdn.Text.Ondulish.Dictionaries.Tests.csproj" />
+  </Folder>
+</Solution>
