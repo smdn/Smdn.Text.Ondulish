@@ -1,5 +1,5 @@
 # Instructions for building MeCab wrapper library used by Smdn.Text.Ondulish
-This document describes step-by-step instructions for building MeCab wrapper library refered by the bindings from [Smdn.Text.Ondulish](../src/Smdn.Text.Ondulish/).
+This document describes step-by-step instructions for building MeCab wrapper library referred by the bindings from [Smdn.Text.Ondulish](../src/Smdn.Text.Ondulish/).
 
 The following instructions are an example in a Linux environment, so replace them according to the target environment.
 

@@ -12,10 +12,10 @@ SPDX-License-Identifier: MIT
     <TargetFrameworks Condition=" '$(EnableTargetFrameworkDotNet)' == 'true' ">net8.0</TargetFrameworks>
     <TargetFrameworks Condition=" '$(EnableTargetFrameworkNetFx)' == 'true' ">$(TargetFrameworks)</TargetFrameworks>
     <!-- specify RID 'linux-x64' on .NET 8.0 or greater -->
-    <RuntimeIndentifier Condition="
+    <RuntimeIdentifier Condition="
       !( $(TargetFramework.StartsWith('net6')) or $(TargetFramework.StartsWith('net7')) ) and
       '$([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier)' == 'linux-x64'
-    ">linux-x64</RuntimeIndentifier>
+    ">linux-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TestReleasedPackage)' == 'true' ">

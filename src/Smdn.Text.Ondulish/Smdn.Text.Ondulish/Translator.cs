@@ -1,5 +1,6 @@
 // SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
 // SPDX-License-Identifier: MIT
+// cSpell:ignore mecabrc,ipadic
 
 using System;
 using System.Collections.Generic;

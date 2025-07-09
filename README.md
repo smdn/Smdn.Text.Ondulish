@@ -106,7 +106,7 @@ The APIs exposed by each package are listed in [doc/api-list/](doc/api-list/).
 
 
 
-# For contributers
+# For contributors
 Contributions are welcome!
 
 It is very welcome to accept contributions to improve and update the [word](src/Smdn.Text.Ondulish.Dictionaries/dictionary-words.csv) and [phrase](src/Smdn.Text.Ondulish.Dictionaries/dictionary-phrases.csv) dictionary. Please propose these changes by creating a [Issue](/../../issues/new?labels=dictionary-improvements&template=10_dictionary-improvements.yml&title=[辞書改善]%3A+) or [Pull Request](/../../pulls/).

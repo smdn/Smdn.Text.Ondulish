@@ -2,6 +2,7 @@
 SPDX-FileCopyrightText: 2012 smdn <smdn@smdn.jp>
 SPDX-License-Identifier: MIT
 -->
+<!-- cSpell:ignore libmecab,ipadic,mecabrc,dicrc -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
@@ -131,7 +132,7 @@ For other platforms, a wrapper library for the bindings must be built and deploy
 ]]></PackageReadmeFileContent>
     </PropertyGroup>
 
-    <!-- append licence notice to package readme -->
+    <!-- append license notice to package readme -->
     <PropertyGroup>
       <ThirdPartyNoticesMarkdownText>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)..\..\ThirdPartyNotices.md'))</ThirdPartyNoticesMarkdownText>
       <PackageReadmeFileContentPostamble>$(PackageReadmeFileContentPostamble)$(ThirdPartyNoticesMarkdownText)</PackageReadmeFileContentPostamble>
