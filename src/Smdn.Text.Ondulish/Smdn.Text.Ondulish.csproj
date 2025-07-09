@@ -17,6 +17,7 @@ SPDX-License-Identifier: MIT
     <VersionSuffix></VersionSuffix>
     <PackageValidationBaselineVersion>4.0.0</PackageValidationBaselineVersion>
     <NoWarn>CS1591;$(NoWarn)</NoWarn> <!-- CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member' -->
+    <NoWarn>CA5392;$(NoWarn)</NoWarn> <!-- CA5392: Use DefaultDllImportSearchPaths attribute for P/Invokes / TODO: fix SWIG bindings -->
     <AssemblyCLSCompliant>false</AssemblyCLSCompliant>
     <GenerateNupkgReadmeFileDependsOnTargets>$(GenerateNupkgReadmeFileDependsOnTargets);GenerateReadmeFileContent</GenerateNupkgReadmeFileDependsOnTargets>
   </PropertyGroup>

@@ -48,7 +48,9 @@ partial class Translator {
 
       var key = entries[1].Trim().RemoveChars(DictionaryPunctuationChars);
 
+#pragma warning disable CA1308 // TODO: use ToUpperInvariant() instead
       dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key).ToLowerInvariant()] = entries[2].Trim().ToLowerInvariant();
+#pragma warning restore CA1308
     }
 
     return dictionary;
