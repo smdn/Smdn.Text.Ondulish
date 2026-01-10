@@ -13,7 +13,7 @@ SPDX-License-Identifier: MIT
       $(TargetFramework.StartsWith('net5')) or
       $(TargetFramework.StartsWith('netstandard'))
     ">linux-x64;ubuntu.22.04-x64</RuntimeIdentifiers>
-    <VersionPrefix>4.1.0</VersionPrefix>
+    <VersionPrefix>4.2.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <PackageValidationBaselineVersion>4.0.0</PackageValidationBaselineVersion>
     <NoWarn>CS1591;$(NoWarn)</NoWarn> <!-- CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member' -->
