@@ -2,14 +2,14 @@
 //   Name: Smdn.Text.Ondulish.Dictionaries
 //   AssemblyVersion: 4.2.0.0
 //   InformationalVersion: 4.2.0+bb7f3a89142ef99c3c88bb186afe351fc2912770
-//   TargetFramework: .NETCoreApp,Version=v8.0
+//   TargetFramework: .NETCoreApp,Version=v10.0
 //   Configuration: Release
 //   Metadata: IsTrimmable=True
 //   Metadata: RepositoryUrl=https://github.com/smdn/Smdn.Text.Ondulish
 //   Metadata: RepositoryBranch=main
 //   Metadata: RepositoryCommit=bb7f3a89142ef99c3c88bb186afe351fc2912770
 //   Referenced assemblies:
-//     System.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+//     System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 //   Embedded resources:
 //     Smdn.Text.Ondulish.Dictionaries.phrases (5,670 bytes, Embedded, ContainedInManifestFile)
 //     Smdn.Text.Ondulish.Dictionaries.words (2,231 bytes, Embedded, ContainedInManifestFile)
