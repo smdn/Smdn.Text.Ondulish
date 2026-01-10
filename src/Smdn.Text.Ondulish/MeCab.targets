@@ -19,6 +19,14 @@ SPDX-License-Identifier: MIT
         $([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier.StartsWith('ubuntu.22.04'))
       "
     />
+    <Exec
+      Command="make install-buildtime-deps-ubuntu.24.04 -f install-deps.mk"
+      WorkingDirectory="$(MSBuildThisFileDirectory)..\..\eng\dependencies\"
+      Condition="
+        '$(GITHUB_ACTIONS)' == 'true' and
+        $([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier.StartsWith('ubuntu.24.04'))
+      "
+    />
 
     <!-- generate MeCab shared library and SWIG bindings -->
     <Exec

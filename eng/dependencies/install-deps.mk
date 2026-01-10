@@ -9,6 +9,12 @@ install-buildtime-deps-ubuntu.22.04.stamp:
 	  autotools-dev
 	touch $@
 
-install-buildtime-deps-ubuntu.22.04: install-buildtime-deps-ubuntu.22.04.stamp
+install-buildtime-deps-ubuntu.24.04.stamp:
+	sudo apt-get install -y \
+	  autotools-dev
+	touch $@
 
-.PHONY: install-buildtime-deps-ubuntu.22.04
+install-buildtime-deps-ubuntu.22.04: install-buildtime-deps-ubuntu.22.04.stamp
+install-buildtime-deps-ubuntu.24.04: install-buildtime-deps-ubuntu.24.04.stamp
+
+.PHONY: install-buildtime-deps-ubuntu.22.04 install-buildtime-deps-ubuntu.24.04
