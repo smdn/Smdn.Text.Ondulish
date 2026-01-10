@@ -84,7 +84,7 @@ clean-mecab-ipadic:
 	$(MAKE) --directory $(MECAB_SOURCE_MECAB_IPADIC_DIR) clean
 
 clean-mecab-bindings:
-	rm -rf $(MECAB_BINDINGS_SOURCES_OUTPUT_DIR)
+	rm -f $(MECAB_BINDINGS_SOURCES_OUTPUT_DIR)*.cs
 
 clean: clean-mecab clean-mecab-ipadic clean-mecab-bindings
 
