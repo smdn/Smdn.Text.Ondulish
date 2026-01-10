@@ -5,7 +5,7 @@ SPDX-License-Identifier: MIT
 <!-- cSpell:ignore libmecab,ipadic,mecabrc,dicrc -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net10.0;net8.0;netstandard2.1</TargetFrameworks>
     <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
     <RuntimeIdentifiers Condition="
       $(TargetFramework.StartsWith('net7')) or
