@@ -78,7 +78,7 @@ jobs:
       uses: github/codeql-action/autobuild@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
 
     - name: Prepare .NET SDK ${{ env.MINIMAL_DOTNET_SDK_VERSION }}
-      uses: smdn/workflows-dotnet/actions/prepare-dotnet-sdk@e294de483afffc1d3a366fbba853efe23c7b7d4c # actions/prepare-dotnet-sdk/v1.2.0
+      uses: smdn/workflows-dotnet/actions/prepare-dotnet-sdk@949cc1db4b8c1ed5e7beea5d96faf9a72718a956 # actions/prepare-dotnet-sdk/v1.2.1
       if: ${{ (matrix.build-mode == 'manual') && (matrix.language == 'csharp') }}
       with:
         minimal_dotnet_sdk_version: '${{ env.MINIMAL_DOTNET_SDK_VERSION }}'

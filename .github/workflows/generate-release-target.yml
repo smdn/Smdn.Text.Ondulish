@@ -59,7 +59,7 @@ jobs:
         exit 1
 
   run-generate-release-target:
-    uses: smdn/workflows-dotnet/.github/workflows/generate-release-target.yml@6b1c9e567396e1e2e1e70d11a5a54cbe87d0eec6 # release-target/v1.16.4
+    uses: smdn/workflows-dotnet/.github/workflows/generate-release-target.yml@54ed60a959628b294c84f64c7d21f4774b671002 # release-target/v1.17.0
     permissions:
       contents: write
       pull-requests: write
