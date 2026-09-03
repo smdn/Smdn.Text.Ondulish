@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 SPDX-FileCopyrightText: 2022 smdn <smdn@smdn.jp>
 SPDX-License-Identifier: MIT
 -->
@@ -25,6 +25,14 @@ SPDX-License-Identifier: MIT
       Condition="
         '$(GITHUB_ACTIONS)' == 'true' and
         $([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier.StartsWith('ubuntu.24.04'))
+      "
+    />
+    <Exec
+      Command="make install-buildtime-deps-ubuntu.26.04 -f install-deps.mk"
+      WorkingDirectory="$(MSBuildThisFileDirectory)..\..\eng\dependencies\"
+      Condition="
+        '$(GITHUB_ACTIONS)' == 'true' and
+        $([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier.StartsWith('ubuntu.26.04'))
       "
     />
 
