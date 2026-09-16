@@ -30,7 +30,7 @@ public partial class Translator : IDisposable {
 
   public static Tagger CreateTaggerForBundledDictionary()
   {
-    var assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    var assemblyDirectory = AppContext.BaseDirectory;
     var mecabDeploymentDirectoryPath = string.IsNullOrEmpty(assemblyDirectory)
       ? MeCabDeploymentDirectory // fallback: use relative path from current directory
       : System.IO.Path.Join(assemblyDirectory, MeCabDeploymentDirectory);
