@@ -8,7 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+// If `dotnet build` has not been performed, `dotnet format` will attempt to perform
+// source analysis before the `mecab-bindings` have been generated. As a result,
+// it will incorrectly determine that the MeCab namespace is not used and attempt
+// to delete this `using` directory. To avoid this issue, disable IDE0005 here.
+#pragma warning disable IDE0005
 using MeCab;
+#pragma warning restore IDE0005
 
 using MeCabConsts = MeCab.MeCab;
 
