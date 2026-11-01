@@ -27,7 +27,7 @@ public class KanaUtilsTests {
 
   [Test]
   public void ConvertWideHiraganaToKatakana_ArgumentNull()
-    => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideHiraganaToKatakana(input: null!));
+    => Assert.That(() => KanaUtils.ConvertWideHiraganaToKatakana(input: null!), Throws.ArgumentNullException);
 
   [TestCase("", "")]
   [TestCase("ABC", "ABC")]
@@ -48,7 +48,7 @@ public class KanaUtilsTests {
 
   [Test]
   public void ConvertWideKatakanaToHiragana_ArgumentNull()
-    => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToHiragana(input: null!));
+    => Assert.That(() => KanaUtils.ConvertWideKatakanaToHiragana(input: null!), Throws.ArgumentNullException);
 
   private static System.Collections.IEnumerable YieldTestCases_ConvertWideKatakanaToNarrowKatakana()
   {
@@ -205,5 +205,5 @@ public class KanaUtilsTests {
 
   [Test]
   public void ConvertWideKatakanaToNarrowKatakana_ArgumentNull()
-    => Assert.Throws<ArgumentNullException>(() => KanaUtils.ConvertWideKatakanaToNarrowKatakana(input: null!));
+    => Assert.That(() => KanaUtils.ConvertWideKatakanaToNarrowKatakana(input: null!), Throws.ArgumentNullException);
 }

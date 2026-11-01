@@ -16,14 +16,14 @@ public class TranslatorTests {
     using var t = new Translator();
 
     Assert.That(t, Is.Not.Null);
-    Assert.DoesNotThrow(t.Dispose);
+    Assert.That(t.Dispose, Throws.Nothing);
   }
 
   [Test]
   public void Ctor_ArgumentNull()
   {
-    Assert.Throws<ArgumentNullException>(() => new Translator(tagger: null!, shouldDisposeTagger: true));
-    Assert.Throws<ArgumentNullException>(() => new Translator(tagger: null!, shouldDisposeTagger: false));
+    Assert.That(() => new Translator(tagger: null!, shouldDisposeTagger: true), Throws.ArgumentNullException);
+    Assert.That(() => new Translator(tagger: null!, shouldDisposeTagger: false), Throws.ArgumentNullException);
   }
 
   [Test]
@@ -31,18 +31,30 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: true));
-    Assert.DoesNotThrow(() => t.Translate("input", convertKatakanaToNarrow: false));
-    Assert.DoesNotThrow(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true));
-    Assert.DoesNotThrow(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false));
+    Assert.That(
+      () => t.Translate("input", convertKatakanaToNarrow: true),
+      Throws.Nothing
+    );
+    Assert.That(
+      () => t.Translate("input", convertKatakanaToNarrow: false),
+      Throws.Nothing
+    );
+    Assert.That(
+      () => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true),
+      Throws.Nothing
+    );
+    Assert.That(
+      () => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false),
+      Throws.Nothing
+    );
 
-    Assert.DoesNotThrow(t.Dispose, "dispose #1");
-    Assert.DoesNotThrow(t.Dispose, "dispose #2");
+    Assert.That(t.Dispose, Throws.Nothing, "dispose #1");
+    Assert.That(t.Dispose, Throws.Nothing, "dispose #2");
 
-    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: true));
-    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", convertKatakanaToNarrow: false));
-    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true));
-    Assert.Throws<ObjectDisposedException>(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false));
+    Assert.That(() => t.Translate("input", convertKatakanaToNarrow: true), Throws.TypeOf<ObjectDisposedException>());
+    Assert.That(() => t.Translate("input", convertKatakanaToNarrow: false), Throws.TypeOf<ObjectDisposedException>());
+    Assert.That(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: true), Throws.TypeOf<ObjectDisposedException>());
+    Assert.That(() => t.Translate("input", output: TextWriter.Null, convertKatakanaToNarrow: false), Throws.TypeOf<ObjectDisposedException>());
   }
 
   [Test]
@@ -54,14 +66,14 @@ public class TranslatorTests {
       shouldDisposeTagger: shouldDisposeTagger
     );
 
-    Assert.DoesNotThrow(t.Dispose);
+    Assert.That(t.Dispose, Throws.Nothing);
 
     if (shouldDisposeTagger) {
       // cannot test: this test code will cause crash
-      // Assert.Throws<Exception>(() => tagger.parseToString("mecab"));
+      // Assert.That(() => tagger.parseToString("mecab"), Throws.Exception);
     }
     else {
-      Assert.DoesNotThrow(() => tagger.parseToString("mecab"));
+      Assert.That(() => tagger.parseToString("mecab"), Throws.Nothing);
     }
   }
 
@@ -146,8 +158,9 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(
-      () => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow)
+    Assert.That(
+      () => t.Translate(input: null!, convertKatakanaToNarrow: convertKatakanaToNarrow),
+      Throws.ArgumentNullException
     );
   }
 
@@ -161,10 +174,13 @@ public class TranslatorTests {
     var sb = new StringBuilder();
     var writer = new StringWriter(sb);
 
-    Assert.DoesNotThrow(() => t.Translate(
-      input: input,
-      output: writer,
-      convertKatakanaToNarrow: false)
+    Assert.That(
+      () => t.Translate(
+        input: input,
+        output: writer,
+        convertKatakanaToNarrow: false
+      ),
+      Throws.Nothing
     );
     Assert.That(sb.ToString(), Is.EqualTo(expectedOutput));
   }
@@ -178,12 +194,13 @@ public class TranslatorTests {
     var sb = new StringBuilder();
     var writer = new StringWriter(sb);
 
-    Assert.DoesNotThrow(
+    Assert.That(
       () => t.Translate(
         input: new StringReader(input),
         output: writer,
         convertKatakanaToNarrow: false
-      )
+      ),
+      Throws.Nothing
     );
 
     Assert.That(sb.ToString(), Is.EqualTo(expectedOutput));
@@ -194,12 +211,13 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(
+    Assert.That(
       () => t.Translate(
         input: (TextReader)null!,
         output: TextWriter.Null,
         convertKatakanaToNarrow: convertKatakanaToNarrow
-      )
+      ),
+      Throws.ArgumentNullException
     );
   }
 
@@ -208,12 +226,13 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(
+    Assert.That(
       () => t.Translate(
         input: (string)null!,
         output: TextWriter.Null,
         convertKatakanaToNarrow: convertKatakanaToNarrow
-      )
+      ),
+      Throws.ArgumentNullException
     );
   }
 
@@ -222,12 +241,13 @@ public class TranslatorTests {
   {
     using var t = new Translator();
 
-    Assert.Throws<ArgumentNullException>(
+    Assert.That(
       () => t.Translate(
         input: string.Empty,
         output: null!,
         convertKatakanaToNarrow: convertKatakanaToNarrow
-      )
+      ),
+      Throws.ArgumentNullException
     );
   }
 
