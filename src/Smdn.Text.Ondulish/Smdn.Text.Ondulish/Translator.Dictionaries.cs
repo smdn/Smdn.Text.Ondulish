@@ -57,9 +57,9 @@ partial class Translator {
       if (entries.Count < 3)
         continue;
 
-      var entry = entries[0].Trim();
+      var entry = entries[0].AsSpan().Trim();
 
-      if (entry.StartsWith('#'))
+      if (entry.StartsWith("#"))
         continue; // comment line
 
       var key = RegexDictionaryPunctuations.Replace(entries[1].Trim(), string.Empty);
