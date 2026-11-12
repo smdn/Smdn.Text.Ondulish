@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using Smdn.Formats.Csv;
 
@@ -29,7 +30,22 @@ partial class Translator {
     }
   }
 
-  private static readonly char[] DictionaryPunctuationChars = new[] { '！', '？', '!', '?', '、', '。' };
+  private const string RegexDictionaryPunctuationsPattern = @"[！？!\?、,。]";
+
+#if SYSTEM_TEXT_REGULAREXPRESSIONS_GENERATEDREGEXATTRIBUTE
+  private static Regex RegexDictionaryPunctuations => GetRegexDictionaryPunctuations();
+
+  [GeneratedRegex(
+    pattern: RegexDictionaryPunctuationsPattern,
+    options: RegexOptions.Singleline | RegexOptions.CultureInvariant | RegexOptions.Compiled
+  )]
+  private static partial Regex GetRegexDictionaryPunctuations(); // TODO: use C# 13 partial property
+#else
+  private static Regex RegexDictionaryPunctuations { get; } = new(
+    pattern: RegexDictionaryPunctuationsPattern,
+    options: RegexOptions.Singleline | RegexOptions.CultureInvariant | RegexOptions.Compiled
+  );
+#endif
 
   private static SortedList<string, string> LoadDictionary(Stream stream)
   {
@@ -46,7 +62,7 @@ partial class Translator {
       if (entry.StartsWith('#'))
         continue; // comment line
 
-      var key = entries[1].Trim().RemoveChars(DictionaryPunctuationChars);
+      var key = RegexDictionaryPunctuations.Replace(entries[1].Trim(), string.Empty);
 
 #pragma warning disable CA1308 // TODO: use ToUpperInvariant() instead
       dictionary[KanaUtils.ConvertWideHiraganaToKatakana(key).ToLowerInvariant()] = entries[2].Trim().ToLowerInvariant();
