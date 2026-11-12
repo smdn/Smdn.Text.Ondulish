@@ -93,7 +93,11 @@ public partial class Translator : IDisposable {
 #pragma warning restore CA1031
 
     static IReadOnlyDictionary<string, string> CreateEmptyDictionary()
+#if SYSTEM_COLLECTIONS_OBJECTMODEL_READONLYDICTIONARY_EMPTY
+      => System.Collections.ObjectModel.ReadOnlyDictionary<string, string>.Empty;
+#else
       => Enumerable.Empty<(string Key, string Value)>().ToDictionary(static pair => pair.Key, static pair => pair.Value);
+#endif
   }
 
   public void Dispose()
