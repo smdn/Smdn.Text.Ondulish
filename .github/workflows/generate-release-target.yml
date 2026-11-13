@@ -39,7 +39,7 @@ jobs:
       release_target_pr_label: "release-target"
       release_tag_prefix: "releases/"
       generate_release_note: ${{ !github.event.repository.private }}
-      workflow_runs_on: "ubuntu-26.04"
+      workflow_runs_on: 'ubuntu-22.04' # perform packaging on Ubuntu 22.04 to generate libmecab.so compatible with that version
       dotnet_sdk_version: "10.0.100"
       dry_run: ${{ inputs.dry_run == true }}
     secrets:
