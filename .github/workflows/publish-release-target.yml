@@ -20,7 +20,7 @@ on:
 jobs:
   run-publish-release-target:
     name: Publish release target ${{ github.head_ref }}
-    uses: smdn/workflows-dotnet/.github/workflows/publish-release-target.yml@c85f650338d2bc53d583020560bd1d23c462f38d # release-target@devel
+    uses: smdn/workflows-dotnet/.github/workflows/publish-release-target.yml@c230f2c57ec72e5ef47ac3846e1808320efa178a # release-target@devel
     permissions:
       actions: read
       contents: write
