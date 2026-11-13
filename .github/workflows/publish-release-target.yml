@@ -22,7 +22,8 @@ jobs:
     name: Publish release target ${{ github.head_ref }}
     uses: smdn/workflows-dotnet/.github/workflows/publish-release-target.yml@c85f650338d2bc53d583020560bd1d23c462f38d # release-target@devel
     permissions:
-      contents: write
+      actions: read
+      contents: read
       packages: write
       pull-requests: read
     if: |
