@@ -35,7 +35,7 @@ jobs:
     with:
       pr_number_request_for_release: ${{ fromJson(github.event.pull_request.number || inputs.pr_number_request_for_release) }}
       pr_label_request_for_release:  "release-target"
-      workflow_runs_on:              "ubuntu-22.04" # Use the same OS as the runner on the side generating the release targets.
+      workflow_runs_on:              "ubuntu-26.04"
       dotnet_sdk_version:            "10.0.100"
     secrets:
       token_repo:                 ${{ secrets.GITHUB_TOKEN }}
