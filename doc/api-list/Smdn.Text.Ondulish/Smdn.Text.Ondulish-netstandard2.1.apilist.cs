@@ -1,12 +1,12 @@
-// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.3.1)
+// Smdn.Text.Ondulish.dll (Smdn.Text.Ondulish-4.3.0)
 //   Name: Smdn.Text.Ondulish
-//   AssemblyVersion: 4.3.1.0
-//   InformationalVersion: 4.3.1+542223e4b4aaaeafecb4db34d10f07853379e205
+//   AssemblyVersion: 4.3.0.0
+//   InformationalVersion: 4.3.0+906d694116240b830a83fbd99bc75b423a3c128a
 //   TargetFramework: .NETStandard,Version=v2.1
 //   Configuration: Release
 //   Metadata: RepositoryUrl=https://github.com/smdn/Smdn.Text.Ondulish
 //   Metadata: RepositoryBranch=main
-//   Metadata: RepositoryCommit=542223e4b4aaaeafecb4db34d10f07853379e205
+//   Metadata: RepositoryCommit=906d694116240b830a83fbd99bc75b423a3c128a
 //   Referenced assemblies:
 //     Smdn.Fundamental.Csv, Version=3.1.0.0, Culture=neutral
 //     Smdn.Text.Ondulish.Dictionaries, Version=4.0.0.0, Culture=neutral
