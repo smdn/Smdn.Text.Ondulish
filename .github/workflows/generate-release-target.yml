@@ -44,5 +44,5 @@ jobs:
       dry_run: ${{ inputs.dry_run == true }}
     secrets:
       token_repo:         ${{ secrets.GITHUB_TOKEN }}
-      token_pullrequest:  ${{ secrets.GITHUB_TOKEN }}
+      token_pullrequest:  ${{ secrets.PUBLISH_NEW_RELEASE }}
       token_gist:         ${{ secrets.PUBLISH_NEW_RELEASE }}
