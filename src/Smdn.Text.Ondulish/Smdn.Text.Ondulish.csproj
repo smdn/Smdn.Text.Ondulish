@@ -7,12 +7,7 @@ SPDX-License-Identifier: MIT
   <PropertyGroup>
     <TargetFrameworks>net10.0;net8.0;netstandard2.1</TargetFrameworks>
     <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
-    <RuntimeIdentifiers Condition="
-      $(TargetFramework.StartsWith('net7')) or
-      $(TargetFramework.StartsWith('net6')) or
-      $(TargetFramework.StartsWith('net5')) or
-      $(TargetFramework.StartsWith('netstandard'))
-    ">linux-x64;ubuntu.22.04-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers Condition="$(TargetFramework.StartsWith('netstandard'))">linux-x64;ubuntu.22.04-x64</RuntimeIdentifiers>
     <VersionPrefix>4.3.1</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <PackageValidationBaselineVersion>4.0.0</PackageValidationBaselineVersion>

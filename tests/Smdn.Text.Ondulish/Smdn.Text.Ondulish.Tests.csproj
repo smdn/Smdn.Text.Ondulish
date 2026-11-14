@@ -4,16 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- true if on .NET 8.0 or greater -->
-    <UseSimplifiedRIDModel Condition="!( $(TargetFramework.StartsWith('net6')) or $(TargetFramework.StartsWith('net7')) )">true</UseSimplifiedRIDModel>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <!-- specify RID 'linux-x64' on .NET 8.0 or greater -->
-    <RuntimeIdentifier Condition="
-      !( $(TargetFramework.StartsWith('net6')) or $(TargetFramework.StartsWith('net7')) ) and
-      '$([System.Runtime.InteropServices.RuntimeInformation]::RuntimeIdentifier)' == 'linux-x64'
-    ">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TestReleasedPackage)' == 'true' ">
