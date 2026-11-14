@@ -26,7 +26,7 @@ on:
 jobs:
   run-generate-release-target:
     name: Generate release target ${{ inputs.release_target_tag_name || github.ref_name }}
-    uses: smdn/workflows-dotnet/.github/workflows/generate-release-target.yml@3145767a0efdf0137cc136ab7da8d763be157b49 # @devel
+    uses: smdn/workflows-dotnet/.github/workflows/generate-release-target.yml@7df62165414d80dc8d58a798c2afbfacb2dd08f1 # release-target/v1.18.0
     permissions:
       contents: write
       pull-requests: write
